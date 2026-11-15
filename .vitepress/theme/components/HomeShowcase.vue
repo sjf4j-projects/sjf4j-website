@@ -183,11 +183,11 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 46px;
-  padding: 11px 17px;
+  min-height: 50px;
+  padding: 12px 19px;
   border: 1px solid transparent;
   border-radius: 8px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 650;
   line-height: 1.35;
   text-decoration: none;
