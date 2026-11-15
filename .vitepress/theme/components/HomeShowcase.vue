@@ -99,7 +99,7 @@
 <style scoped>
 .home-showcase {
   display: grid;
-  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: center;
   gap: clamp(24px, 3vw, 44px);
   max-width: 1400px;
@@ -225,7 +225,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 7px 8px;
 }
 
