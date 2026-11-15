@@ -34,6 +34,12 @@
         <a href="https://javadoc.io/doc/org.sjf4j/sjf4j-core" target="_blank" rel="noopener noreferrer">
           <img src="https://javadoc.io/badge2/org.sjf4j/sjf4j-core/javadoc.svg" alt="Javadoc" loading="lazy" />
         </a>
+        <a href="https://github.com/sjf4j-projects/sjf4j/actions/workflows/gradle.yml" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.shields.io/github/actions/workflow/status/sjf4j-projects/sjf4j/gradle.yml?branch=main" alt="Build status" loading="lazy" />
+        </a>
+        <a href="https://codecov.io/gh/sjf4j-projects/sjf4j" target="_blank" rel="noopener noreferrer">
+          <img src="https://codecov.io/gh/sjf4j-projects/sjf4j/graph/badge.svg?branch=main" alt="Code coverage" loading="lazy" />
+        </a>
         <a href="https://github.com/sjf4j-projects/sjf4j/stargazers" target="_blank" rel="noopener noreferrer">
           <img src="https://img.shields.io/github/stars/sjf4j-projects/sjf4j?style=social" alt="GitHub stars" loading="lazy" />
         </a>
@@ -50,14 +56,6 @@
         </a>
         <a href="https://bowtie.report/" target="_blank" rel="noopener noreferrer">
           <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fjava-org.sjf4j-sjf4j%2Fcompliance%2Fdraft7.json" alt="JSON Schema Draft 7 compliance" loading="lazy" />
-        </a>
-        </div>
-        <div class="badge-row">
-        <a href="https://github.com/sjf4j-projects/sjf4j/actions/workflows/gradle.yml" target="_blank" rel="noopener noreferrer">
-          <img src="https://img.shields.io/github/actions/workflow/status/sjf4j-projects/sjf4j/gradle.yml?branch=main" alt="Build status" loading="lazy" />
-        </a>
-        <a href="https://codecov.io/gh/sjf4j-projects/sjf4j" target="_blank" rel="noopener noreferrer">
-          <img src="https://codecov.io/gh/sjf4j-projects/sjf4j/graph/badge.svg?branch=main" alt="Code coverage" loading="lazy" />
         </a>
         </div>
       </div>
@@ -217,7 +215,7 @@
   align-items: stretch;
   gap: 7px;
   width: 100%;
-  max-width: 470px;
+  max-width: 660px;
   margin: 22px auto 0;
 }
 
@@ -225,7 +223,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   gap: 7px 8px;
 }
 
@@ -246,7 +244,7 @@
   align-self: center;
   justify-self: center;
   width: 100%;
-  max-width: 540px;
+  max-width: 432px;
   min-width: 0;
 }
 
@@ -310,7 +308,7 @@
   }
 
   .feature-panels {
-    max-width: 540px;
+    max-width: 432px;
   }
 }
 
