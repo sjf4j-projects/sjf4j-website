@@ -12,7 +12,9 @@ function isRelease(value: unknown): value is string {
 }
 
 async function readRepositoryMetadata(): Promise<string> {
-  const response = await fetch('https://repo.maven.apache.org/maven2/org/sjf4j/sjf4j/maven-metadata.xml')
+  const response = await fetch('https://repo.maven.apache.org/maven2/org/sjf4j/sjf4j/maven-metadata.xml', {
+    signal: AbortSignal.timeout(5000)
+  })
   if (!response.ok) throw new Error(`Maven repository returned HTTP ${response.status}`)
 
   const xml = new DOMParser().parseFromString(await response.text(), 'application/xml')
@@ -25,7 +27,9 @@ async function readRepositoryMetadata(): Promise<string> {
 
 async function readSearchIndex(): Promise<string> {
   const query = encodeURIComponent('g:org.sjf4j AND a:sjf4j')
-  const response = await fetch(`https://search.maven.org/solrsearch/select?q=${query}&rows=1&wt=json`)
+  const response = await fetch(`https://search.maven.org/solrsearch/select?q=${query}&rows=1&wt=json`, {
+    signal: AbortSignal.timeout(5000)
+  })
   if (!response.ok) throw new Error(`Maven search returned HTTP ${response.status}`)
 
   const data = await response.json()
