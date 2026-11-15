@@ -37,11 +37,9 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   align-items: center;
-  gap: clamp(24px, 3.5vw, 48px);
-  padding: clamp(22px, 2.7vw, 32px) clamp(24px, 3.2vw, 40px);
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 14px;
-  background: var(--vp-c-bg-soft);
+  gap: clamp(32px, 4.5vw, 64px);
+  min-height: 340px;
+  padding: 44px 0;
 }
 
 .hero-intro {
@@ -53,7 +51,7 @@
   padding: 0;
   border: none;
   color: var(--vp-c-text-1);
-  font-size: clamp(30px, 3.1vw, 40px);
+  font-size: clamp(36px, 3.4vw, 46px);
   line-height: 1.15;
   font-weight: 700;
   letter-spacing: -0.035em;
@@ -61,7 +59,7 @@
 
 .hero-intro h1 span {
   display: block;
-  margin-top: 5px;
+  margin-top: 7px;
   color: var(--vp-c-text-2);
   font-size: 14px;
   font-weight: 500;
@@ -70,10 +68,10 @@
 }
 
 .hero-tagline {
-  margin: 16px 0 0;
-  max-width: 440px;
+  margin: 20px 0 0;
+  max-width: 460px;
   color: var(--vp-c-text-1);
-  font-size: clamp(15px, 1.4vw, 17px);
+  font-size: clamp(16px, 1.5vw, 19px);
   line-height: 1.5;
   font-weight: 600;
 }
@@ -83,7 +81,7 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 12px 20px;
-  margin-top: 19px;
+  margin-top: 25px;
 }
 
 .hero-actions a {
@@ -98,7 +96,7 @@
 }
 
 .primary-action {
-  padding: 9px 13px;
+  padding: 10px 15px;
   border-radius: 7px;
   background: var(--vp-c-brand-1);
   color: var(--vp-c-white);
@@ -118,25 +116,16 @@
 }
 
 .hero-features {
+  display: grid;
+  gap: 11px;
   min-width: 0;
-  padding-left: clamp(22px, 3vw, 34px);
-  border-left: 1px solid var(--vp-c-divider);
 }
 
 .feature {
-  padding: 11px 0;
-}
-
-.feature:first-child {
-  padding-top: 0;
-}
-
-.feature:last-child {
-  padding-bottom: 0;
-}
-
-.feature + .feature {
-  border-top: 1px solid var(--vp-c-divider);
+  padding: 16px 18px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 10px;
+  background: var(--vp-c-bg-soft);
 }
 
 .feature h2 {
@@ -150,7 +139,7 @@
 }
 
 .feature p {
-  margin: 4px 0 0;
+  margin: 5px 0 0;
   color: var(--vp-c-text-2);
   font-size: 13px;
   line-height: 1.5;
@@ -159,18 +148,17 @@
 @media (max-width: 760px) {
   .technical-hero {
     grid-template-columns: minmax(0, 1fr);
-    gap: 22px;
-    padding: 23px;
+    gap: 26px;
+    min-height: 0;
+    padding: 34px 0 24px;
   }
 
   .hero-features {
-    padding: 16px 0 0;
-    border-top: 1px solid var(--vp-c-divider);
-    border-left: none;
+    gap: 9px;
   }
 
   .feature {
-    padding: 9px 0;
+    padding: 14px 16px;
   }
 }
 
