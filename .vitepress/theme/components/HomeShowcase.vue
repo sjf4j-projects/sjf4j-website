@@ -9,7 +9,7 @@
         <span class="accent tagline-end">built on JSON semantics.</span>
       </p>
       <div class="actions">
-        <a class="primary" href="/docs/quickstart">Get Started</a>
+        <a class="primary" href="/docs/quickstart">Get Started <span aria-hidden="true">→</span></a>
         <a class="secondary" href="/docs/benchmarks"><span aria-hidden="true">⚡️</span> Benchmarks</a>
         <a
           class="secondary"
@@ -23,22 +23,43 @@
           GitHub
         </a>
       </div>
-      <div class="project-badges" aria-label="Project status">
+      <div class="project-badges" aria-label="Project status and compliance badges">
+        <a href="https://github.com/sjf4j-projects/sjf4j/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.shields.io/github/license/sjf4j-projects/sjf4j" alt="License" loading="lazy" />
+        </a>
         <a href="https://central.sonatype.com/search?q=sjf4j" target="_blank" rel="noopener noreferrer">
-          <img src="https://img.shields.io/maven-central/v/org.sjf4j/sjf4j" alt="Maven Central version" loading="lazy" />
+          <img src="https://img.shields.io/maven-central/v/org.sjf4j/sjf4j" alt="Maven Central" loading="lazy" />
+        </a>
+        <a href="https://javadoc.io/doc/org.sjf4j/sjf4j-core" target="_blank" rel="noopener noreferrer">
+          <img src="https://javadoc.io/badge2/org.sjf4j/sjf4j-core/javadoc.svg" alt="Javadoc" loading="lazy" />
+        </a>
+        <a href="https://bowtie.report/" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fjava-org.sjf4j-sjf4j%2Fsupported_versions.json" alt="Supported JSON Schema dialects" loading="lazy" />
+        </a>
+        <a href="https://bowtie.report/" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fjava-org.sjf4j-sjf4j%2Fcompliance%2Fdraft2020-12.json" alt="JSON Schema Draft 2020-12 compliance" loading="lazy" />
+        </a>
+        <a href="https://bowtie.report/" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fjava-org.sjf4j-sjf4j%2Fcompliance%2Fdraft2019-09.json" alt="JSON Schema Draft 2019-09 compliance" loading="lazy" />
+        </a>
+        <a href="https://bowtie.report/" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fjava-org.sjf4j-sjf4j%2Fcompliance%2Fdraft7.json" alt="JSON Schema Draft 7 compliance" loading="lazy" />
         </a>
         <a href="https://github.com/sjf4j-projects/sjf4j/actions/workflows/gradle.yml" target="_blank" rel="noopener noreferrer">
           <img src="https://img.shields.io/github/actions/workflow/status/sjf4j-projects/sjf4j/gradle.yml?branch=main" alt="Build status" loading="lazy" />
         </a>
-        <a href="https://github.com/sjf4j-projects/sjf4j/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">
-          <img src="https://img.shields.io/github/license/sjf4j-projects/sjf4j" alt="Open-source license" loading="lazy" />
+        <a href="https://codecov.io/gh/sjf4j-projects/sjf4j" target="_blank" rel="noopener noreferrer">
+          <img src="https://codecov.io/gh/sjf4j-projects/sjf4j/graph/badge.svg?branch=main" alt="Code coverage" loading="lazy" />
+        </a>
+        <a href="https://github.com/sjf4j-projects/sjf4j/stargazers" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.shields.io/github/stars/sjf4j-projects/sjf4j?style=social" alt="GitHub stars" loading="lazy" />
         </a>
       </div>
     </div>
 
     <div class="feature-panels" aria-label="Key advantages">
       <article class="feature-panel">
-        <h2>JSON Semantics, Native Java Objects</h2>
+        <h2>JSON Semantics, Java Objects</h2>
         <p>
           Apply <a href="https://www.rfc-editor.org/info/rfc9535/" target="_blank" rel="noopener noreferrer">JSONPath</a>,
           <a href="https://www.rfc-editor.org/info/rfc6901/" target="_blank" rel="noopener noreferrer">JSON Pointer</a>,
@@ -72,10 +93,10 @@
 <style scoped>
 .home-showcase {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   align-items: center;
   gap: clamp(24px, 3vw, 44px);
-  max-width: 1150px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 40px 0 25px;
 }
@@ -201,13 +222,19 @@
 
 .feature-panels {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: center;
   min-width: 0;
   gap: 12px;
 }
 
+.feature-panel:nth-child(3) {
+  grid-column: 2;
+}
+
 .feature-panel {
   min-width: 0;
-  padding: 18px 20px;
+  padding: 18px 18px;
   border: 1px solid var(--vp-c-divider);
   border-radius: 11px;
   background: var(--vp-c-bg-soft);
@@ -242,7 +269,7 @@
   text-decoration-color: currentColor;
 }
 
-@media (max-width: 950px) {
+@media (max-width: 1120px) {
   .home-showcase {
     grid-template-columns: 1fr;
     gap: 28px;
@@ -259,6 +286,16 @@
 
   .feature-panel {
     padding: 16px 19px;
+  }
+}
+
+@media (max-width: 650px) {
+  .feature-panels {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-panel:nth-child(3) {
+    grid-column: auto;
   }
 }
 
