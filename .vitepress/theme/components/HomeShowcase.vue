@@ -235,7 +235,7 @@
   align-self: center;
   justify-self: center;
   width: 100%;
-  max-width: 430px;
+  max-width: 460px;
   min-width: 0;
 }
 
@@ -299,7 +299,7 @@
   }
 
   .feature-panels {
-    max-width: 430px;
+    max-width: 460px;
   }
 }
 
