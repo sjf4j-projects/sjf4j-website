@@ -2,6 +2,10 @@
 
 Transparent PNG wordmarks matching the homepage's **SJF4J** branding: Inter ExtraBold, coral first `J` (`#E76F51`), dark text (`#12161C`). All images include the complete five-character wordmark, with no extra icon.
 
+## GitHub organization avatar
+
+- `sjf4j-github-avatar-512x512.png` — **recommended for GitHub profile / organization avatar**. Opaque warm off-white background (`#FFF7F2`) with dark-gray text (`#24292F`) and coral first `J` (`#E76F51`). The complete wordmark is centered with padding for GitHub's circular crop and works in light and dark themes. This is an alternate GitHub avatar asset, not a replacement for the website wordmark.
+
 ## Horizontal wordmarks
 
 - `sjf4j-wordmark-256x64.png` — compact UI use
