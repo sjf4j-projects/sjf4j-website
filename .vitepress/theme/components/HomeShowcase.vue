@@ -1,16 +1,16 @@
 <template>
   <section class="home-showcase" aria-labelledby="home-headline">
-    <header class="showcase-intro">
+    <div class="hero-intro">
       <p class="eyebrow">Java 8+ <span aria-hidden="true">·</span> Open Source</p>
       <h1 id="home-headline">SJF4J</h1>
       <p class="project-name">Simple JSON Facade for Java</p>
       <p class="tagline">
         A unified structural processing layer
-        <span class="headline-emphasis">built on JSON semantics.</span>
+        <span class="accent">built on JSON semantics.</span>
       </p>
       <div class="actions">
         <a class="primary" href="/docs/quickstart">Get Started</a>
-        <a class="secondary" href="/docs/benchmarks">Benchmarks</a>
+        <a class="secondary" href="/docs/benchmarks"><span aria-hidden="true">⚡️</span> Benchmarks</a>
         <a
           class="secondary"
           href="https://github.com/sjf4j-projects/sjf4j"
@@ -23,29 +23,36 @@
           GitHub
         </a>
       </div>
-    </header>
+    </div>
 
     <div class="feature-panels" aria-label="Key advantages">
       <article class="feature-panel">
-        <h2>JSON Semantics, Native Java Objects</h2>
-        <p class="feature-description">
-          Apply JSONPath, JSON Pointer, JSON Patch and JSON Schema directly to
-          POJOs, Maps and Lists. No intermediate JSON tree.
+        <h2>JSON Semantics<span class="accent">, Native Java Objects</span></h2>
+        <p>
+          Apply <a href="https://www.rfc-editor.org/info/rfc9535/" target="_blank" rel="noopener noreferrer">JSONPath</a>,
+          <a href="https://www.rfc-editor.org/info/rfc6901/" target="_blank" rel="noopener noreferrer">JSON Pointer</a>,
+          <a href="https://www.rfc-editor.org/info/rfc6902/" target="_blank" rel="noopener noreferrer">JSON Patch</a>,
+          and <a href="https://json-schema.org/" target="_blank" rel="noopener noreferrer">JSON Schema</a>
+          directly to POJOs, Maps, Lists, and domain models — no intermediate JSON trees required.
         </p>
       </article>
+
       <article class="feature-panel">
-        <h2>Multiple Backends, One Unified API</h2>
-        <p class="feature-description">
-          Bind through Jackson 2/3, Gson, Fastjson2 or JSON-P, and work with
-          YAML via SnakeYAML — using the same facade.
+        <h2>Multiple Backends<span class="accent">, One API</span></h2>
+        <p>
+          Work seamlessly across JSON backends
+          (<a href="https://github.com/FasterXML/jackson-databind" target="_blank" rel="noopener noreferrer">Jackson 2.x/3.x</a>,
+          <a href="https://github.com/google/gson" target="_blank" rel="noopener noreferrer">Gson</a>,
+          <a href="https://github.com/alibaba/fastjson2" target="_blank" rel="noopener noreferrer">Fastjson2</a>,
+          <a href="https://github.com/jakartaee/jsonp-api" target="_blank" rel="noopener noreferrer">JSON-P</a>),
+          YAML (<a href="https://github.com/snakeyaml/snakeyaml" target="_blank" rel="noopener noreferrer">SnakeYAML</a>),
+          and other formats — all through a unified API.
         </p>
       </article>
+
       <article class="feature-panel">
-        <h2>Runtime Flexibility, Compiled Speed</h2>
-        <p class="feature-description">
-          Use flexible runtime operations or generate optimized Java code
-          for binding, navigation, validation and mapping.
-        </p>
+        <h2>Runtime Flexibility<span class="accent">, Compiled Speed</span></h2>
+        <p>Enjoy flexible runtime APIs and highly optimized compile-time code generation.</p>
       </article>
     </div>
   </section>
@@ -53,13 +60,18 @@
 
 <style scoped>
 .home-showcase {
-  max-width: 1100px;
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  align-items: center;
+  gap: clamp(32px, 4vw, 58px);
+  max-width: 1150px;
   margin: 0 auto;
-  padding: 33px 0 16px;
+  padding: 40px 0 25px;
 }
 
-.showcase-intro {
-  text-align: center;
+.hero-intro {
+  min-width: 0;
+  text-align: left;
 }
 
 .eyebrow {
@@ -76,60 +88,59 @@
   line-height: 1.4;
 }
 
-.showcase-intro h1 {
-  margin: 19px 0 0;
+.hero-intro h1 {
+  margin: 21px 0 0;
   padding: 0;
   border: 0;
   color: var(--vp-c-text-1);
-  font-size: clamp(56px, 8vw, 78px);
+  font-size: clamp(60px, 6.6vw, 82px);
   font-weight: 800;
-  line-height: 1.03;
   letter-spacing: -0.055em;
+  line-height: 1.05;
 }
 
 .project-name {
-  margin: 10px 0 0;
+  margin: 9px 0 0;
   color: var(--vp-c-text-2);
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 500;
-  letter-spacing: 0.005em;
   line-height: 1.5;
 }
 
 .tagline {
-  max-width: 850px;
-  margin: 20px auto 0;
+  max-width: 520px;
+  margin: 22px 0 0;
   color: var(--vp-c-text-1);
-  font-size: clamp(19px, 2.55vw, 26px);
+  font-size: clamp(20px, 2.25vw, 26px);
   font-weight: 650;
-  line-height: 1.42;
+  line-height: 1.43;
   letter-spacing: -0.018em;
 }
 
-.headline-emphasis {
+.accent {
   color: var(--vp-c-brand-1);
 }
 
 .actions {
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 13px;
-  margin-top: 26px;
+  gap: 10px;
+  margin-top: 29px;
 }
 
 .actions a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
-  min-width: 155px;
-  padding: 13px 23px;
+  gap: 8px;
+  min-height: 46px;
+  padding: 11px 17px;
   border: 1px solid transparent;
   border-radius: 8px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 650;
-  line-height: 1.4;
+  line-height: 1.35;
   text-decoration: none;
   transition: background-color 0.15s ease, border-color 0.15s ease;
 }
@@ -156,14 +167,13 @@
 
 .feature-panels {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  min-width: 0;
   gap: 12px;
-  margin: 36px auto 0;
 }
 
 .feature-panel {
   min-width: 0;
-  padding: 22px 20px;
+  padding: 18px 20px;
   border: 1px solid var(--vp-c-divider);
   border-radius: 11px;
   background: var(--vp-c-bg-soft);
@@ -180,30 +190,41 @@
   line-height: 1.45;
 }
 
-.feature-description {
-  margin: 10px 0 0;
+.feature-panel p {
+  margin: 9px 0 0;
   color: var(--vp-c-text-2);
   font-size: 13px;
-  line-height: 1.65;
+  line-height: 1.55;
 }
 
-@media (max-width: 970px) {
+.feature-panel a {
+  color: var(--vp-c-brand-1);
+  text-decoration: underline;
+  text-decoration-color: var(--vp-c-divider);
+  text-underline-offset: 2px;
+}
+
+.feature-panel a:hover {
+  text-decoration-color: currentColor;
+}
+
+@media (max-width: 950px) {
   .home-showcase {
-    padding-top: 25px;
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 30px 0 16px;
   }
 
-  .showcase-intro h1 {
-    font-size: clamp(52px, 11vw, 68px);
+  .hero-intro h1 {
+    font-size: clamp(58px, 10vw, 74px);
   }
 
   .feature-panels {
-    grid-template-columns: 1fr;
     gap: 10px;
-    margin-top: 28px;
   }
 
   .feature-panel {
-    padding: 18px 19px;
+    padding: 16px 19px;
   }
 }
 
