@@ -4,3 +4,8 @@
     max-width: 1490px;
   }
 }
+
+/* Match the first J in the navigation brand with the homepage logo. */
+.VPNavBarTitle .logo-java-j {
+  color: #e76f51;
+}
