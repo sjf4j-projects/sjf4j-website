@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import Prism from 'prismjs'
+import 'prismjs/components/prism-clike'
+import 'prismjs/components/prism-markup'
+import 'prismjs/components/prism-java'
+import 'prismjs/components/prism-kotlin'
 
 const props = withDefaults(defineProps<{
   title: string
@@ -13,6 +18,18 @@ const props = withDefaults(defineProps<{
 })
 
 const copied = ref(false)
+
+const highlightedCode = computed(() => {
+  const lang = props.language.toLowerCase()
+  const grammar = lang === 'kotlin'
+    ? Prism.languages.kotlin
+    : lang === 'xml'
+      ? Prism.languages.markup
+      : Prism.languages.java
+
+  // Prism escapes source text when producing highlighted HTML.
+  return Prism.highlight(props.code, grammar, lang)
+})
 
 async function copyCode() {
   if (!props.code) return
@@ -36,7 +53,7 @@ async function copyCode() {
         </button>
       </span>
     </div>
-    <pre v-if="code"><code>{{ code }}</code></pre>
+    <pre v-if="code"><code v-html="highlightedCode"></code></pre>
     <div v-else class="panel-note">{{ note }}</div>
   </div>
 </template>
@@ -116,5 +133,73 @@ pre {
   color: var(--vp-c-text-2);
   font-size: 13px;
   line-height: 1.6;
+}
+
+pre :deep(.token.comment),
+pre :deep(.token.prolog),
+pre :deep(.token.doctype) {
+  color: #6a737d;
+}
+
+pre :deep(.token.keyword),
+pre :deep(.token.annotation),
+pre :deep(.token.boolean) {
+  color: #cf222e;
+}
+
+pre :deep(.token.string),
+pre :deep(.token.char) {
+  color: #0a3069;
+}
+
+pre :deep(.token.class-name),
+pre :deep(.token.builtin),
+pre :deep(.token.function) {
+  color: #8250df;
+}
+
+pre :deep(.token.number),
+pre :deep(.token.constant),
+pre :deep(.token.attr-value) {
+  color: #0550ae;
+}
+
+pre :deep(.token.tag),
+pre :deep(.token.attr-name) {
+  color: #116329;
+}
+
+:global(.dark) pre :deep(.token.comment),
+:global(.dark) pre :deep(.token.prolog),
+:global(.dark) pre :deep(.token.doctype) {
+  color: #8b949e;
+}
+
+:global(.dark) pre :deep(.token.keyword),
+:global(.dark) pre :deep(.token.annotation),
+:global(.dark) pre :deep(.token.boolean) {
+  color: #ff7b72;
+}
+
+:global(.dark) pre :deep(.token.string),
+:global(.dark) pre :deep(.token.char) {
+  color: #a5d6ff;
+}
+
+:global(.dark) pre :deep(.token.class-name),
+:global(.dark) pre :deep(.token.builtin),
+:global(.dark) pre :deep(.token.function) {
+  color: #d2a8ff;
+}
+
+:global(.dark) pre :deep(.token.number),
+:global(.dark) pre :deep(.token.constant),
+:global(.dark) pre :deep(.token.attr-value) {
+  color: #79c0ff;
+}
+
+:global(.dark) pre :deep(.token.tag),
+:global(.dark) pre :deep(.token.attr-name) {
+  color: #7ee787;
 }
 </style>
