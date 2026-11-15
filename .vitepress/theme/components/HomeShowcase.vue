@@ -6,7 +6,7 @@
       <p class="project-name">Simple JSON Facade for Java</p>
       <p class="tagline">
         A unified structural processing layer
-        <span class="accent">built on JSON semantics.</span>
+        <span class="accent tagline-end">built on JSON semantics.</span>
       </p>
       <div class="actions">
         <a class="primary" href="/docs/quickstart">Get Started</a>
@@ -23,11 +23,22 @@
           GitHub
         </a>
       </div>
+      <div class="project-badges" aria-label="Project status">
+        <a href="https://central.sonatype.com/search?q=sjf4j" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.shields.io/maven-central/v/org.sjf4j/sjf4j" alt="Maven Central version" loading="lazy" />
+        </a>
+        <a href="https://github.com/sjf4j-projects/sjf4j/actions/workflows/gradle.yml" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.shields.io/github/actions/workflow/status/sjf4j-projects/sjf4j/gradle.yml?branch=main" alt="Build status" loading="lazy" />
+        </a>
+        <a href="https://github.com/sjf4j-projects/sjf4j/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.shields.io/github/license/sjf4j-projects/sjf4j" alt="Open-source license" loading="lazy" />
+        </a>
+      </div>
     </div>
 
     <div class="feature-panels" aria-label="Key advantages">
       <article class="feature-panel">
-        <h2>JSON Semantics<span class="accent">, Native Java Objects</span></h2>
+        <h2>JSON Semantics, Native Java Objects</h2>
         <p>
           Apply <a href="https://www.rfc-editor.org/info/rfc9535/" target="_blank" rel="noopener noreferrer">JSONPath</a>,
           <a href="https://www.rfc-editor.org/info/rfc6901/" target="_blank" rel="noopener noreferrer">JSON Pointer</a>,
@@ -38,7 +49,7 @@
       </article>
 
       <article class="feature-panel">
-        <h2>Multiple Backends<span class="accent">, One API</span></h2>
+        <h2>Multiple Backends, One API</h2>
         <p>
           Work seamlessly across JSON backends
           (<a href="https://github.com/FasterXML/jackson-databind" target="_blank" rel="noopener noreferrer">Jackson 2.x/3.x</a>,
@@ -51,7 +62,7 @@
       </article>
 
       <article class="feature-panel">
-        <h2>Runtime Flexibility<span class="accent">, Compiled Speed</span></h2>
+        <h2>Runtime Flexibility, Compiled Speed</h2>
         <p>Enjoy flexible runtime APIs and highly optimized compile-time code generation.</p>
       </article>
     </div>
@@ -61,9 +72,9 @@
 <style scoped>
 .home-showcase {
   display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
   align-items: center;
-  gap: clamp(32px, 4vw, 58px);
+  gap: clamp(24px, 3vw, 44px);
   max-width: 1150px;
   margin: 0 auto;
   padding: 40px 0 25px;
@@ -121,6 +132,10 @@
   color: var(--vp-c-brand-1);
 }
 
+.tagline-end {
+  display: block;
+}
+
 .actions {
   display: flex;
   align-items: center;
@@ -163,6 +178,25 @@
 
 .actions .secondary:hover {
   border-color: var(--vp-c-brand-1);
+}
+
+.project-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.project-badges a {
+  display: inline-flex;
+  line-height: 0;
+}
+
+.project-badges img {
+  display: block;
+  height: 20px;
+  width: auto;
 }
 
 .feature-panels {
