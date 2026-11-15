@@ -5,25 +5,10 @@ description: A unified structural processing layer built on JSON semantics.
 ---
 
 <script setup>
-import CompactHero from './.vitepress/theme/components/CompactHero.vue'
+import HomeShowcase from './.vitepress/theme/components/HomeShowcase.vue'
 </script>
 
-<CompactHero />
-
-## Quick Example
-
-Work directly with Java objects, without an intermediate JSON tree.
-
-```java
-Sjf4j sjf4j = new Sjf4j();
-User user = sjf4j.fromJson(json, User.class);
-
-JsonPath.parse("$.address.city").put(user, "Shanghai");
-
-String output = sjf4j.toJsonString(user);
-```
-
-[Follow the Quickstart](/docs/quickstart)
+<HomeShowcase />
 
 ## Explore APIs
 
