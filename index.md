@@ -1,26 +1,18 @@
 ---
-layout: doc
+layout: home
 title: SJF4J (Simple JSON Facade for Java)
 description: A unified structural processing layer built on JSON semantics.
-sidebar: false
-aside: false
-editLink: false
-lastUpdated: false
 ---
 
-# SJF4J (Simple JSON Facade for Java)
+<script setup>
+import CompactHero from './.vitepress/theme/components/CompactHero.vue'
+</script>
 
-**A unified structural processing layer built on JSON semantics**
-
-SJF4J brings binding, navigation, validation, mapping, and patching together through consistent JSON-oriented APIs for Java.
-
-- **Native Java objects:** Work directly with POJOs, Maps, and Lists, without an intermediate JSON tree.
-- **Multiple backends:** Use Jackson 2/3, Gson, Fastjson2, JSON-P, and YAML through a unified API.
-- **Runtime and compiled APIs:** Choose flexible runtime operations or compile-time generated implementations.
-
-[Getting Started](/docs/getting_started) · [Installation](/docs/installation) · [GitHub](https://github.com/sjf4j-projects/sjf4j)
+<CompactHero />
 
 ## Quick Example
+
+Work directly with Java objects, without an intermediate JSON tree.
 
 ```java
 Sjf4j sjf4j = new Sjf4j();
@@ -33,7 +25,7 @@ String output = sjf4j.toJsonString(user);
 
 [Follow the Quickstart](/docs/quickstart)
 
-## APIs
+## Explore APIs
 
 | Feature | Runtime | Compile-time |
 | --- | --- | --- |
@@ -45,9 +37,9 @@ String output = sjf4j.toJsonString(user);
 | [JDBC Result Mapping](/docs/jdbc-mapping) | — | `@CompiledJdbcMapper` |
 | [Patching](/docs/patching) | `JsonPatch` | — |
 
-## Compile-time Code Generation
+## Enjoy Compiled APIs
 
-Annotate an interface; the annotation processor generates a Java implementation at build time.
+Compile-time annotation processing generates readable Java implementations for supported operations.
 
 ```java
 @CompiledNavigator
