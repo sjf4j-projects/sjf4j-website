@@ -7,19 +7,19 @@ description: A unified structural processing layer built on JSON semantics.
 <script setup>
 import HomeShowcase from './.vitepress/theme/components/HomeShowcase.vue'
 import HomeQuickstart from './.vitepress/theme/components/HomeQuickstart.vue'
+import HomeInstallation from './.vitepress/theme/components/HomeInstallation.vue'
+import HomeCapabilities from './.vitepress/theme/components/HomeCapabilities.vue'
 </script>
 
 <HomeShowcase />
 
 ## Installation
 
-SJF4J supports Java 8+. Start with the all-in-one dependency (Gradle Kotlin DSL):
+Add the all-in-one dependency for Java 8+ (replace `{version}` with the current release).
 
-```kotlin
-implementation("org.sjf4j:sjf4j:{version}")
-```
+<HomeInstallation />
 
-For a smaller dependency footprint, choose the core, backend, schema, and annotation-processor modules separately. [Installation guide](/docs/installation).
+For finer dependency control, select individual modules and configure the annotation processor in the [Installation guide](/docs/installation).
 
 ## Quickstart
 
@@ -29,17 +29,9 @@ For a smaller dependency footprint, choose the core, backend, schema, and annota
 
 ## Capabilities
 
-Runtime and compile-time APIs share the same JSON-semantic structural model.
+Runtime and compile-time APIs operate on the same JSON-semantic structural model. Compare the core APIs side by side:
 
-| Feature | Capability | Runtime | Compile-time |
-| --- | --- | --- | --- |
-| [Modeling](/docs/modeling) | Structural operations | `Nodes` | — |
-| [Binding](/docs/binding) | Data binding | `Sjf4j.from/toXxx()` | `@CompiledBinder` |
-| [Navigating](/docs/navigating) | JSONPath navigation | `JsonPath` | `@CompiledNavigator` |
-| [Validating](/docs/validating) | JSON Schema validation | `JsonSchema` | `@CompiledValidator` |
-| [Mapping](/docs/mapping) | Object mapping | `Sjf4j.convert()` | `@CompiledMapper` |
-| [JDBC Result Mapping](/docs/jdbc-mapping) | JDBC result mapping | — | `@CompiledJdbcMapper` |
-| [Patching](/docs/patching) | JSON Patch & Merge Patch | `JsonPatch` | — |
+<HomeCapabilities />
 
 ## Enjoy Compiled APIs
 
