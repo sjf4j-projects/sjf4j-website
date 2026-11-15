@@ -10,7 +10,7 @@ export default defineConfig({
   ignoreDeadLinks: false,
 
   themeConfig: {
-    siteTitle: 'SJF4J',
+    siteTitle: 'S<span class="logo-java-j">J</span>F4J',
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Docs', link: '/docs/getting_started' },
