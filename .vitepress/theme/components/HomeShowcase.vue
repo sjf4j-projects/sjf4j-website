@@ -24,6 +24,10 @@
         </a>
       </div>
       <div class="project-badges" aria-label="Project status and compliance badges">
+        <div class="badge-row">
+        <a href="https://github.com/sjf4j-projects/sjf4j/stargazers" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.shields.io/github/stars/sjf4j-projects/sjf4j?style=social" alt="GitHub stars" loading="lazy" />
+        </a>
         <a href="https://github.com/sjf4j-projects/sjf4j/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">
           <img src="https://img.shields.io/github/license/sjf4j-projects/sjf4j" alt="License" loading="lazy" />
         </a>
@@ -33,6 +37,8 @@
         <a href="https://javadoc.io/doc/org.sjf4j/sjf4j-core" target="_blank" rel="noopener noreferrer">
           <img src="https://javadoc.io/badge2/org.sjf4j/sjf4j-core/javadoc.svg" alt="Javadoc" loading="lazy" />
         </a>
+        </div>
+        <div class="badge-row">
         <a href="https://bowtie.report/" target="_blank" rel="noopener noreferrer">
           <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fjava-org.sjf4j-sjf4j%2Fsupported_versions.json" alt="Supported JSON Schema dialects" loading="lazy" />
         </a>
@@ -45,15 +51,15 @@
         <a href="https://bowtie.report/" target="_blank" rel="noopener noreferrer">
           <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fjava-org.sjf4j-sjf4j%2Fcompliance%2Fdraft7.json" alt="JSON Schema Draft 7 compliance" loading="lazy" />
         </a>
+        </div>
+        <div class="badge-row">
         <a href="https://github.com/sjf4j-projects/sjf4j/actions/workflows/gradle.yml" target="_blank" rel="noopener noreferrer">
           <img src="https://img.shields.io/github/actions/workflow/status/sjf4j-projects/sjf4j/gradle.yml?branch=main" alt="Build status" loading="lazy" />
         </a>
         <a href="https://codecov.io/gh/sjf4j-projects/sjf4j" target="_blank" rel="noopener noreferrer">
           <img src="https://codecov.io/gh/sjf4j-projects/sjf4j/graph/badge.svg?branch=main" alt="Code coverage" loading="lazy" />
         </a>
-        <a href="https://github.com/sjf4j-projects/sjf4j/stargazers" target="_blank" rel="noopener noreferrer">
-          <img src="https://img.shields.io/github/stars/sjf4j-projects/sjf4j?style=social" alt="GitHub stars" loading="lazy" />
-        </a>
+        </div>
       </div>
     </div>
 
@@ -203,10 +209,17 @@
 
 .project-badges {
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+  margin-top: 22px;
+}
+
+.badge-row {
+  display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px;
-  margin-top: 22px;
+  gap: 7px 8px;
 }
 
 .project-badges a {
@@ -223,9 +236,14 @@
 .feature-panels {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-content: center;
+  align-content: start;
+  align-self: start;
+  justify-self: end;
+  width: 100%;
+  max-width: 660px;
   min-width: 0;
-  gap: 12px;
+  gap: 24px 28px;
+  margin-top: 9px;
 }
 
 .feature-panel:nth-child(3) {
@@ -234,7 +252,7 @@
 
 .feature-panel {
   min-width: 0;
-  padding: 18px 18px;
+  padding: 15px 18px 21px;
   border: 1px solid var(--vp-c-divider);
   border-radius: 11px;
   background: var(--vp-c-bg-soft);
@@ -246,7 +264,7 @@
   padding: 0;
   border: 0;
   color: var(--vp-c-text-1);
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 700;
   line-height: 1.45;
 }
@@ -281,17 +299,21 @@
   }
 
   .feature-panels {
-    gap: 10px;
+    justify-self: stretch;
+    max-width: none;
+    gap: 18px 22px;
+    margin-top: 0;
   }
 
   .feature-panel {
-    padding: 16px 19px;
+    padding: 14px 18px 19px;
   }
 }
 
 @media (max-width: 650px) {
   .feature-panels {
     grid-template-columns: 1fr;
+    gap: 12px;
   }
 
   .feature-panel:nth-child(3) {
