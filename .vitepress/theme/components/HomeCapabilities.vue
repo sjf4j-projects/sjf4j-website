@@ -163,7 +163,7 @@ patch.apply(user);`,
 .capability-columns {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  gap: 28px;
   margin-top: 16px;
 }
 
