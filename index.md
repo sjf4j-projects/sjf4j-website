@@ -14,7 +14,7 @@ import HomeCapabilities from './.vitepress/theme/components/HomeCapabilities.vue
 
 ## Installation
 
-Add the all-in-one dependency for Java 8+ (replace `{version}` with the current release).
+Add the all-in-one dependency for Java 8+. The version below is retrieved from Maven Central.
 
 <HomeInstallation />
 
