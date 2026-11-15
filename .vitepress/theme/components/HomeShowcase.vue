@@ -65,7 +65,6 @@
 
     <div class="feature-panels" aria-label="Key advantages">
       <article class="feature-panel">
-        <span class="feature-index" aria-hidden="true">01 / STRUCTURE</span>
         <h2>JSON Semantics, Java Objects</h2>
         <p>
           Apply <a href="https://www.rfc-editor.org/info/rfc9535/" target="_blank" rel="noopener noreferrer">JSONPath</a>,
@@ -77,7 +76,6 @@
       </article>
 
       <article class="feature-panel">
-        <span class="feature-index" aria-hidden="true">02 / BACKENDS</span>
         <h2>Multiple Backends, One API</h2>
         <p>
           Work seamlessly across JSON backends
@@ -91,7 +89,6 @@
       </article>
 
       <article class="feature-panel">
-        <span class="feature-index" aria-hidden="true">03 / PERFORMANCE</span>
         <h2>Runtime Flexibility, Compiled Speed</h2>
         <p>Enjoy flexible runtime APIs and highly optimized compile-time code generation.</p>
       </article>
@@ -244,73 +241,50 @@
 }
 
 .feature-panels {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-content: center;
+  display: flex;
+  flex-direction: column;
   align-self: center;
   justify-self: center;
   width: 100%;
-  max-width: 748px;
+  max-width: 540px;
   min-width: 0;
-  column-gap: 54px;
-  row-gap: 66px;
-}
-
-.feature-panel:nth-child(3) {
-  grid-column: 1 / -1;
-  justify-self: center;
-  width: min(100%, 434px);
 }
 
 .feature-panel {
-  position: relative;
   min-width: 0;
-  padding: 17px 0 0;
+  padding: 3px 0 27px;
   border: 0;
-  border-top: 1px solid var(--vp-c-divider);
   border-radius: 0;
   background: transparent;
   box-shadow: none;
   text-align: left;
 }
 
-.feature-panel::before {
-  position: absolute;
-  top: -1px;
-  left: 0;
-  width: 38px;
-  height: 2px;
-  background: var(--vp-c-brand-1);
-  content: '';
+.feature-panel + .feature-panel {
+  padding-top: 27px;
+  border-top: 1px solid var(--vp-c-divider);
 }
 
-.feature-index {
-  display: block;
-  margin-bottom: 12px;
-  color: var(--vp-c-brand-1);
-  font-family: var(--vp-font-family-mono);
-  font-size: 11px;
-  font-weight: 650;
-  line-height: 1.35;
-  letter-spacing: 0.07em;
+.feature-panel:last-child {
+  padding-bottom: 0;
 }
 
 .feature-panel h2 {
-  margin: 0;
+  margin: 0 0 10px;
   padding: 0;
   border: 0;
   color: var(--vp-c-text-1);
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 700;
-  line-height: 1.4;
-  white-space: nowrap;
+  line-height: 1.35;
+  letter-spacing: -0.028em;
 }
 
 .feature-panel p {
-  margin: 12px 0 0;
+  margin: 0;
   color: var(--vp-c-text-2);
   font-size: 14px;
-  line-height: 1.65;
+  line-height: 1.7;
 }
 
 .feature-panel a {
@@ -336,26 +310,7 @@
   }
 
   .feature-panels {
-    justify-self: center;
-    max-width: 748px;
-    column-gap: 40px;
-    row-gap: 54px;
-  }
-}
-
-@media (max-width: 650px) {
-  .feature-panels {
-    grid-template-columns: 1fr;
-    gap: 34px;
-  }
-
-  .feature-panel:nth-child(3) {
-    grid-column: auto;
-    width: 100%;
-  }
-
-  .feature-panel h2 {
-    white-space: normal;
+    max-width: 540px;
   }
 }
 
