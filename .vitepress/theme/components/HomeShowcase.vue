@@ -2,13 +2,15 @@
   <section class="home-showcase" aria-labelledby="home-headline">
     <header class="showcase-intro">
       <p class="eyebrow">Java 8+ <span aria-hidden="true">·</span> Open Source</p>
-      <p class="project-name">SJF4J <span>— Simple JSON Facade for Java</span></p>
-      <h1 id="home-headline">
+      <h1 id="home-headline">SJF4J</h1>
+      <p class="project-name">Simple JSON Facade for Java</p>
+      <p class="tagline">
         A unified structural processing layer
         <span class="headline-emphasis">built on JSON semantics.</span>
-      </h1>
+      </p>
       <div class="actions">
         <a class="primary" href="/docs/quickstart">Get Started</a>
+        <a class="secondary" href="/docs/benchmarks">Benchmarks</a>
         <a
           class="secondary"
           href="https://github.com/sjf4j-projects/sjf4j"
@@ -25,24 +27,21 @@
 
     <div class="feature-panels" aria-label="Key advantages">
       <article class="feature-panel">
-        <h2>JSON Semantics</h2>
-        <p class="feature-tagline">Native Java Objects</p>
+        <h2>JSON Semantics, Native Java Objects</h2>
         <p class="feature-description">
           Apply JSONPath, JSON Pointer, JSON Patch and JSON Schema directly to
           POJOs, Maps and Lists. No intermediate JSON tree.
         </p>
       </article>
       <article class="feature-panel">
-        <h2>Multiple Backends</h2>
-        <p class="feature-tagline">One Unified API</p>
+        <h2>Multiple Backends, One Unified API</h2>
         <p class="feature-description">
           Bind through Jackson 2/3, Gson, Fastjson2 or JSON-P, and work with
           YAML via SnakeYAML — using the same facade.
         </p>
       </article>
       <article class="feature-panel">
-        <h2>Runtime Flexibility</h2>
-        <p class="feature-tagline">Compiled Speed</p>
+        <h2>Runtime Flexibility, Compiled Speed</h2>
         <p class="feature-description">
           Use flexible runtime operations or generate optimized Java code
           for binding, navigation, validation and mapping.
@@ -77,29 +76,34 @@
   line-height: 1.4;
 }
 
-.project-name {
-  margin: 18px 0 0;
-  color: var(--vp-c-text-1);
-  font-size: 15px;
-  font-weight: 650;
-  line-height: 1.45;
-}
-
-.project-name span {
-  color: var(--vp-c-text-2);
-  font-weight: 450;
-}
-
 .showcase-intro h1 {
-  max-width: 960px;
-  margin: 12px auto 0;
+  margin: 19px 0 0;
   padding: 0;
   border: 0;
   color: var(--vp-c-text-1);
-  font-size: clamp(33px, 4.4vw, 50px);
-  font-weight: 750;
-  letter-spacing: -0.036em;
-  line-height: 1.18;
+  font-size: clamp(56px, 8vw, 78px);
+  font-weight: 800;
+  line-height: 1.03;
+  letter-spacing: -0.055em;
+}
+
+.project-name {
+  margin: 10px 0 0;
+  color: var(--vp-c-text-2);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.005em;
+  line-height: 1.5;
+}
+
+.tagline {
+  max-width: 850px;
+  margin: 20px auto 0;
+  color: var(--vp-c-text-1);
+  font-size: clamp(19px, 2.55vw, 26px);
+  font-weight: 650;
+  line-height: 1.42;
+  letter-spacing: -0.018em;
 }
 
 .headline-emphasis {
@@ -110,8 +114,8 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 12px;
-  margin-top: 23px;
+  gap: 13px;
+  margin-top: 26px;
 }
 
 .actions a {
@@ -119,12 +123,12 @@
   align-items: center;
   justify-content: center;
   gap: 9px;
-  min-width: 124px;
-  padding: 10px 18px;
+  min-width: 155px;
+  padding: 13px 23px;
   border: 1px solid transparent;
   border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 650;
   line-height: 1.4;
   text-decoration: none;
   transition: background-color 0.15s ease, border-color 0.15s ease;
@@ -153,13 +157,13 @@
 .feature-panels {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  margin: 35px auto 0;
+  gap: 12px;
+  margin: 36px auto 0;
 }
 
 .feature-panel {
   min-width: 0;
-  padding: 21px 22px;
+  padding: 22px 20px;
   border: 1px solid var(--vp-c-divider);
   border-radius: 11px;
   background: var(--vp-c-bg-soft);
@@ -171,29 +175,25 @@
   padding: 0;
   border: 0;
   color: var(--vp-c-text-1);
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 700;
   line-height: 1.45;
 }
 
-.feature-tagline {
-  margin: 3px 0 0;
-  color: var(--vp-c-brand-1);
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.45;
-}
-
 .feature-description {
-  margin: 12px 0 0;
+  margin: 10px 0 0;
   color: var(--vp-c-text-2);
   font-size: 13px;
   line-height: 1.65;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 970px) {
   .home-showcase {
     padding-top: 25px;
+  }
+
+  .showcase-intro h1 {
+    font-size: clamp(52px, 11vw, 68px);
   }
 
   .feature-panels {
