@@ -6,7 +6,6 @@ description: A unified structural processing layer built on JSON semantics.
 
 <script setup>
 import HomeShowcase from './.vitepress/theme/components/HomeShowcase.vue'
-import HomeQuickstart from './.vitepress/theme/components/HomeQuickstart.vue'
 import HomeInstallation from './.vitepress/theme/components/HomeInstallation.vue'
 import HomeCapabilities from './.vitepress/theme/components/HomeCapabilities.vue'
 </script>
@@ -20,12 +19,6 @@ Add the all-in-one dependency for Java 8+ (replace `{version}` with the current 
 <HomeInstallation />
 
 For finer dependency control, select individual modules and configure the annotation processor in the [Installation guide](/docs/installation).
-
-## Quickstart
-
-<HomeQuickstart />
-
-[Full Quickstart: model, parsing, navigation and serialization](/docs/quickstart)
 
 ## Capabilities
 
