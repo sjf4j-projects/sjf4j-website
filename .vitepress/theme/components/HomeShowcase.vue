@@ -2,7 +2,7 @@
   <section class="home-showcase" aria-labelledby="home-headline">
     <div class="hero-intro">
       <p class="eyebrow">Java 8+ <span aria-hidden="true">·</span> Open Source</p>
-      <h1 id="home-headline">SJF4J</h1>
+      <h1 id="home-headline">S<span class="logo-java-j">J</span>F4J</h1>
       <p class="project-name">Simple JSON Facade for Java</p>
       <p class="tagline">
         A unified structural processing layer
@@ -138,6 +138,10 @@
   font-weight: 800;
   letter-spacing: -0.055em;
   line-height: 1.05;
+}
+
+.logo-java-j {
+  color: #e76f51;
 }
 
 .project-name {
