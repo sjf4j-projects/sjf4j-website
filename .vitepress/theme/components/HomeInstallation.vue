@@ -2,13 +2,12 @@
 import { computed, onMounted, ref } from 'vue'
 import HomeCodePanel from './HomeCodePanel.vue'
 
-// The placeholder is used only if both official Maven Central sources fail.
+// Show {version} only if none of the Maven Central version sources can be reached.
 const version = ref('{version}')
 
 function isRelease(value: unknown): value is string {
   return typeof value === 'string'
-    && /^\d+\.\d+\.\d+(?:[-.][a-zA-Z0-9.]+)?$/.test(value)
-    && !value.toUpperCase().includes('SNAPSHOT')
+    && /^\d+\.\d+\.\d+$/.test(value)
 }
 
 async function readRepositoryMetadata(): Promise<string> {
@@ -41,19 +40,40 @@ async function readSearchIndex(): Promise<string> {
   return release
 }
 
+async function readBadgeVersion(): Promise<string> {
+  const response = await fetch('https://img.shields.io/maven-central/v/org.sjf4j/sjf4j.json', {
+    signal: AbortSignal.timeout(5000)
+  })
+  if (!response.ok) throw new Error(`Maven badge returned HTTP ${response.status}`)
+
+  const data = await response.json()
+  const release = data?.message
+  if (!isRelease(release)) throw new Error('Missing valid version in Maven badge')
+  return release
+}
+
 onMounted(async () => {
-  const errors: unknown[] = []
-  for (const resolve of [readRepositoryMetadata, readSearchIndex]) {
-    try {
-      version.value = await resolve()
-      return
-    } catch (error) {
-      errors.push(error)
-    }
+  // Repositories and search indexes may be cached at different ages.
+  // Resolve concurrently and prefer the highest valid stable Maven Central version.
+  const results = await Promise.allSettled([
+    readRepositoryMetadata(),
+    readSearchIndex(),
+    readBadgeVersion()
+  ])
+  const versions = results.flatMap(result => result.status === 'fulfilled' ? [result.value] : [])
+
+  if (versions.length) {
+    version.value = versions.sort((a, b) => b.localeCompare(a, undefined, { numeric: true }))[0]
+    return
   }
-  // Keep {version} and leave useful diagnostics rather than silently swallowing failures.
-  console.warn('SJF4J: Unable to load the latest org.sjf4j:sjf4j release from Maven Central.', ...errors)
+
+  // Keep the placeholder only when every source fails.
+  console.warn(
+    'SJF4J: Unable to load the latest org.sjf4j:sjf4j release from Maven Central.',
+    ...results.filter(result => result.status === 'rejected').map(result => result.reason)
+  )
 })
+
 const gradle = computed(() => `implementation("org.sjf4j:sjf4j:${version.value}")`)
 const maven = computed(() => `<dependency>
     <groupId>org.sjf4j</groupId>
