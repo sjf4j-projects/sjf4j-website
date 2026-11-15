@@ -15,7 +15,7 @@ onMounted(async () => {
     if (xml.querySelector('parsererror')) return
 
     const release = xml.querySelector('versioning > release')?.textContent?.trim()
-    if (release && /^\\d+\\.\\d+\\.\\d+(?:[-.][a-zA-Z0-9.]+)?$/.test(release)) {
+    if (release && /^\d+\.\d+\.\d+(?:[-.][a-zA-Z0-9.]+)?$/.test(release)) {
       version.value = release
     }
   } catch {
