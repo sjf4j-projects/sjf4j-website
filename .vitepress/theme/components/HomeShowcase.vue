@@ -98,7 +98,7 @@
 <style scoped>
 .home-showcase {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
   align-items: center;
   gap: clamp(24px, 3vw, 44px);
   max-width: 1400px;
@@ -235,7 +235,7 @@
   align-self: center;
   justify-self: center;
   width: 100%;
-  max-width: 475px;
+  max-width: 380px;
   min-width: 0;
 }
 
@@ -299,7 +299,7 @@
   }
 
   .feature-panels {
-    max-width: 475px;
+    max-width: 380px;
   }
 }
 
