@@ -1,0 +1,6 @@
+/* Widen only the homepage content; keep documentation pages at VitePress defaults. */
+@media (min-width: 960px) {
+  .VPHome .vp-doc.container {
+    max-width: 1490px;
+  }
+}
