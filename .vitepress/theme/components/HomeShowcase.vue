@@ -25,9 +25,6 @@
       </div>
       <div class="project-badges" aria-label="Project status and compliance badges">
         <div class="badge-row">
-        <a href="https://github.com/sjf4j-projects/sjf4j/stargazers" target="_blank" rel="noopener noreferrer">
-          <img src="https://img.shields.io/github/stars/sjf4j-projects/sjf4j?style=social" alt="GitHub stars" loading="lazy" />
-        </a>
         <a href="https://github.com/sjf4j-projects/sjf4j/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">
           <img src="https://img.shields.io/github/license/sjf4j-projects/sjf4j" alt="License" loading="lazy" />
         </a>
@@ -36,6 +33,9 @@
         </a>
         <a href="https://javadoc.io/doc/org.sjf4j/sjf4j-core" target="_blank" rel="noopener noreferrer">
           <img src="https://javadoc.io/badge2/org.sjf4j/sjf4j-core/javadoc.svg" alt="Javadoc" loading="lazy" />
+        </a>
+        <a href="https://github.com/sjf4j-projects/sjf4j/stargazers" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.shields.io/github/stars/sjf4j-projects/sjf4j?style=social" alt="GitHub stars" loading="lazy" />
         </a>
         </div>
         <div class="badge-row">
@@ -99,7 +99,7 @@
 <style scoped>
 .home-showcase {
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
   align-items: center;
   gap: clamp(24px, 3vw, 44px);
   max-width: 1400px;
@@ -108,8 +108,11 @@
 }
 
 .hero-intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   min-width: 0;
-  text-align: left;
+  text-align: center;
 }
 
 .eyebrow {
@@ -166,6 +169,7 @@
 .actions {
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 29px;
@@ -210,16 +214,23 @@
 .project-badges {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 7px;
-  margin-top: 22px;
+  width: 100%;
+  max-width: 470px;
+  margin: 22px auto 0;
 }
 
 .badge-row {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
   gap: 7px 8px;
+}
+
+.badge-row:first-child a:last-child {
+  margin-left: auto;
 }
 
 .project-badges a {
@@ -236,18 +247,19 @@
 .feature-panels {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-content: start;
-  align-self: start;
-  justify-self: end;
+  align-content: center;
+  align-self: center;
+  justify-self: center;
   width: 100%;
-  max-width: 660px;
+  max-width: 800px;
   min-width: 0;
   gap: 24px 28px;
-  margin-top: 9px;
 }
 
 .feature-panel:nth-child(3) {
-  grid-column: 2;
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: min(100%, 470px);
 }
 
 .feature-panel {
@@ -272,8 +284,8 @@
 .feature-panel p {
   margin: 9px 0 0;
   color: var(--vp-c-text-2);
-  font-size: 13px;
-  line-height: 1.55;
+  font-size: 14px;
+  line-height: 1.6;
 }
 
 .feature-panel a {
@@ -299,10 +311,9 @@
   }
 
   .feature-panels {
-    justify-self: stretch;
-    max-width: none;
+    justify-self: center;
+    max-width: 800px;
     gap: 18px 22px;
-    margin-top: 0;
   }
 
   .feature-panel {
@@ -318,6 +329,11 @@
 
   .feature-panel:nth-child(3) {
     grid-column: auto;
+    width: 100%;
+  }
+
+  .badge-row:first-child a:last-child {
+    margin-left: 0;
   }
 }
 
