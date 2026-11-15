@@ -16,7 +16,6 @@ export default defineConfig({
       { text: 'Docs', link: '/docs/getting_started' },
       { text: 'Benchmarks', link: '/docs/benchmarks' },
       { text: 'Generator', link: '/generator' },
-      { text: 'GitHub', link: repo },
     ],
     sidebar: {
       '/docs/performance/': [
