@@ -34,20 +34,11 @@
         <a href="https://javadoc.io/doc/org.sjf4j/sjf4j-core" target="_blank" rel="noopener noreferrer">
           <img src="https://javadoc.io/badge2/org.sjf4j/sjf4j-core/javadoc.svg" alt="Javadoc" loading="lazy" />
         </a>
-        <a href="https://github.com/sjf4j-projects/sjf4j/actions/workflows/gradle.yml" target="_blank" rel="noopener noreferrer">
-          <img src="https://img.shields.io/github/actions/workflow/status/sjf4j-projects/sjf4j/gradle.yml?branch=main" alt="Build status" loading="lazy" />
-        </a>
-        <a href="https://codecov.io/gh/sjf4j-projects/sjf4j" target="_blank" rel="noopener noreferrer">
-          <img src="https://codecov.io/gh/sjf4j-projects/sjf4j/graph/badge.svg?branch=main" alt="Code coverage" loading="lazy" />
-        </a>
-        <a href="https://github.com/sjf4j-projects/sjf4j/stargazers" target="_blank" rel="noopener noreferrer">
-          <img src="https://img.shields.io/github/stars/sjf4j-projects/sjf4j?style=social" alt="GitHub stars" loading="lazy" />
-        </a>
-        </div>
-        <div class="badge-row">
         <a href="https://bowtie.report/" target="_blank" rel="noopener noreferrer">
           <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fjava-org.sjf4j-sjf4j%2Fsupported_versions.json" alt="Supported JSON Schema dialects" loading="lazy" />
         </a>
+        </div>
+        <div class="badge-row">
         <a href="https://bowtie.report/" target="_blank" rel="noopener noreferrer">
           <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fjava-org.sjf4j-sjf4j%2Fcompliance%2Fdraft2020-12.json" alt="JSON Schema Draft 2020-12 compliance" loading="lazy" />
         </a>
@@ -56,6 +47,17 @@
         </a>
         <a href="https://bowtie.report/" target="_blank" rel="noopener noreferrer">
           <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fjava-org.sjf4j-sjf4j%2Fcompliance%2Fdraft7.json" alt="JSON Schema Draft 7 compliance" loading="lazy" />
+        </a>
+        </div>
+        <div class="badge-row">
+        <a href="https://github.com/sjf4j-projects/sjf4j/actions/workflows/gradle.yml" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.shields.io/github/actions/workflow/status/sjf4j-projects/sjf4j/gradle.yml?branch=main" alt="Build status" loading="lazy" />
+        </a>
+        <a href="https://codecov.io/gh/sjf4j-projects/sjf4j" target="_blank" rel="noopener noreferrer">
+          <img src="https://codecov.io/gh/sjf4j-projects/sjf4j/graph/badge.svg?branch=main" alt="Code coverage" loading="lazy" />
+        </a>
+        <a href="https://github.com/sjf4j-projects/sjf4j/stargazers" target="_blank" rel="noopener noreferrer">
+          <img src="https://img.shields.io/github/stars/sjf4j-projects/sjf4j?style=social" alt="GitHub stars" loading="lazy" />
         </a>
         </div>
       </div>
@@ -88,7 +90,7 @@
 
       <article class="feature-panel">
         <h2>Runtime Flexibility, Compiled Speed</h2>
-        <p>Enjoy flexible runtime APIs and highly optimized compile-time code generation.</p>
+        <p>Enjoy flexible runtime APIs and highly optimized compile-time code generation — see our <a href="/docs/benchmarks">benchmarks</a>.</p>
       </article>
     </div>
   </section>
