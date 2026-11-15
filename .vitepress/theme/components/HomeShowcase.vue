@@ -1,7 +1,6 @@
 <template>
   <section class="home-showcase" aria-labelledby="home-headline">
     <div class="hero-intro">
-      <p class="eyebrow">Java 8+ <span aria-hidden="true">·</span> Open Source</p>
       <h1 id="home-headline">S<span class="logo-java-j">J</span>F4J</h1>
       <p class="project-name">Simple JSON Facade for Java</p>
       <p class="tagline">
@@ -115,22 +114,8 @@
   text-align: center;
 }
 
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  margin: 0;
-  padding: 6px 12px;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 999px;
-  color: var(--vp-c-text-2);
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 1.4;
-}
-
 .hero-intro h1 {
-  margin: 21px 0 0;
+  margin: 0;
   padding: 0;
   border: 0;
   color: var(--vp-c-text-1);
@@ -250,7 +235,7 @@
   align-self: center;
   justify-self: center;
   width: 100%;
-  max-width: 432px;
+  max-width: 475px;
   min-width: 0;
 }
 
@@ -314,7 +299,7 @@
   }
 
   .feature-panels {
-    max-width: 432px;
+    max-width: 475px;
   }
 }
 
