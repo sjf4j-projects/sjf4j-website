@@ -1,25 +1,12 @@
-<script setup lang="ts">
-import { ref } from 'vue'
-
-const snippet = 'User user = sjf4j.fromJson(json, User.class);\n\nJsonPath.parse("$.address.city")\n        .put(user, "Shanghai");'
-const copied = ref(false)
-
-async function copySnippet() {
-  try {
-    await navigator.clipboard.writeText(snippet)
-    copied.value = true
-  } catch {
-    copied.value = false
-  }
-}
-</script>
-
 <template>
-  <div class="home-showcase">
+  <section class="home-showcase" aria-labelledby="home-headline">
     <header class="showcase-intro">
       <p class="eyebrow">Java 8+ <span aria-hidden="true">·</span> Open Source</p>
-      <h1>Simple JSON Facade for Java</h1>
-      <p class="tagline">A unified structural processing layer built on JSON semantics.</p>
+      <p class="project-name">SJF4J <span>— Simple JSON Facade for Java</span></p>
+      <h1 id="home-headline">
+        A unified structural processing layer
+        <span class="headline-emphasis">built on JSON semantics.</span>
+      </h1>
       <div class="actions">
         <a class="primary" href="/docs/quickstart">Get Started</a>
         <a
@@ -27,49 +14,49 @@ async function copySnippet() {
           href="https://github.com/sjf4j-projects/sjf4j"
           target="_blank"
           rel="noopener noreferrer"
-        >GitHub <span aria-hidden="true">↗</span></a>
+        >
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+            <path d="M12 1C5.925 1 1 5.925 1 12c0 4.86 3.148 8.982 7.518 10.436.55.096.756-.239.756-.534 0-.266-.01-.97-.015-1.904-3.06.665-3.706-1.474-3.706-1.474-.5-1.27-1.222-1.608-1.222-1.608-.998-.682.076-.668.076-.668 1.103.078 1.684 1.133 1.684 1.133.98 1.678 2.572 1.193 3.2.912.1-.71.384-1.193.699-1.468-2.443-.278-5.012-1.222-5.012-5.438 0-1.201.43-2.183 1.133-2.952-.114-.278-.491-1.397.108-2.91 0 0 .923-.295 3.023 1.128a10.5 10.5 0 0 1 5.503 0c2.1-1.423 3.02-1.128 3.02-1.128.6 1.513.223 2.632.109 2.91.704.769 1.131 1.751 1.131 2.952 0 4.227-2.574 5.157-5.024 5.429.394.34.744 1.011.744 2.037 0 1.47-.014 2.656-.014 3.018 0 .296.198.636.762.53C19.854 20.98 23 16.86 23 12c0-6.075-4.925-11-11-11z"/>
+          </svg>
+          GitHub
+        </a>
       </div>
     </header>
 
-    <div class="principles" aria-label="Key advantages">
-      <div class="principle">
-        <strong>JSON Semantics</strong>
-        <span>Native Java Objects</span>
-      </div>
-      <div class="principle">
-        <strong>Multiple Backends</strong>
-        <span>One Unified API</span>
-      </div>
-      <div class="principle">
-        <strong>Runtime Flexibility</strong>
-        <span>Compiled Speed</span>
-      </div>
+    <div class="feature-panels" aria-label="Key advantages">
+      <article class="feature-panel">
+        <h2>JSON Semantics</h2>
+        <p class="feature-tagline">Native Java Objects</p>
+        <p class="feature-description">
+          Apply JSONPath, JSON Pointer, JSON Patch and JSON Schema directly to
+          POJOs, Maps and Lists. No intermediate JSON tree.
+        </p>
+      </article>
+      <article class="feature-panel">
+        <h2>Multiple Backends</h2>
+        <p class="feature-tagline">One Unified API</p>
+        <p class="feature-description">
+          Bind through Jackson 2/3, Gson, Fastjson2 or JSON-P, and work with
+          YAML via SnakeYAML — using the same facade.
+        </p>
+      </article>
+      <article class="feature-panel">
+        <h2>Runtime Flexibility</h2>
+        <p class="feature-tagline">Compiled Speed</p>
+        <p class="feature-description">
+          Use flexible runtime operations or generate optimized Java code
+          for binding, navigation, validation and mapping.
+        </p>
+      </article>
     </div>
-
-    <section class="example" aria-labelledby="home-example-title">
-      <div class="example-heading">
-        <h2 id="home-example-title">Work with ordinary Java objects</h2>
-        <span class="language">Java</span>
-      </div>
-      <div class="code-box">
-        <button class="copy" type="button" :aria-label="copied ? 'Copied code' : 'Copy code'" @click="copySnippet">
-          {{ copied ? 'Copied' : 'Copy' }}
-        </button>
-        <pre><code><span class="type">User</span> user = sjf4j.<span class="method">fromJson</span>(json, <span class="type">User</span>.class);
-
-<span class="type">JsonPath</span>.<span class="method">parse</span>(<span class="string">"$.address.city"</span>)
-        .<span class="method">put</span>(user, <span class="string">"Shanghai"</span>);</code></pre>
-      </div>
-      <p class="example-caption">No special base class or intermediate JSON tree required.</p>
-    </section>
-  </div>
+  </section>
 </template>
 
 <style scoped>
 .home-showcase {
-  max-width: 1040px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 38px 0 10px;
+  padding: 33px 0 16px;
 }
 
 .showcase-intro {
@@ -90,23 +77,33 @@ async function copySnippet() {
   line-height: 1.4;
 }
 
+.project-name {
+  margin: 18px 0 0;
+  color: var(--vp-c-text-1);
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
+.project-name span {
+  color: var(--vp-c-text-2);
+  font-weight: 450;
+}
+
 .showcase-intro h1 {
-  margin: 22px 0 0;
+  max-width: 960px;
+  margin: 12px auto 0;
   padding: 0;
   border: 0;
   color: var(--vp-c-text-1);
-  font-size: clamp(32px, 4.6vw, 52px);
+  font-size: clamp(33px, 4.4vw, 50px);
   font-weight: 750;
-  letter-spacing: -0.035em;
-  line-height: 1.16;
+  letter-spacing: -0.036em;
+  line-height: 1.18;
 }
 
-.tagline {
-  margin: 15px auto 0;
-  max-width: 760px;
-  color: var(--vp-c-text-2);
-  font-size: clamp(16px, 1.85vw, 19px);
-  line-height: 1.55;
+.headline-emphasis {
+  color: var(--vp-c-brand-1);
 }
 
 .actions {
@@ -121,8 +118,9 @@ async function copySnippet() {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 112px;
-  padding: 10px 19px;
+  gap: 9px;
+  min-width: 124px;
+  padding: 10px 18px;
   border: 1px solid transparent;
   border-radius: 8px;
   font-size: 14px;
@@ -152,172 +150,60 @@ async function copySnippet() {
   border-color: var(--vp-c-brand-1);
 }
 
-.principles {
+.feature-panels {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin: 39px auto 0;
-  padding: 21px 0;
-  border-top: 1px solid var(--vp-c-divider);
-  border-bottom: 1px solid var(--vp-c-divider);
+  gap: 14px;
+  margin: 35px auto 0;
 }
 
-.principle {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  align-items: center;
-  padding: 0 12px;
-  text-align: center;
-}
-
-.principle + .principle {
-  border-left: 1px solid var(--vp-c-divider);
-}
-
-.principle strong {
-  color: var(--vp-c-text-1);
-  font-size: 15px;
-  font-weight: 650;
-  line-height: 1.4;
-}
-
-.principle span {
-  color: var(--vp-c-text-2);
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-.example {
-  margin-top: 29px;
-  padding: 23px 26px 20px;
+.feature-panel {
+  min-width: 0;
+  padding: 21px 22px;
   border: 1px solid var(--vp-c-divider);
-  border-radius: 12px;
+  border-radius: 11px;
   background: var(--vp-c-bg-soft);
+  text-align: left;
 }
 
-.example-heading {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 14px;
-}
-
-.example-heading h2 {
+.feature-panel h2 {
   margin: 0;
   padding: 0;
   border: 0;
   color: var(--vp-c-text-1);
   font-size: 17px;
-  font-weight: 650;
-  line-height: 1.5;
+  font-weight: 700;
+  line-height: 1.45;
 }
 
-.language {
-  color: var(--vp-c-text-3);
-  font-size: 12px;
-}
-
-.code-box {
-  position: relative;
-  overflow-x: auto;
-  border-radius: 8px;
-  background: var(--vp-code-block-bg);
-}
-
-.code-box pre {
-  margin: 0;
-  padding: 23px 22px;
-  color: var(--vp-c-text-1);
-  font-family: var(--vp-font-family-mono);
-  font-size: 13px;
-  line-height: 1.8;
-  white-space: pre;
-  tab-size: 4;
-}
-
-.type {
+.feature-tagline {
+  margin: 3px 0 0;
   color: var(--vp-c-brand-1);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.45;
 }
 
-.method {
-  color: var(--vp-c-text-1);
-}
-
-.string {
-  color: var(--vp-c-text-2);
-}
-
-.copy {
-  position: absolute;
-  top: 9px;
-  right: 10px;
-  padding: 4px 9px;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 5px;
-  background: var(--vp-c-bg);
-  color: var(--vp-c-text-2);
-  cursor: pointer;
-  font-size: 11px;
-}
-
-.copy:hover {
-  color: var(--vp-c-brand-1);
-}
-
-.example-caption {
-  margin: 13px 0 0;
+.feature-description {
+  margin: 12px 0 0;
   color: var(--vp-c-text-2);
   font-size: 13px;
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 760px) {
   .home-showcase {
-    padding-top: 24px;
+    padding-top: 25px;
   }
 
-  .showcase-intro h1 {
-    margin-top: 19px;
-  }
-
-  .principles {
-    margin-top: 31px;
-  }
-
-  .principle {
-    padding: 0 7px;
-  }
-
-  .principle strong {
-    font-size: 13px;
-  }
-
-  .principle span {
-    font-size: 12px;
-  }
-
-  .example {
-    padding: 18px 15px;
-  }
-
-  .code-box pre {
-    padding: 23px 14px;
-    font-size: 12px;
-  }
-}
-
-@media (max-width: 480px) {
-  .principles {
-    gap: 15px;
+  .feature-panels {
     grid-template-columns: 1fr;
-    padding: 17px 0;
+    gap: 10px;
+    margin-top: 28px;
   }
 
-  .principle + .principle {
-    padding-top: 15px;
-    border-top: 1px solid var(--vp-c-divider);
-    border-left: 0;
+  .feature-panel {
+    padding: 18px 19px;
   }
 }
 
