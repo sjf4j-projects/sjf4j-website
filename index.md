@@ -14,13 +14,13 @@ import HomeCapabilities from './.vitepress/theme/components/HomeCapabilities.vue
 
 ## Installation
 
-SJF4J requires **Java 8+** and supports modular installation. The latest version is: [![Maven Central](https://img.shields.io/maven-central/v/org.sjf4j/sjf4j)](https://central.sonatype.com/search?q=sjf4j)
+SJF4J requires **Java 8+** and supports modular installation. <span class="maven-release-inline">The latest version is: <a href="https://central.sonatype.com/search?q=sjf4j"><img src="https://img.shields.io/maven-central/v/org.sjf4j/sjf4j" alt="Maven Central" /></a></span>
 
 <HomeInstallation />
 
 <a class="home-learn-more" href="/docs/installation">Learn more → Installation</a>
 
-## Capabilities
+## Explore Features {#explore-features}
 
 Runtime and compile-time APIs operate on the same JSON-semantic structural model. Compare the core APIs side by side:
 
