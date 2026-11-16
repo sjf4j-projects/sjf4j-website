@@ -14,12 +14,11 @@ import HomeCapabilities from './.vitepress/theme/components/HomeCapabilities.vue
 
 ## Installation
 
-SJF4J requires **Java 8+** and supports modular installation.  
-The latest version is: [![Maven Central](https://img.shields.io/maven-central/v/org.sjf4j/sjf4j)](https://central.sonatype.com/search?q=sjf4j)
+SJF4J requires **Java 8+** and supports modular installation. The latest version is: [![Maven Central](https://img.shields.io/maven-central/v/org.sjf4j/sjf4j)](https://central.sonatype.com/search?q=sjf4j)
 
 <HomeInstallation />
 
-[Learn more → Installation](/docs/installation)
+<a class="home-learn-more" href="/docs/installation">Learn more → Installation</a>
 
 ## Capabilities
 
@@ -46,7 +45,7 @@ UserNavigator navigator = CompiledInstances.create(UserNavigator.class);
 String city = navigator.getCity(user);
 ```
 
-[Learn more → Compiled APIs](/docs/compiled)
+<a class="home-learn-more" href="/docs/compiled">Learn more → Compiled APIs</a>
 
 ## Benchmarks
 
@@ -56,7 +55,7 @@ Explore independent comparisons and reproducible JMH benchmarks for JSON Binding
 - [Java JSON Benchmark ↗](https://github.com/fabienrenaud/java-json-benchmark) — independent JSON library comparison.
 - [Bowtie ↗](https://bowtie.report/) — JSON Schema compliance.
 
-[Learn more → Benchmarks](/docs/benchmarks)
+<a class="home-learn-more" href="/docs/benchmarks">Learn more → Benchmarks</a>
 
 ## Contributing
 
