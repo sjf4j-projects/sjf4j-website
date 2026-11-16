@@ -263,7 +263,7 @@
   padding: 0;
   border: 0;
   color: var(--vp-c-text-1);
-  font-size: 19px;
+  font-size: 20px;
   font-weight: 700;
   line-height: 1.35;
   letter-spacing: -0.028em;
@@ -272,7 +272,7 @@
 .feature-panel p {
   margin: 0;
   color: var(--vp-c-text-2);
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.7;
 }
 
