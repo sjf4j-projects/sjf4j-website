@@ -341,6 +341,7 @@ onUnmounted(() => {
   box-sizing: border-box;
   height: 470px;
   overflow-y: auto;
+  scrollbar-gutter: stable;
   padding: 20px 20px 24px;
 }
 
