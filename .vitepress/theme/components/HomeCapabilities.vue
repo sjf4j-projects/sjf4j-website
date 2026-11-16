@@ -100,12 +100,14 @@ patch.apply(user);`,
           <h3>{{ item.name }}</h3>
           <p>{{ item.description }}</p>
         </div>
-        <a :href="item.path" :aria-label="`Read more about ${item.name}`">Learn more <span aria-hidden="true">→</span></a>
       </div>
       <div class="capability-columns">
         <HomeCodePanel title="Runtime" :code="item.runtime" :note="item.runtimeNote" />
         <HomeCodePanel title="Compiled" :code="item.compiled" :note="item.compiledNote" />
       </div>
+      <a class="capability-learn-more" :href="item.path" :aria-label="`Learn more about ${item.name}`">
+        Learn more <span aria-hidden="true">→</span> {{ item.name }}
+      </a>
     </section>
   </div>
 </template>
@@ -148,15 +150,16 @@ patch.apply(user);`,
   line-height: 1.55;
 }
 
-.capability-heading a {
-  flex-shrink: 0;
+.capability-learn-more {
+  display: inline-block;
+  margin-top: 14px;
   color: var(--vp-c-brand-1);
   font-size: 13px;
   font-weight: 600;
   text-decoration: none;
 }
 
-.capability-heading a:hover {
+.capability-learn-more:hover {
   text-decoration: underline;
 }
 

@@ -1,36 +1,86 @@
 ---
 title: "Installation"
-description: "Select the SJF4J dependencies, backends, and annotation processor."
+description: "Select SJF4J modules, backends, and annotation processing for Gradle or Maven."
 ---
 
 # Installation
 
-SJF4J supports Java 8 and newer. Start with the all-in-one artifact or choose individual modules for a more targeted setup.
+SJF4J requires **Java 8+** and supports modular installation.  
+The latest version is: [![Maven Central](https://img.shields.io/maven-central/v/org.sjf4j/sjf4j)](https://central.sonatype.com/search?q=sjf4j)
 
-## All-in-One Dependency
+Replace `{version}` in the following examples with the latest stable version shown above.
 
-```kotlin
-// Gradle Kotlin DSL
-implementation("org.sjf4j:sjf4j:{version}")
-```
-Replace `{version}` with the desired [published version](https://central.sonatype.com/search?q=org.sjf4j).
-
-## Optional Backend Example
+## Gradle (Kotlin DSL)
 
 ```kotlin
-// Example: Jackson 2.x backend and its JSON library
-implementation("org.sjf4j:sjf4j-backend-jackson2:{version}")
-implementation("com.fasterxml.jackson.core:jackson-databind:{jacksonVersion}")
-```
-Additional backends are described in [Backends & Formats](/docs/backends).
+// Core structural processing API
+implementation("org.sjf4j:sjf4j-core:{version}")
 
-## Compile-time APIs
-
-```kotlin
+// Optional: Compile-time APIs
 annotationProcessor("org.sjf4j:sjf4j-processor:{version}")
+
+// Optional: JSON Schema validation
+implementation("org.sjf4j:sjf4j-schema:{version}")
+
+// Optional: Backend and its dependency (Jackson 2.x example) 
+implementation("org.sjf4j:sjf4j-backend-jackson2:{version}")
+implementation("com.fasterxml.jackson.core:jackson-databind:2.22.3")
 ```
-See [Compiled APIs](/docs/compiled) for setup and usage.
 
-## Maven and Module Selection
+## Maven
 
-Maven coordinates and a detailed module-selection matrix will be expanded here. The [project README](https://github.com/sjf4j-projects/sjf4j) contains the current getting-started instructions.
+Add the corresponding dependencies and, when using compiled APIs, configure the Maven compiler plugin's annotation processor path:
+
+```xml
+<dependencies>
+    <!-- Core structural processing API -->
+    <dependency>
+        <groupId>org.sjf4j</groupId>
+        <artifactId>sjf4j-core</artifactId>
+        <version>{version}</version>
+    </dependency>
+
+    <!-- Optional: JSON Schema validation -->
+    <dependency>
+        <groupId>org.sjf4j</groupId>
+        <artifactId>sjf4j-schema</artifactId>
+        <version>{version}</version>
+    </dependency>
+
+    <!-- Optional: Backend and its dependency (Jackson 2.x example) -->
+    <dependency>
+        <groupId>org.sjf4j</groupId>
+        <artifactId>sjf4j-backend-jackson2</artifactId>
+        <version>{version}</version>
+    </dependency>
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.22.3</version>
+    </dependency>
+</dependencies>
+
+<!-- Optional: Compile-time APIs -->
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.13.0</version>
+            <configuration>
+                <annotationProcessorPaths>
+                    <path>
+                        <groupId>org.sjf4j</groupId>
+                        <artifactId>sjf4j-processor</artifactId>
+                        <version>{version}</version>
+                    </path>
+                </annotationProcessorPaths>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+```
+
+All modules are optional except `sjf4j-core`. The Jackson 2.x backend is just an example; choose the JSON or YAML backend that fits your project.
+
+Learn more → [Backends & Formats](/docs/backends) · [Compiled APIs](/docs/compiled)

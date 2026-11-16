@@ -14,11 +14,12 @@ import HomeCapabilities from './.vitepress/theme/components/HomeCapabilities.vue
 
 ## Installation
 
-Add the all-in-one dependency for Java 8+. The latest Maven Central release appears automatically when available; otherwise replace `{version}` manually.
+SJF4J requires **Java 8+** and supports modular installation.  
+The latest version is: [![Maven Central](https://img.shields.io/maven-central/v/org.sjf4j/sjf4j)](https://central.sonatype.com/search?q=sjf4j)
 
 <HomeInstallation />
 
-For finer dependency control, select individual modules and configure the annotation processor in the [Installation guide](/docs/installation).
+[Learn more → Installation](/docs/installation)
 
 ## Capabilities
 
@@ -45,7 +46,7 @@ UserNavigator navigator = CompiledInstances.create(UserNavigator.class);
 String city = navigator.getCity(user);
 ```
 
-[How compiled APIs work](/docs/compiled)
+[Learn more → Compiled APIs](/docs/compiled)
 
 ## Benchmarks
 
@@ -54,6 +55,8 @@ Explore independent comparisons and reproducible JMH benchmarks for JSON Binding
 - [Benchmark overview](/docs/benchmarks) — comparison summaries and full reports.
 - [Java JSON Benchmark ↗](https://github.com/fabienrenaud/java-json-benchmark) — independent JSON library comparison.
 - [Bowtie ↗](https://bowtie.report/) — JSON Schema compliance.
+
+[Learn more → Benchmarks](/docs/benchmarks)
 
 ## Contributing
 
