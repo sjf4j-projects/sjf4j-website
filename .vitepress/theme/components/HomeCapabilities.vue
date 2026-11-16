@@ -15,33 +15,37 @@ const capabilities: Capability[] = [
   {
     name: 'Binding',
     path: '/docs/binding',
-    description: 'Read and write Java objects with the same API across JSON backends and data formats.',
+    description: 'Unified data binding across JSON, YAML, and Java Properties, supporting POJOs, Maps, Lists, generic types, and custom values.',
     runtime: `Sjf4j sjf4j = new Sjf4j();
+
 User user = sjf4j.fromJson(json, User.class);
-String output = sjf4j.toJsonString(user);`,
+String yaml = sjf4j.toYamlString(user);`,
     compiled: `@CompiledBinder
-interface UserBinder {
+interface UserJsonBinder {
     @Read User read(String json);
-    @Write String write(User user);
 }`
   },
   {
     name: 'Navigating',
     path: '/docs/navigating',
-    description: 'Query and update native Java object graphs using JSONPath or JSON Pointer.',
+    description: 'Query and modify Java object graphs with JSONPath (RFC 9535) or JSON Pointer (RFC 6901), without intermediate JSON trees.',
     runtime: `JsonPath path = JsonPath.parse("$.address.city");
-String city = path.getString(user);
-path.put(user, "Shanghai");`,
+
+String city = path.getString(user); // Read a property
+path.put(user, "Shanghai");        // Update a property`,
     compiled: `@CompiledNavigator
 interface UserNavigator {
     @GetByPath("$.address.city")
     String getCity(User user);
+
+    @PutByPath("$.address.city")
+    String putCity(User user, String city);
 }`
   },
   {
     name: 'Validating',
     path: '/docs/validating',
-    description: 'Validate Java objects against JSON Schema without serializing them first.',
+    description: 'Validate Java objects directly against JSON Schema (Draft 2020-12, 2019-09, and 7), without constructing JSON trees.',
     runtime: `JsonSchema schema = JsonSchema.fromJson(schemaJson);
 ValidationResult result =
         schema.createPlan().validate(user);`,
@@ -54,7 +58,7 @@ interface UserValidator {
   {
     name: 'Object Mapping',
     path: '/docs/mapping',
-    description: 'Convert between Java models, transform fields and map nested structures.',
+    description: 'Convert between Maps, POJOs, values, and nested Java structures; compile-time mapping supports property renaming and custom transformations.',
     runtime: `AnotherUser dto =
         sjf4j.convert(user, AnotherUser.class);`,
     compiled: `@CompiledMapper
@@ -66,7 +70,7 @@ interface UserMapper {
   {
     name: 'JDBC Result Mapping',
     path: '/docs/jdbc-mapping',
-    description: 'Generate direct, type-aware mappings from JDBC ResultSet to Java objects.',
+    description: 'Generate direct mappings from JDBC ResultSet rows to Java objects with @CompiledJdbcMapper.',
     runtimeNote: 'JDBC Result Mapping is provided as a compile-time API.',
     compiled: `@CompiledJdbcMapper
 interface UserJdbcMapper {
@@ -74,20 +78,20 @@ interface UserJdbcMapper {
 }`
   },
   {
-    name: 'Modeling (OBNT)',
-    path: '/docs/modeling',
-    description: 'A shared structural model for POJOs, Maps, Lists and extensible JSON-like types.',
-    runtime: `Object raw = Nodes.getInObject(user, "name");
-String name = Nodes.toString(raw);`,
-    compiledNote: 'The same object-based node model underpins the compiled APIs.'
-  },
-  {
     name: 'Patching',
     path: '/docs/patching',
-    description: 'Apply JSON Patch, Merge Patch and indexed merge operations directly to Java objects.',
+    description: 'Apply JSON Patch (RFC 6902), JSON Merge Patch (RFC 7386), and indexed merge operations directly to Java object graphs.',
     runtime: `JsonPatch patch = JsonPatch.fromJson(patchJson);
 patch.apply(user);`,
     compiledNote: 'JSON Patch is available through the runtime structural API.'
+  },
+  {
+    name: 'Modeling (OBNT)',
+    path: '/docs/modeling',
+    description: 'OBNT provides the shared structural model for SJF4J APIs, covering native POJOs, Maps, Lists, and extensible object types.',
+    runtime: `Object raw = Nodes.getInObject(user, "name");
+String name = Nodes.toString(raw);`,
+    compiledNote: 'The same object-based node model underpins the compiled APIs.'
   }
 ]
 </script>
