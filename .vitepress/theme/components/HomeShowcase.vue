@@ -104,15 +104,15 @@
   gap: clamp(24px, 3vw, 44px);
   max-width: 1400px;
   margin: 0 auto;
-  padding: 150px 0 135px;
+  padding: 120px 0 108px;
 }
 
-/* Keep the next section below the fold on desktop. */
+/* Keep the desktop hero spacious without occupying the full viewport. */
 @media (min-width: 1121px) {
   .home-showcase {
     box-sizing: border-box;
-    min-height: 100vh;
-    min-height: 100svh;
+    min-height: 80vh;
+    min-height: 80svh;
   }
 }
 
