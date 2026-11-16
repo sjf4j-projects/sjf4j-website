@@ -67,3 +67,18 @@ html:has(.VPHome) {
     grid-template-columns: 1fr;
   }
 }
+
+/* Compact, single-line index of homepage capabilities. */
+.VPHome .vp-doc .home-feature-list {
+  margin: 12px 0 0;
+  color: var(--vp-c-text-2);
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+@media (max-width: 960px) {
+  .VPHome .vp-doc .home-feature-list {
+    white-space: normal;
+  }
+}
