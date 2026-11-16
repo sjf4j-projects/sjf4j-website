@@ -52,6 +52,11 @@
   text-align: center;
 }
 
+.VPHome .vp-doc .home-explore-lead strong {
+  color: var(--vp-c-brand-1);
+  font-weight: 700;
+}
+
 /* Preserve smooth scrolling for feature deep links on the homepage only. */
 html:has(.VPHome) {
   scroll-behavior: smooth;
