@@ -10,7 +10,7 @@
       </p>
       <div class="actions">
         <a class="primary" href="/#explore-features">Get Started <span aria-hidden="true">→</span></a>
-        <a class="secondary" href="/docs/benchmarks"><span aria-hidden="true">⚡️</span> Benchmarks</a>
+        <a class="secondary" href="/docs/benchmarks"><span aria-hidden="true">⚡️</span> Compliance &amp; Benchmarks</a>
         <a
           class="secondary"
           href="https://github.com/sjf4j-projects/sjf4j"
