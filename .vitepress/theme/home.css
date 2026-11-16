@@ -9,3 +9,12 @@
 .VPNavBarTitle .logo-java-j {
   color: #e76f51;
 }
+
+/* Consistent, body-sized footer links for all homepage sections. */
+.VPHome .vp-doc a.home-learn-more,
+.VPHome .vp-doc a.home-learn-more:hover {
+  color: var(--vp-c-brand-1);
+  font-size: 16px;
+  font-weight: 400;
+  text-decoration: none;
+}
