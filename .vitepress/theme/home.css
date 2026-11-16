@@ -44,7 +44,7 @@
 }
 
 .VPHome .vp-doc .home-explore-lead {
-  max-width: 780px;
+  max-width: 1300px;
   margin: 0 auto 30px;
   color: var(--vp-c-text-2);
   font-size: 17px;
@@ -55,6 +55,13 @@
 .VPHome .vp-doc .home-explore-lead strong {
   color: var(--vp-c-brand-1);
   font-weight: 700;
+}
+
+/* Keep the introduction on one line on wide screens, without mobile overflow. */
+@media (min-width: 1280px) {
+  .VPHome .vp-doc .home-explore-lead {
+    white-space: nowrap;
+  }
 }
 
 /* Preserve smooth scrolling for feature deep links on the homepage only. */
