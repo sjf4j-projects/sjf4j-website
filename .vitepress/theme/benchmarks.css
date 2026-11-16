@@ -1,0 +1,75 @@
+/* The benchmark landing page is a concise technical overview, not a report dump. */
+@media (min-width: 960px) {
+  .VPDoc:has(.benchmark-highlights) .content {
+    max-width: 1120px;
+  }
+
+  .VPDoc:has(.benchmark-highlights) .content-container {
+    max-width: 900px;
+  }
+}
+
+.benchmark-lead {
+  margin: 8px 0 18px;
+  color: var(--vp-c-text-2);
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.benchmark-highlights {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 28px 0 20px;
+}
+
+.benchmark-highlight {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 18px 20px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 10px;
+}
+
+.benchmark-highlight-category {
+  color: var(--vp-c-text-2);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.benchmark-highlight strong {
+  margin: 8px 0 7px;
+  color: var(--vp-c-brand-1);
+  font-size: 32px;
+  font-weight: 650;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+}
+
+.benchmark-highlight small {
+  color: var(--vp-c-text-3);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.benchmark-caption {
+  margin: 5px 0 18px;
+  color: var(--vp-c-text-3);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+
+@media (max-width: 700px) {
+  .benchmark-highlights {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 460px) {
+  .benchmark-highlights {
+    grid-template-columns: 1fr;
+  }
+}
