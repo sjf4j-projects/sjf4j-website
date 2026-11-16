@@ -37,3 +37,19 @@
 .maven-release-inline img {
   max-width: none;
 }
+
+/* Make the homepage a continuous, whitespace-separated document. */
+.VPHome .vp-doc h2 {
+  border-top: none;
+}
+
+/* Smooth the Get Started jump to Explore Features on the homepage only. */
+html:has(.VPHome) {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:has(.VPHome) {
+    scroll-behavior: auto;
+  }
+}
