@@ -133,10 +133,10 @@ interface UserJdbcMapper {
     JdbcRowMapper<User> prepare(ResultSetMetaData metadata);
 }
 
-// map all rows to List
+// Convert all rows to List
 List<User> users = mapper.users(rs);
 
-// map one row to POJO
+// Convert one row to POJO
 JdbcRowMapper<User> rowMapper = mapper.prepare(rs.getMetaData());
 User user = rowMapper.map(rs);`
   },
@@ -295,13 +295,10 @@ onUnmounted(() => {
           :code="activeCapability.compiled"
         />
         <aside v-if="activeCapability.id === 'modeling'" class="modeling-info" aria-label="OBNT model overview">
-          <h4>Object-Based Node Tree (OBNT)</h4>
           <p>
-            OBNT is the unified structural model behind SJF4J's APIs. It enables
-            JSON-oriented operations directly on native Java objects without
-            requiring intermediate JSON trees.
+            <strong>Object-Based Node Tree (OBNT)</strong> is the unified structural model behind SJF4J's APIs.
+            It defines three kinds of nodes:
           </p>
-          <p>OBNT defines three kinds of nodes:</p>
           <table class="modeling-node-table">
             <thead>
               <tr><th>Node kind</th><th>Java representations</th></tr>
