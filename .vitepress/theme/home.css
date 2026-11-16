@@ -10,17 +10,22 @@
   color: #e76f51;
 }
 
-/* Use a subtle code-inspired type treatment for homepage section links. */
-.VPHome .vp-doc a.home-learn-more,
-.VPHome .vp-doc a.home-learn-more:hover {
+/* Match Learn more links to the hero feature links. */
+.VPHome .vp-doc a.home-learn-more {
   display: block;
   text-align: left;
   color: var(--vp-c-brand-1);
-  font-family: var(--vp-font-family-mono);
+  font-family: inherit;
   font-size: 16px;
-  font-weight: 500;
-  letter-spacing: -0.015em;
-  text-decoration: none;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-decoration: underline;
+  text-decoration-color: var(--vp-c-divider);
+  text-underline-offset: 2px;
+}
+
+.VPHome .vp-doc a.home-learn-more:hover {
+  text-decoration-color: currentColor;
 }
 
 /* Keep the Maven Central badge with its label, not on the next line. */
