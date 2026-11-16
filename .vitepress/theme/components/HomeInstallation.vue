@@ -2,8 +2,9 @@
 import { computed, onMounted, ref } from 'vue'
 import HomeCodePanel from './HomeCodePanel.vue'
 
-// Show {version} only if none of the Maven Central version sources can be reached.
-const version = ref('{version}')
+// Start with the last verified stable release so installation examples never show a placeholder.
+// Refresh from Maven Central at runtime, with GitHub Releases as a CORS-friendly fallback.
+const version = ref('1.5.1')
 
 function isRelease(value: unknown): value is string {
   return typeof value === 'string'
@@ -52,34 +53,100 @@ async function readBadgeVersion(): Promise<string> {
   return release
 }
 
+async function readGitHubRelease(): Promise<string> {
+  const response = await fetch('https://api.github.com/repos/sjf4j-projects/sjf4j/releases/latest', {
+    signal: AbortSignal.timeout(5000)
+  })
+  if (!response.ok) throw new Error(`GitHub releases returned HTTP ${response.status}`)
+
+  const data = await response.json()
+  const release = data?.tag_name?.replace(/^v/, '')
+  if (!isRelease(release)) throw new Error('Missing stable version in latest GitHub release')
+  return release
+}
+
 onMounted(async () => {
   // Repositories and search indexes may be cached at different ages.
   // Resolve concurrently and prefer the highest valid stable Maven Central version.
   const results = await Promise.allSettled([
     readRepositoryMetadata(),
     readSearchIndex(),
-    readBadgeVersion()
+    readBadgeVersion(),
+    readGitHubRelease()
   ])
-  const versions = results.flatMap(result => result.status === 'fulfilled' ? [result.value] : [])
+  const resolved = results.flatMap(result => result.status === 'fulfilled' ? [result.value] : [])
+  const versions = [version.value, ...resolved]
 
-  if (versions.length) {
-    version.value = versions.sort((a, b) => b.localeCompare(a, undefined, { numeric: true }))[0]
-    return
-  }
+  version.value = versions.sort((a, b) => b.localeCompare(a, undefined, { numeric: true }))[0]
+  if (resolved.length) return
 
-  // Keep the placeholder only when every source fails.
+  // Preserve the last verified release if all live lookups are unavailable.
   console.warn(
-    'SJF4J: Unable to load the latest org.sjf4j:sjf4j release from Maven Central.',
+    'SJF4J: Unable to refresh the latest release; using the last verified version.',
     ...results.filter(result => result.status === 'rejected').map(result => result.reason)
   )
 })
 
-const gradle = computed(() => `implementation("org.sjf4j:sjf4j:${version.value}")`)
-const maven = computed(() => `<dependency>
-    <groupId>org.sjf4j</groupId>
-    <artifactId>sjf4j</artifactId>
-    <version>${version.value}</version>
-</dependency>`)
+const gradle = computed(() => `// Core structural processing API
+implementation("org.sjf4j:sjf4j-core:${version.value}")
+
+// Optional: Compile-time APIs
+annotationProcessor("org.sjf4j:sjf4j-processor:${version.value}")
+
+// Optional: JSON Schema validation
+implementation("org.sjf4j:sjf4j-schema:${version.value}")
+
+// Optional: Backend and its dependency (Jackson 2.x example) 
+implementation("org.sjf4j:sjf4j-backend-jackson2:${version.value}")
+implementation("com.fasterxml.jackson.core:jackson-databind:2.22.3")`)
+const maven = computed(() => `<dependencies>
+    <!-- Core structural processing API -->
+    <dependency>
+        <groupId>org.sjf4j</groupId>
+        <artifactId>sjf4j-core</artifactId>
+        <version>${version.value}</version>
+    </dependency>
+
+    <!-- Optional: JSON Schema validation -->
+    <dependency>
+        <groupId>org.sjf4j</groupId>
+        <artifactId>sjf4j-schema</artifactId>
+        <version>${version.value}</version>
+    </dependency>
+
+    <!-- Optional: Backend and its dependency (Jackson 2.x example) -->
+    <dependency>
+        <groupId>org.sjf4j</groupId>
+        <artifactId>sjf4j-backend-jackson2</artifactId>
+        <version>${version.value}</version>
+    </dependency>
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.22.3</version>
+    </dependency>
+</dependencies>
+
+<!-- Optional: Compile-time APIs -->
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.13.0</version>
+            <configuration>
+                <annotationProcessorPaths>
+                    <path>
+                        <groupId>org.sjf4j</groupId>
+                        <artifactId>sjf4j-processor</artifactId>
+                        <version>${version.value}</version>
+                    </path>
+                </annotationProcessorPaths>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>`)
+
 </script>
 
 <template>
@@ -96,6 +163,17 @@ const maven = computed(() => `<dependency>
   gap: 56px;
   margin: 18px 0;
 }
+
+/* Match the code viewport to the 12-line Gradle example; scroll longer Maven XML. */
+.installation-grid :deep(.home-code-panel) {
+  height: 332px;
+}
+
+.installation-grid :deep(.home-code-panel pre) {
+  min-height: 0;
+  overflow: auto;
+}
+
 
 @media (max-width: 720px) {
   .installation-grid {
