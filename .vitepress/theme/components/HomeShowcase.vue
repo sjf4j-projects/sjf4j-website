@@ -253,6 +253,14 @@
   padding-top: 27px;
 }
 
+.feature-panel:nth-child(odd) {
+  transform: translateX(-12px);
+}
+
+.feature-panel:nth-child(even) {
+  transform: translateX(12px);
+}
+
 .feature-panel:last-child {
   padding-bottom: 0;
 }
@@ -299,6 +307,12 @@
 
   .feature-panels {
     max-width: 380px;
+  }
+}
+
+@media (max-width: 480px) {
+  .feature-panel {
+    transform: none;
   }
 }
 
