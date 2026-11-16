@@ -151,7 +151,6 @@ patch.apply(user);`,
 }
 
 .capability-learn-more {
-  display: inline-block;
   margin-top: 14px;
 }
 

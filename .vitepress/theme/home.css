@@ -13,8 +13,25 @@
 /* Consistent, body-sized footer links for all homepage sections. */
 .VPHome .vp-doc a.home-learn-more,
 .VPHome .vp-doc a.home-learn-more:hover {
+  display: block;
+  text-align: right;
   color: var(--vp-c-brand-1);
   font-size: 16px;
   font-weight: 400;
   text-decoration: none;
+}
+
+/* Keep the Maven Central badge with its label, not on the next line. */
+.maven-release-inline {
+  white-space: nowrap;
+}
+
+.maven-release-inline a,
+.maven-release-inline img {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.maven-release-inline img {
+  max-width: none;
 }
