@@ -82,7 +82,7 @@ Configure the annotation processor with `annotationProcessor("org.sjf4j:sjf4j-pr
 
 <a class="home-learn-more" href="/docs/compiled">Learn more → Compiled APIs</a>
 
-## Compliance & Benchmarks
+## Benchmarks
 
 SJF4J's performance and standards compliance are evaluated through independent comparisons and [JMH](https://github.com/openjdk/jmh) benchmarks.
 
@@ -108,7 +108,7 @@ SJF4J's performance and standards compliance are evaluated through independent c
 - [JDBC Mapping Full Benchmarks](/docs/performance/jdbc-mapping) — Spring JDBC and MyBatis vs. CompiledJdbcMapper.
 
 
-<a class="home-learn-more" href="/docs/benchmarks">Learn more → Compliance &amp; Benchmarks</a>
+<a class="home-learn-more" href="/docs/benchmarks">Learn more → Benchmarks</a>
 
 ## Contributing
 

@@ -9,7 +9,7 @@
       </p>
       <div class="actions">
         <a class="primary" href="/#explore-features">Get Started <span aria-hidden="true">→</span></a>
-        <a class="secondary" href="/docs/benchmarks"><span aria-hidden="true">⚡️</span> Compliance &amp; Benchmarks</a>
+        <a class="secondary" href="/docs/benchmarks"><span aria-hidden="true">⚡️</span> Benchmarks</a>
         <a
           class="secondary"
           href="https://github.com/sjf4j-projects/sjf4j"
@@ -99,7 +99,7 @@
 .home-showcase {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-  align-items: center;
+  align-items: end;
   gap: clamp(24px, 3vw, 44px);
   max-width: 1400px;
   margin: 0 auto;
@@ -232,7 +232,7 @@
 .feature-panels {
   display: flex;
   flex-direction: column;
-  align-self: center;
+  align-self: end;
   justify-self: center;
   width: 100%;
   max-width: 380px;
@@ -289,6 +289,7 @@
 @media (max-width: 1120px) {
   .home-showcase {
     grid-template-columns: 1fr;
+    align-items: center;
     gap: 28px;
     padding: 30px 0 16px;
   }
@@ -298,6 +299,7 @@
   }
 
   .feature-panels {
+    align-self: center;
     max-width: 380px;
   }
 }
