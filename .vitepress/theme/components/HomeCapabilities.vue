@@ -410,7 +410,7 @@ onUnmounted(() => {
 
 .capability {
   box-sizing: border-box;
-  height: 620px;
+  height: 560px;
   overflow-y: auto;
   scrollbar-gutter: stable;
   padding: 20px 20px 24px;
