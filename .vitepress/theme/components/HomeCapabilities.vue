@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import HomeCodePanel from './HomeCodePanel.vue'
 
+type DescriptionPart = string | { text: string; href: string }
+
 interface Capability {
+  id: string
   name: string
   path: string
-  description: string
+  description: DescriptionPart[]
   runtime?: string
   compiled?: string
   runtimeNote?: string
@@ -13,9 +16,18 @@ interface Capability {
 
 const capabilities: Capability[] = [
   {
+    id: 'binding',
     name: 'Binding',
     path: '/docs/binding',
-    description: 'Unified data binding across JSON, YAML, and Java Properties, supporting POJOs, Maps, Lists, generic types, and custom values.',
+    description: [
+      'Unified data binding across ',
+      { text: 'JSON', href: 'https://www.rfc-editor.org/info/rfc8259' },
+      ', ',
+      { text: 'YAML', href: 'https://yaml.org/spec/1.2.2/' },
+      ', and ',
+      { text: 'Java Properties', href: 'https://docs.oracle.com/javase/8/docs/api/java/util/Properties.html' },
+      ', supporting POJOs, Maps, Lists, generic types, and custom values.'
+    ],
     runtime: `Sjf4j sjf4j = new Sjf4j();
 
 User user = sjf4j.fromJson(json, User.class);
@@ -26,9 +38,16 @@ interface UserJsonBinder {
 }`
   },
   {
+    id: 'navigating',
     name: 'Navigating',
     path: '/docs/navigating',
-    description: 'Query and modify Java object graphs with JSONPath (RFC 9535) or JSON Pointer (RFC 6901), without intermediate JSON trees.',
+    description: [
+      'Query and modify Java object graphs with ',
+      { text: 'JSONPath (RFC 9535)', href: 'https://www.rfc-editor.org/info/rfc9535' },
+      ' or ',
+      { text: 'JSON Pointer (RFC 6901)', href: 'https://www.rfc-editor.org/info/rfc6901' },
+      ', without intermediate JSON trees.'
+    ],
     runtime: `JsonPath path = JsonPath.parse("$.address.city");
 
 String city = path.getString(user); // Read a property
@@ -43,9 +62,14 @@ interface UserNavigator {
 }`
   },
   {
+    id: 'validating',
     name: 'Validating',
     path: '/docs/validating',
-    description: 'Validate Java objects directly against JSON Schema (Draft 2020-12, 2019-09, and 7), without constructing JSON trees.',
+    description: [
+      'Validate Java objects directly against ',
+      { text: 'JSON Schema', href: 'https://json-schema.org/' },
+      ' (Draft 2020-12, 2019-09, and 7), without constructing JSON trees.'
+    ],
     runtime: `JsonSchema schema = JsonSchema.fromJson(schemaJson);
 ValidationResult result =
         schema.createPlan().validate(user);`,
@@ -56,9 +80,12 @@ interface UserValidator {
 }`
   },
   {
+    id: 'object-mapping',
     name: 'Object Mapping',
     path: '/docs/mapping',
-    description: 'Convert between Maps, POJOs, values, and nested Java structures; compile-time mapping supports property renaming and custom transformations.',
+    description: [
+      'Convert between Maps, POJOs, values, and nested Java structures; compile-time mapping supports property renaming and custom transformations.'
+    ],
     runtime: `AnotherUser dto =
         sjf4j.convert(user, AnotherUser.class);`,
     compiled: `@CompiledMapper
@@ -68,9 +95,12 @@ interface UserMapper {
 }`
   },
   {
+    id: 'jdbc-result-mapping',
     name: 'JDBC Result Mapping',
     path: '/docs/jdbc-mapping',
-    description: 'Generate direct mappings from JDBC ResultSet rows to Java objects with @CompiledJdbcMapper.',
+    description: [
+      'Generate direct mappings from JDBC ResultSet rows to Java objects with @CompiledJdbcMapper.'
+    ],
     runtimeNote: 'JDBC Result Mapping is provided as a compile-time API.',
     compiled: `@CompiledJdbcMapper
 interface UserJdbcMapper {
@@ -78,17 +108,27 @@ interface UserJdbcMapper {
 }`
   },
   {
+    id: 'patching',
     name: 'Patching',
     path: '/docs/patching',
-    description: 'Apply JSON Patch (RFC 6902), JSON Merge Patch (RFC 7386), and indexed merge operations directly to Java object graphs.',
+    description: [
+      'Apply ',
+      { text: 'JSON Patch (RFC 6902)', href: 'https://www.rfc-editor.org/info/rfc6902' },
+      ', ',
+      { text: 'JSON Merge Patch (RFC 7386)', href: 'https://www.rfc-editor.org/info/rfc7386' },
+      ', and indexed merge operations directly to Java object graphs.'
+    ],
     runtime: `JsonPatch patch = JsonPatch.fromJson(patchJson);
 patch.apply(user);`,
     compiledNote: 'JSON Patch is available through the runtime structural API.'
   },
   {
+    id: 'modeling',
     name: 'Modeling (OBNT)',
     path: '/docs/modeling',
-    description: 'OBNT provides the shared structural model for SJF4J APIs, covering native POJOs, Maps, Lists, and extensible object types.',
+    description: [
+      'OBNT provides the shared structural model for SJF4J APIs, covering native POJOs, Maps, Lists, and extensible object types.'
+    ],
     runtime: `Object raw = Nodes.getInObject(user, "name");
 String name = Nodes.toString(raw);`,
     compiledNote: 'The same object-based node model underpins the compiled APIs.'
@@ -98,11 +138,16 @@ String name = Nodes.toString(raw);`,
 
 <template>
   <div class="home-capabilities">
-    <section v-for="item in capabilities" :key="item.name" class="capability">
+    <section v-for="item in capabilities" :id="item.id" :key="item.id" class="capability">
       <div class="capability-heading">
         <div>
           <h3>{{ item.name }}</h3>
-          <p>{{ item.description }}</p>
+          <p>
+            <template v-for="(part, index) in item.description" :key="index">
+              <template v-if="typeof part === 'string'">{{ part }}</template>
+              <a v-else :href="part.href" target="_blank" rel="noopener noreferrer">{{ part.text }}</a>
+            </template>
+          </p>
         </div>
       </div>
       <div class="capability-columns">
@@ -123,6 +168,7 @@ String name = Nodes.toString(raw);`,
 
 .capability {
   padding: 23px 0 26px;
+  scroll-margin-top: 90px;
 }
 
 .capability:first-child {
@@ -151,6 +197,17 @@ String name = Nodes.toString(raw);`,
   color: var(--vp-c-text-2);
   font-size: 16px;
   line-height: 1.55;
+}
+
+.capability-heading p a {
+  color: var(--vp-c-brand-1);
+  text-decoration: underline;
+  text-decoration-color: var(--vp-c-divider);
+  text-underline-offset: 2px;
+}
+
+.capability-heading p a:hover {
+  text-decoration-color: currentColor;
 }
 
 .capability-learn-more {
