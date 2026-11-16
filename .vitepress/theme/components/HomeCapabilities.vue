@@ -119,7 +119,6 @@ patch.apply(user);`,
 
 .capability {
   padding: 23px 0 26px;
-  border-bottom: 1px solid var(--vp-c-divider);
 }
 
 .capability:first-child {
