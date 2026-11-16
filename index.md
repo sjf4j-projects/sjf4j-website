@@ -16,8 +16,32 @@ interface UserNavigator {
     String getCity(User user);
 }`
 
-const compiledUsageCode = `UserNavigator navigator = CompiledInstances.create(UserNavigator.class);
-String city = navigator.getCity(user);`
+const compiledGeneratedCode = `// Simplified illustration of generated code
+public final class UserNavigator_Impl implements UserNavigator {
+
+    @Override
+    public String getCity(User user) {
+        if (user == null) return null;
+        Address address = user.address;
+        return address == null ? null : address.city;
+    }
+}`
+
+const compiledGradlePath = `build/
+└── generated/sources/annotationProcessor/
+    └── java/main/com/example/
+        └── UserNavigator_Impl.java`
+
+const compiledMavenPath = `target/
+└── generated-sources/annotations/
+    └── com/example/
+        └── UserNavigator_Impl.java`
+
+const compiledUsageCode = `// Declare inside UserNavigator:
+UserNavigator INSTANCE = CompiledInstances.create(UserNavigator.class);
+
+// Then call from application code:
+String city = UserNavigator.INSTANCE.getCity(user);`
 </script>
 
 <HomeShowcase />
@@ -40,13 +64,21 @@ Use flexible **Runtime APIs** for dynamic operations or optimized **Compiled API
 
 ## Enjoy Compiled APIs
 
-Compile-time annotation processing generates readable Java implementations that the JVM can optimize like handwritten code. Declare an interface:
+SJF4J's annotation processor turns annotated interfaces into readable, debuggable Java implementations that the JVM can optimize like handwritten code. Define an interface and see the code generated at compile time:
 
 <div class="home-compiled-example">
-  <HomeCodePanel title="Compiled Navigator" :code="compiledNavigatorCode" />
+  <HomeCodePanel title="Define Interface" :code="compiledNavigatorCode" />
+  <HomeCodePanel title="Generated Code" :code="compiledGeneratedCode" />
 </div>
 
-SJF4J generates `UserNavigator_Impl` during compilation. Invoke it through `CompiledInstances`:
+Generated classes use the `_Impl` suffix. Their Java sources are written to the standard annotation-processing output directory for each build tool:
+
+<div class="home-compiled-paths">
+  <HomeCodePanel title="Gradle" language="Text" :code="compiledGradlePath" />
+  <HomeCodePanel title="Maven" language="Text" :code="compiledMavenPath" />
+</div>
+
+Enable the processor with `annotationProcessor("org.sjf4j:sjf4j-processor:{version}")` in Gradle (or the Maven compiler plugin configuration shown in [Installation](/docs/installation)). Use `CompiledInstances.create()` to instantiate the generated implementation. A static `INSTANCE` field on the interface makes repeated use convenient:
 
 <div class="home-compiled-example">
   <HomeCodePanel title="Using Compiled APIs" :code="compiledUsageCode" />
