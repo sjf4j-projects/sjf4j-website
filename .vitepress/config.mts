@@ -14,13 +14,13 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Docs', link: '/docs/getting_started' },
-      { text: 'Benchmarks', link: '/docs/benchmarks' },
+      { text: 'Compliance & Benchmarks', link: '/docs/benchmarks' },
       { text: 'Generator', link: '/generator' },
     ],
     sidebar: {
       '/docs/performance/': [
         {
-          text: 'Benchmarks',
+          text: 'Compliance & Benchmarks',
           items: [
             { text: 'Overview', link: '/docs/benchmarks' },
             { text: 'JSON Binding', link: '/docs/performance/binding' },
@@ -67,7 +67,7 @@ export default defineConfig({
         {
           text: 'Reference',
           items: [
-            { text: 'Benchmarks', link: '/docs/benchmarks' },
+            { text: 'Compliance & Benchmarks', link: '/docs/benchmarks' },
             { text: 'Javadocs', link: 'https://javadoc.io/doc/org.sjf4j/sjf4j-core' },
             { text: 'FAQ', link: '/docs/faq' },
             { text: 'Changelog', link: '/docs/changelog' },
