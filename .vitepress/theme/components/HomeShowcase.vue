@@ -292,7 +292,7 @@
 .feature-panel p {
   margin: 0;
   color: var(--vp-c-text-2);
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.7;
 }
 
