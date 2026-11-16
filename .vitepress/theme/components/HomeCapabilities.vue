@@ -29,12 +29,33 @@ const capabilities: Capability[] = [
       {
         "title": "Runtime API",
         "context": "Read typed objects, modify them normally, and serialize to another format.",
-        "code": "Sjf4j sjf4j = new Sjf4j();\n\n// User is an ordinary POJO\nUser user = sjf4j.fromJson(json, User.class);\nuser.address.city = \"Chongqing\";\n\nString updatedJson = sjf4j.toJsonString(user);\nString yaml = sjf4j.toYamlString(user);\n\n// Generic collections are supported\nList<User> users = sjf4j.fromJson(\n    jsonArray, new TypeReference<List<User>>() {});"
+        "code": String.raw`Sjf4j sjf4j = new Sjf4j();
+
+// User is an ordinary POJO
+User user = sjf4j.fromJson(json, User.class);
+user.address.city = "Chongqing";
+
+String updatedJson = sjf4j.toJsonString(user);
+String yaml = sjf4j.toYamlString(user);
+
+// Generic collections are supported
+List<User> users = sjf4j.fromJson(
+    jsonArray, new TypeReference<List<User>>() {});`
       },
       {
         "title": "Compiled API",
         "context": "Declare type-safe read/write operations; SJF4J generates the implementation.",
-        "code": "@CompiledBinder\ninterface UserBinder {\n    @Read User read(String json);\n    @Write String write(User user);\n}\n\nUserBinder binder =\n    CompiledInstances.create(UserBinder.class);\n\nUser user = binder.read(json);\nString output = binder.write(user);"
+        "code": String.raw`@CompiledBinder
+interface UserBinder {
+    @Read User read(String json);
+    @Write String write(User user);
+}
+
+UserBinder binder =
+    CompiledInstances.create(UserBinder.class);
+
+User user = binder.read(json);
+String output = binder.write(user);`
       }
     ],
     "more": [
@@ -52,12 +73,32 @@ const capabilities: Capability[] = [
       {
         "title": "Runtime API",
         "context": "Read and update a nested POJO property using one reusable path.",
-        "code": "JsonPath cityPath =\n    JsonPath.parse(\"$.address.city\");\n\nString oldCity = cityPath.getString(user);\n\n// Modifies user.address.city in place\ncityPath.put(user, \"Chongqing\");\n\nString newCity = cityPath.getString(user);"
+        "code": String.raw`JsonPath cityPath =
+    JsonPath.parse("$.address.city");
+
+String oldCity = cityPath.getString(user);
+
+// Modifies user.address.city in place
+cityPath.put(user, "Chongqing");
+
+String newCity = cityPath.getString(user);`
       },
       {
         "title": "Compiled API",
         "context": "Generate direct typed access to the same path.",
-        "code": "@CompiledNavigator\ninterface UserNavigator {\n    @GetByPath(\"$.address.city\")\n    String getCity(User user);\n\n    @PutByPath(\"$.address.city\")\n    String setCity(User user, String city);\n}\n\nUserNavigator nav =\n    CompiledInstances.create(UserNavigator.class);\nnav.setCity(user, \"Chongqing\");\nString city = nav.getCity(user);"
+        "code": String.raw`@CompiledNavigator
+interface UserNavigator {
+    @GetByPath("$.address.city")
+    String getCity(User user);
+
+    @PutByPath("$.address.city")
+    String setCity(User user, String city);
+}
+
+UserNavigator nav =
+    CompiledInstances.create(UserNavigator.class);
+nav.setCity(user, "Chongqing");
+String city = nav.getCity(user);`
       }
     ],
     "more": [
@@ -75,12 +116,33 @@ const capabilities: Capability[] = [
       {
         "title": "Runtime API",
         "context": "Compile a schema into a reusable plan, then validate the object.",
-        "code": "// Schema document supplied as a String\nString rules = \"{\\\"type\\\":\\\"object\\\",\"\n    + \"\\\"properties\\\":{\\\"age\\\":{\"\n    + \"\\\"type\\\":\\\"integer\\\",\\\"minimum\\\":0}},\"\n    + \"\\\"required\\\":[\\\"age\\\"]}\";\n\nJsonSchema schema = JsonSchema.fromJson(rules);\nSchemaPlan plan = schema.createPlan();\n\nValidationResult result = plan.validate(user);"
+        "code": String.raw`// Schema document supplied as a String
+String rules = "{\"type\":\"object\","
+    + "\"properties\":{\"age\":{"
+    + "\"type\":\"integer\",\"minimum\":0}},"
+    + "\"required\":[\"age\"]}";
+
+JsonSchema schema = JsonSchema.fromJson(rules);
+SchemaPlan plan = schema.createPlan();
+
+ValidationResult result = plan.validate(user);`
       },
       {
         "title": "Compiled API",
         "context": "Refer to a schema file during annotation processing.",
-        "code": "// src/main/resources/schemas/user.json\n@CompiledValidator\ninterface UserValidator {\n    @ValidJsonSchema(ref = \"classpath:/schemas/user.json\")\n    boolean isValid(User user);\n\n    @ValidJsonSchema(ref = \"classpath:/schemas/user.json\")\n    void requireValid(User user);\n}\n\nUserValidator validator =\n    CompiledInstances.create(UserValidator.class);\nvalidator.requireValid(user);"
+        "code": String.raw`// src/main/resources/schemas/user.json
+@CompiledValidator
+interface UserValidator {
+    @ValidJsonSchema(ref = "classpath:/schemas/user.json")
+    boolean isValid(User user);
+
+    @ValidJsonSchema(ref = "classpath:/schemas/user.json")
+    void requireValid(User user);
+}
+
+UserValidator validator =
+    CompiledInstances.create(UserValidator.class);
+validator.requireValid(user);`
       }
     ],
     "more": [
@@ -98,12 +160,34 @@ const capabilities: Capability[] = [
       {
         "title": "Runtime API",
         "context": "Convert maps and POJOs with compatible field names.",
-        "code": "Map<String, Object> data = new HashMap<>();\ndata.put(\"name\", \"Alice\");\ndata.put(\"age\", 18);\n\nSjf4j sjf4j = new Sjf4j();\nUser user = sjf4j.convert(data, User.class);\n\n// UserSummary has matching property names\nUserSummary summary =\n    sjf4j.convert(user, UserSummary.class);"
+        "code": String.raw`Map<String, Object> data = new HashMap<>();
+data.put("name", "Alice");
+data.put("age", 18);
+
+Sjf4j sjf4j = new Sjf4j();
+User user = sjf4j.convert(data, User.class);
+
+// UserSummary has matching property names
+UserSummary summary =
+    sjf4j.convert(user, UserSummary.class);`
       },
       {
         "title": "Compiled API",
         "context": "Rename a field while the other matching fields map automatically.",
-        "code": "class UserDto {\n    public String fullName;\n    public int age;\n}\n\n@CompiledMapper\ninterface UserMapper {\n    @Mapping(target = \"fullName\", source = \"name\")\n    UserDto toDto(User user);\n}\n\nUserMapper mapper =\n    CompiledInstances.create(UserMapper.class);\nUserDto dto = mapper.toDto(user);"
+        "code": String.raw`class UserDto {
+    public String fullName;
+    public int age;
+}
+
+@CompiledMapper
+interface UserMapper {
+    @Mapping(target = "fullName", source = "name")
+    UserDto toDto(User user);
+}
+
+UserMapper mapper =
+    CompiledInstances.create(UserMapper.class);
+UserDto dto = mapper.toDto(user);`
       }
     ],
     "more": [
@@ -121,12 +205,34 @@ const capabilities: Capability[] = [
       {
         "title": "Compiled List Mapping",
         "context": "Convert every row into a Java object without hand-written column extraction.",
-        "code": "@CompiledJdbcMapper\ninterface UserRows {\n    List<User> readAll(ResultSet rs);\n}\n\nUserRows mapper =\n    CompiledInstances.create(UserRows.class);\n\n// ResultSet is initially before the first row\nList<User> users = mapper.readAll(rs);"
+        "code": String.raw`@CompiledJdbcMapper
+interface UserRows {
+    List<User> readAll(ResultSet rs);
+}
+
+UserRows mapper =
+    CompiledInstances.create(UserRows.class);
+
+// ResultSet is initially before the first row
+List<User> users = mapper.readAll(rs);`
       },
       {
         "title": "Compiled Row Mapping",
         "context": "Prepare the column layout once, then map already-positioned rows.",
-        "code": "@CompiledJdbcMapper\ninterface UserRows {\n    JdbcRowMapper<User> prepare(ResultSetMetaData meta);\n}\n\nUserRows mapper =\n    CompiledInstances.create(UserRows.class);\nJdbcRowMapper<User> rowMapper =\n    mapper.prepare(rs.getMetaData());\n\nList<User> users = new ArrayList<>();\nwhile (rs.next()) {\n    users.add(rowMapper.map(rs));\n}"
+        "code": String.raw`@CompiledJdbcMapper
+interface UserRows {
+    JdbcRowMapper<User> prepare(ResultSetMetaData meta);
+}
+
+UserRows mapper =
+    CompiledInstances.create(UserRows.class);
+JdbcRowMapper<User> rowMapper =
+    mapper.prepare(rs.getMetaData());
+
+List<User> users = new ArrayList<>();
+while (rs.next()) {
+    users.add(rowMapper.map(rs));
+}`
       }
     ],
     "more": [
@@ -144,12 +250,27 @@ const capabilities: Capability[] = [
       {
         "title": "JSON Patch · RFC 6902",
         "context": "Apply a precise replace operation to a POJO; the returned root may change.",
-        "code": "JsonPatch patch = JsonPatch.fromJson(\n    \"[{\\\"op\\\":\\\"replace\\\",\\\"path\\\":\\\"/name\\\",\"\n    + \"\\\"value\\\":\\\"Alice Zhang\\\"}]\");\n\nUser updated = (User) patch.apply(user);\n\n// Derive an operation list from two objects\nJsonPatch changes =\n    JsonPatch.diff(before, updated);"
+        "code": String.raw`JsonPatch patch = JsonPatch.fromJson(
+    "[{\"op\":\"replace\",\"path\":\"/name\","
+    + "\"value\":\"Alice Zhang\"}]");
+
+User updated = (User) patch.apply(user);
+
+`
       },
       {
         "title": "JSON Merge Patch · RFC 7386",
         "context": "Update a mutable Map; a null patch member removes its key.",
-        "code": "Map<String, Object> settings = new HashMap<>();\nsettings.put(\"theme\", \"light\");\nsettings.put(\"legacy\", true);\n\nMap<String, Object> changes = new HashMap<>();\nchanges.put(\"theme\", \"dark\");\nchanges.put(\"legacy\", null);\n\nPatches.mergePatch(settings, changes);\n// settings now contains theme=dark"
+        "code": String.raw`Map<String, Object> settings = new HashMap<>();
+settings.put("theme", "light");
+settings.put("legacy", true);
+
+Map<String, Object> changes = new HashMap<>();
+changes.put("theme", "dark");
+changes.put("legacy", null);
+
+Patches.mergePatch(settings, changes);
+// settings now contains theme=dark`
       }
     ],
     "more": [
@@ -167,12 +288,25 @@ const capabilities: Capability[] = [
       {
         "title": "Access and traverse",
         "context": "Use the same structural helpers on POJOs and map-like structures.",
-        "code": "String name = Nodes.toString(\n    Nodes.getInObject(user, \"name\"));\n\nNodes.forEachObject(user, (key, value) ->\n    System.out.println(key + \" = \" + value));\n\n// Modifies the existing Java object\nNodes.putInObject(user, \"name\", \"Alice Zhang\");"
+        "code": String.raw`String name = Nodes.toString(
+    Nodes.getInObject(user, "name"));
+
+Nodes.forEachObject(user, (key, value) ->
+    System.out.println(key + " = " + value));
+
+// Modifies the existing Java object
+Nodes.putInObject(user, "name", "Alice Zhang");`
       },
       {
         "title": "Compare and inspect",
         "context": "Compare JSON-shaped structures, even when their Java types differ.",
-        "code": "Map<String, Object> userMap =\n    Nodes.toMap(user);\n\nboolean same = Nodes.equals(user, userMap);\n\nString debug = Nodes.inspect(user);\nSystem.out.println(debug);"
+        "code": String.raw`Map<String, Object> userMap =
+    Nodes.toMap(user);
+
+boolean same = Nodes.equals(user, userMap);
+
+String debug = Nodes.inspect(user);
+System.out.println(debug);`
       }
     ],
     "more": [
@@ -278,10 +412,7 @@ onUnmounted(() => {
 
       <div class="capability-examples">
         <article v-for="example in activeCapability.examples" :key="example.title" class="capability-example">
-          <div class="example-intro">
-            <h4>{{ example.title }}</h4>
-            <p>{{ example.context }}</p>
-          </div>
+          <p class="example-intro">{{ example.context }}</p>
           <HomeCodePanel :title="example.title" :code="example.code" />
         </article>
       </div>
@@ -417,19 +548,8 @@ onUnmounted(() => {
 }
 
 .example-intro {
-  min-height: 84px;
-  margin-bottom: 12px;
-}
-
-.example-intro h4 {
-  margin: 0;
-  color: var(--vp-c-text-1);
-  font-size: 17px;
-  font-weight: 650;
-}
-
-.example-intro p {
-  margin: 6px 0 0;
+  min-height: 50px;
+  margin: 0 0 12px;
   color: var(--vp-c-text-2);
   font-size: 14px;
   line-height: 1.55;
