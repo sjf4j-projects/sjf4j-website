@@ -38,11 +38,6 @@
   max-width: none;
 }
 
-/* Make the homepage a continuous, whitespace-separated document. */
-.VPHome .vp-doc h2 {
-  border-top: none;
-}
-
 /* Smooth the Get Started jump to Explore Features on the homepage only. */
 html:has(.VPHome) {
   scroll-behavior: smooth;
@@ -51,5 +46,19 @@ html:has(.VPHome) {
 @media (prefers-reduced-motion: reduce) {
   html:has(.VPHome) {
     scroll-behavior: auto;
+  }
+}
+
+/* Align compiled examples with the left column of the two-column examples above. */
+.VPHome .vp-doc .home-compiled-example {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 56px;
+  margin: 16px 0 20px;
+}
+
+@media (max-width: 800px) {
+  .VPHome .vp-doc .home-compiled-example {
+    grid-template-columns: 1fr;
   }
 }
