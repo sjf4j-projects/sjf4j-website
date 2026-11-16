@@ -103,7 +103,7 @@
   gap: clamp(24px, 3vw, 44px);
   max-width: 1400px;
   margin: 0 auto;
-  padding: 90px 0 75px;
+  padding: 150px 0 135px;
 }
 
 .hero-intro {
@@ -291,7 +291,7 @@
     grid-template-columns: 1fr;
     align-items: center;
     gap: 28px;
-    padding: 48px 0 28px;
+    padding: 64px 0 44px;
   }
 
   .hero-intro h1 {
