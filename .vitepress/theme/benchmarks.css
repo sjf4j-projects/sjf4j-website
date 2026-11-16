@@ -61,11 +61,6 @@
   line-height: 1.6;
 }
 
-.benchmark-report-link {
-  display: inline-block;
-  margin: 4px 0 14px;
-  font-weight: 550;
-}
 
 @media (max-width: 700px) {
   .benchmark-highlights {
