@@ -88,7 +88,7 @@ patch.apply(user);`,
   {
     name: 'Modeling (OBNT)',
     path: '/docs/modeling',
-    description: 'OBNT is the shared structural model behind SJF4J's APIs, supporting native POJOs, Maps, Lists, and extensible object types.',
+    description: 'OBNT provides the shared structural model for SJF4J APIs, covering native POJOs, Maps, Lists, and extensible object types.',
     runtime: `Object raw = Nodes.getInObject(user, "name");
 String name = Nodes.toString(raw);`,
     compiledNote: 'The same object-based node model underpins the compiled APIs.'
