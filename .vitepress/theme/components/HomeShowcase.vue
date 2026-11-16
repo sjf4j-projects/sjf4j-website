@@ -241,7 +241,7 @@
 
 .feature-panel {
   min-width: 0;
-  padding: 3px 0 27px;
+  padding: 3px 0 20px;
   border: 0;
   border-radius: 0;
   background: transparent;
@@ -250,15 +250,15 @@
 }
 
 .feature-panel + .feature-panel {
-  padding-top: 27px;
+  padding-top: 20px;
 }
 
 .feature-panel:nth-child(odd) {
-  transform: translateX(-12px);
+  transform: translateX(20px);
 }
 
 .feature-panel:nth-child(even) {
-  transform: translateX(12px);
+  transform: translateX(-20px);
 }
 
 .feature-panel:last-child {
