@@ -100,7 +100,7 @@
 .home-showcase {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-  align-items: end;
+  align-items: center;
   gap: clamp(24px, 3vw, 44px);
   max-width: 1400px;
   margin: 0 auto;
@@ -261,7 +261,7 @@
 .feature-panels {
   display: flex;
   flex-direction: column;
-  align-self: end;
+  align-self: center;
   justify-self: center;
   width: 100%;
   max-width: 380px;
