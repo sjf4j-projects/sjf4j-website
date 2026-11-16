@@ -272,15 +272,20 @@ onUnmounted(() => {
   max-width: 100%;
   margin: 0;
   padding: 0 12px;
-  border-bottom: 1px solid var(--vp-c-divider);
-  background: transparent;
+  border-bottom: 0;
+  /* Divider is a background line so the selected tab can cover its segment. */
+  background: linear-gradient(
+    to bottom,
+    transparent calc(100% - 1px),
+    var(--vp-c-divider) calc(100% - 1px)
+  );
   scrollbar-width: thin;
 }
 
 .feature-tabs button {
   position: relative;
   flex: 0 0 auto;
-  margin: 0 0 -1px;
+  margin: 0;
   padding: 11px 15px 12px;
   border: 1px solid transparent;
   border-radius: 8px 8px 0 0;
@@ -297,7 +302,11 @@ onUnmounted(() => {
 
 .feature-tabs button:hover:not([aria-selected="true"]) {
   color: var(--vp-c-text-1);
-  background: var(--vp-c-bg-soft);
+  background: linear-gradient(
+    to bottom,
+    var(--vp-c-bg-soft) calc(100% - 1px),
+    transparent calc(100% - 1px)
+  );
 }
 
 .feature-tabs button[aria-selected="true"] {
