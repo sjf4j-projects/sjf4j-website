@@ -271,7 +271,6 @@
 
 .feature-panel + .feature-panel {
   padding-top: 27px;
-  border-top: 1px solid var(--vp-c-divider);
 }
 
 .feature-panel:last-child {
