@@ -25,7 +25,7 @@ const capabilities: Capability[] = [
       { text: 'YAML', href: 'https://yaml.org/spec/1.2.2/' },
       ', and ',
       { text: 'Java Properties', href: 'https://docs.oracle.com/javase/8/docs/api/java/util/Properties.html' },
-      ', supporting POJOs, Maps, Lists, generic types, and custom values.'
+      ', supporting POJOs, Maps, Lists, generic types, and custom value types.'
     ],
     runtime: `public class User {
     public String name;
@@ -80,7 +80,7 @@ interface UserNavigator {
     description: [
       'Validate Java objects directly against ',
       { text: 'JSON Schema', href: 'https://json-schema.org/' },
-      ' (Draft 2020-12, 2019-09, and 7), without constructing JSON trees.'
+      ' (drafts 2020-12, 2019-09, and 7), without constructing intermediate JSON trees.'
     ],
     runtime: `JsonSchema schema = JsonSchema.fromJson("""
 {
@@ -111,7 +111,10 @@ interface UserValidator {
     description: [
       'Convert between Maps, POJOs, values, and nested Java structures.'
     ],
-    runtime: `public record AnotherUser(String fullName, int age);
+    runtime: `public class AnotherUser {
+    public String fullName;
+    public int age;
+}
 
 AnotherUser dto = sjf4j.convert(user, AnotherUser.class);`,
     compiled: `@CompiledMapper
@@ -133,10 +136,10 @@ interface UserJdbcMapper {
     JdbcRowMapper<User> prepare(ResultSetMetaData metadata);
 }
 
-// Convert all rows to List
+// Map all rows to a List
 List<User> users = mapper.users(rs);
 
-// Convert one row to POJO
+// Map a single row to a User
 JdbcRowMapper<User> rowMapper = mapper.prepare(rs.getMetaData());
 User user = rowMapper.map(rs);`
   },
@@ -162,7 +165,7 @@ patch.apply(user);  // Update in place`,
     name: 'Modeling',
     path: '/docs/modeling',
     description: [
-      'Work with native Java objects through a consistent structural API for property access, iteration, and JSON-semantic comparison.'
+      'Access, traverse, and compare Java objects through a consistent API that follows JSON semantics.'
     ],
     runtime: `// Access and convert property values
 Object raw = Nodes.getInObject(user, "name");
@@ -327,9 +330,9 @@ onUnmounted(() => {
         <code>ExternalNode</code> integration.
       </p>
       <p v-else-if="activeCapability.id === 'object-mapping'" class="capability-detail">
-        Runtime <code>Sjf4j.convert()</code> provides direct object conversion.
-        <code>@CompiledMapper</code> supports configurable mapping rules, including
-        property renaming, nested mapping, custom expressions, and creation strategies.
+        The Runtime API, <code>Sjf4j.convert()</code>, performs direct object conversion.
+        <code>@CompiledMapper</code> supports custom mapping rules for property renaming,
+        nested mappings, expressions, and object creation.
       </p>
 
       <a
