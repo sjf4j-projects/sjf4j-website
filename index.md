@@ -8,6 +8,16 @@ description: A unified structural processing layer built on JSON semantics.
 import HomeShowcase from './.vitepress/theme/components/HomeShowcase.vue'
 import HomeInstallation from './.vitepress/theme/components/HomeInstallation.vue'
 import HomeCapabilities from './.vitepress/theme/components/HomeCapabilities.vue'
+import HomeCodePanel from './.vitepress/theme/components/HomeCodePanel.vue'
+
+const compiledNavigatorCode = `@CompiledNavigator
+interface UserNavigator {
+    @GetByPath("$.address.city")
+    String getCity(User user);
+}`
+
+const compiledUsageCode = `UserNavigator navigator = CompiledInstances.create(UserNavigator.class);
+String city = navigator.getCity(user);`
 </script>
 
 <HomeShowcase />
@@ -22,7 +32,7 @@ SJF4J requires **Java 8+** and supports modular installation. <span class="maven
 
 ## Explore Features {#explore-features}
 
-Runtime and compile-time APIs operate on the same JSON-semantic structural model. Compare the core APIs side by side:
+Work with POJOs, Maps, and Lists through a unified JSON-semantic model—whether you're binding data, navigating paths, validating schemas, mapping objects, or applying patches. Use **Runtime APIs** for flexible, dynamic operations, or **Compiled APIs** to generate optimized Java implementations at build time. Explore both approaches side by side below.
 
 <HomeCapabilities />
 
@@ -30,20 +40,15 @@ Runtime and compile-time APIs operate on the same JSON-semantic structural model
 
 Compile-time annotation processing generates readable Java implementations that the JVM can optimize like handwritten code. Declare an interface:
 
-```java
-@CompiledNavigator
-interface UserNavigator {
-    @GetByPath("$.address.city")
-    String getCity(User user);
-}
-```
+<div class="home-compiled-example">
+  <HomeCodePanel title="Compiled Navigator" :code="compiledNavigatorCode" />
+</div>
 
 SJF4J generates `UserNavigator_Impl` during compilation. Invoke it through `CompiledInstances`:
 
-```java
-UserNavigator navigator = CompiledInstances.create(UserNavigator.class);
-String city = navigator.getCity(user);
-```
+<div class="home-compiled-example">
+  <HomeCodePanel title="Using Compiled APIs" :code="compiledUsageCode" />
+</div>
 
 <a class="home-learn-more" href="/docs/compiled">Learn more → Compiled APIs</a>
 
