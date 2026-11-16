@@ -77,9 +77,9 @@ const maven = `<dependencies>
   margin: 18px 0;
 }
 
-/* Match the code viewport to the 12-line Gradle example; scroll longer Maven XML. */
+/* Show the complete 12-line Gradle example without vertical scrolling; longer Maven XML remains scrollable. */
 .installation-grid :deep(.home-code-panel) {
-  height: 332px;
+  height: 390px;
 }
 
 .installation-grid :deep(.home-code-panel pre) {
