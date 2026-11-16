@@ -54,8 +54,9 @@ html:has(.VPHome) {
   }
 }
 
-/* Align compiled examples with the left column of the two-column examples above. */
-.VPHome .vp-doc .home-compiled-example {
+/* Keep interface/generated code and Gradle/Maven source paths side by side. */
+.VPHome .vp-doc .home-compiled-example,
+.VPHome .vp-doc .home-compiled-paths {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 56px;
@@ -63,7 +64,9 @@ html:has(.VPHome) {
 }
 
 @media (max-width: 800px) {
-  .VPHome .vp-doc .home-compiled-example {
+  .VPHome .vp-doc .home-compiled-example,
+  .VPHome .vp-doc .home-compiled-paths {
     grid-template-columns: 1fr;
+    gap: 12px;
   }
 }
