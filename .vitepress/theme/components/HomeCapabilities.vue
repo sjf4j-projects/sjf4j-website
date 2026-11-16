@@ -198,10 +198,6 @@ onUnmounted(() => {
 
 <template>
   <div ref="container" class="home-capabilities">
-    <div class="feature-tabs-heading">
-      <span class="feature-tabs-label">Select a feature</span>
-      <span class="feature-tabs-hint">Choose a tab to compare APIs</span>
-    </div>
     <div class="feature-tabs" role="tablist" aria-label="SJF4J capabilities">
       <button
         v-for="(item, index) in capabilities"
@@ -272,69 +268,54 @@ onUnmounted(() => {
   scroll-margin-top: 90px;
 }
 
-.feature-tabs-heading {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 15px 18px 10px;
-  background: var(--vp-c-bg-soft);
-}
-
-.feature-tabs-label {
-  color: var(--vp-c-text-1);
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.feature-tabs-hint {
-  color: var(--vp-c-text-3);
-  font-size: 13px;
-}
-
+/* Browser-style tabs share the content panel's top edge. */
 .feature-tabs {
   display: flex;
-  gap: 7px;
+  gap: 2px;
   overflow-x: auto;
   max-width: 100%;
-  padding: 0 14px 14px;
   margin: 0;
+  padding: 10px 12px 0;
   border-bottom: 1px solid var(--vp-c-divider);
   background: var(--vp-c-bg-soft);
   scrollbar-width: thin;
 }
 
 .feature-tabs button {
+  position: relative;
   flex: 0 0 auto;
-  padding: 9px 13px;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 7px;
-  background: var(--vp-c-bg);
+  margin: 0 0 -1px;
+  padding: 11px 15px 12px;
+  border: 1px solid transparent;
+  border-radius: 10px 10px 0 0;
+  background: transparent;
   color: var(--vp-c-text-2);
   font-family: inherit;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 550;
   line-height: 1.5;
   white-space: nowrap;
   cursor: pointer;
-  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+  transition: color 0.15s ease, background-color 0.15s ease;
 }
 
-.feature-tabs button:hover {
-  color: var(--vp-c-brand-1);
-  border-color: var(--vp-c-brand-1);
+.feature-tabs button:hover:not([aria-selected="true"]) {
+  color: var(--vp-c-text-1);
+  background: var(--vp-c-bg);
 }
 
 .feature-tabs button[aria-selected="true"] {
-  color: var(--vp-c-brand-1);
-  background: var(--vp-c-brand-soft);
-  border-color: var(--vp-c-brand-1);
+  z-index: 1;
+  color: var(--vp-c-text-1);
+  background: var(--vp-c-bg);
+  border-color: var(--vp-c-divider);
+  border-bottom-color: var(--vp-c-bg);
   font-weight: 700;
 }
 
 .feature-tabs button:focus-visible {
   outline: 2px solid var(--vp-c-brand-1);
-  outline-offset: 2px;
+  outline-offset: -3px;
 }
 
 .capability {
@@ -397,12 +378,8 @@ onUnmounted(() => {
 }
 
 @media (max-width: 480px) {
-  .feature-tabs-heading {
-    padding: 12px 14px 9px;
-  }
-
-  .feature-tabs-hint {
-    display: none;
+  .feature-tabs {
+    padding: 8px 8px 0;
   }
 
   .capability {
