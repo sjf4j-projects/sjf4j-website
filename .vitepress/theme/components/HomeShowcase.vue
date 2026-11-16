@@ -90,7 +90,7 @@
 
       <article class="feature-panel">
         <h2>Runtime Flexibility, Compiled Speed</h2>
-        <p>Enjoy flexible runtime APIs and highly optimized compile-time code generation — see our <a href="/docs/benchmarks">benchmarks</a>.</p>
+        <p>Enjoy flexible runtime APIs and highly optimized compile-time code generation — see <a href="/docs/benchmarks">benchmarks</a>.</p>
       </article>
     </div>
   </section>
