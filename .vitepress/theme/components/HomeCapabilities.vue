@@ -261,10 +261,6 @@ onUnmounted(() => {
 <style scoped>
 .home-capabilities {
   margin-top: 18px;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 12px;
-  background: var(--vp-c-bg);
-  overflow: hidden;
   scroll-margin-top: 90px;
 }
 
@@ -275,7 +271,7 @@ onUnmounted(() => {
   overflow-x: auto;
   max-width: 100%;
   margin: 0;
-  padding: 10px 12px 0;
+  padding: 0 12px;
   border-bottom: 1px solid var(--vp-c-divider);
   background: transparent;
   scrollbar-width: thin;
@@ -287,7 +283,7 @@ onUnmounted(() => {
   margin: 0 0 -1px;
   padding: 11px 15px 12px;
   border: 1px solid transparent;
-  border-radius: 10px 10px 0 0;
+  border-radius: 8px 8px 0 0;
   background: transparent;
   color: var(--vp-c-text-2);
   font-family: inherit;
@@ -310,7 +306,6 @@ onUnmounted(() => {
   background: var(--vp-c-bg);
   border-color: var(--vp-c-divider);
   border-bottom-color: var(--vp-c-bg);
-  box-shadow: inset 0 3px 0 var(--vp-c-brand-1);
   font-weight: 700;
 }
 
@@ -325,6 +320,9 @@ onUnmounted(() => {
   overflow-y: auto;
   scrollbar-gutter: stable;
   padding: 20px 20px 24px;
+  border: 1px solid var(--vp-c-divider);
+  border-top: 0;
+  border-radius: 0 0 10px 10px;
 }
 
 .capability-heading h3 {
@@ -380,7 +378,7 @@ onUnmounted(() => {
 
 @media (max-width: 480px) {
   .feature-tabs {
-    padding: 8px 8px 0;
+    padding: 0 8px;
   }
 
   .capability {
