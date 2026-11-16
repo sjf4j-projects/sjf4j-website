@@ -33,7 +33,8 @@ SJF4J requires **Java 8+** and supports modular installation. <span class="maven
 
 ## Explore Features {#explore-features}
 
-SJF4J applies JSON semantics directly to Java objects—POJOs, Maps, Lists, and custom types—without intermediate JSON trees. Use flexible **Runtime APIs** for dynamic operations or optimized **Compiled APIs** generated at build time. Explore the capabilities below:
+SJF4J applies JSON semantics directly to Java objects — POJOs, Maps, Lists, and custom types — without intermediate JSON trees.  
+Use flexible **Runtime APIs** for dynamic operations or optimized **Compiled APIs** generated at build time. Explore the capabilities below:
 
 <HomeCapabilities />
 

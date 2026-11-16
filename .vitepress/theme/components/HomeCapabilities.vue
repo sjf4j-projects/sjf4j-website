@@ -27,14 +27,24 @@ const capabilities: Capability[] = [
       { text: 'Java Properties', href: 'https://docs.oracle.com/javase/8/docs/api/java/util/Properties.html' },
       ', supporting POJOs, Maps, Lists, generic types, and custom values.'
     ],
-    runtime: `Sjf4j sjf4j = new Sjf4j();
+    runtime: `public class User {
+    public String name;
+    public int age;
+    public Address address;
+}
+public class Address {
+    public String city;
+}
 
-User user = sjf4j.fromJson(json, User.class);
-String yaml = sjf4j.toYamlString(user);`,
+User user = new Sjf4j().fromJson(json, User.class);`,
     compiled: `@CompiledBinder
-interface UserJsonBinder {
+interface UserBinder {
     @Read User read(String json);
-}`
+}
+
+UserBinder binder = CompiledInstances.create(UserBinder.class);
+User user = binder.read(json);
+`
   },
   {
     id: 'navigating',
@@ -49,8 +59,11 @@ interface UserJsonBinder {
     ],
     runtime: `JsonPath path = JsonPath.parse("$.address.city");
 
-String city = path.getString(user); // Read a property
-path.put(user, "Shanghai");        // Update a property`,
+// Read a property
+String city = path.getString(user); 
+
+// Update a property
+path.put(user, "Chongqing");`,
     compiled: `@CompiledNavigator
 interface UserNavigator {
     @GetByPath("$.address.city")
@@ -69,13 +82,26 @@ interface UserNavigator {
       { text: 'JSON Schema', href: 'https://json-schema.org/' },
       ' (Draft 2020-12, 2019-09, and 7), without constructing JSON trees.'
     ],
-    runtime: `JsonSchema schema = JsonSchema.fromJson(schemaJson);
-ValidationResult result =
-        schema.createPlan().validate(user);`,
+    runtime: `JsonSchema schema = JsonSchema.fromJson("""
+{
+  "type": "object",
+  "properties": {
+    "name": {"type": "string", "minLength": 1},
+    "age": {"type": "integer", "minimum": 0}
+  },
+  "required": ["name"]
+}
+""");
+SchemaPlan plan = schema.createPlan();
+ValidationResult result = plan.validate(user);`,
     compiled: `@CompiledValidator
 interface UserValidator {
+
     @ValidJsonSchema(ref = "classpath:/schemas/user.json")
     boolean isValid(User user);
+
+    @ValidJsonSchema(ref = "classpath:/schemas/user.json")
+    void requireValid(User user);
 }`
   },
   {
@@ -85,8 +111,9 @@ interface UserValidator {
     description: [
       'Convert between Maps, POJOs, values, and nested Java structures; compile-time mapping supports property renaming and custom transformations.'
     ],
-    runtime: `AnotherUser dto =
-        sjf4j.convert(user, AnotherUser.class);`,
+    runtime: `public record AnotherUser(String fullName, int age);
+
+AnotherUser dto = sjf4j.convert(user, AnotherUser.class);`,
     compiled: `@CompiledMapper
 interface UserMapper {
     @Mapping(target = "fullName", source = "name")
@@ -102,8 +129,16 @@ interface UserMapper {
     ],
     compiled: `@CompiledJdbcMapper
 interface UserJdbcMapper {
-    List<User> users(ResultSet resultSet);
-}`
+    List<User> users(ResultSet rs);
+    JdbcRowMapper<User> prepare(ResultSetMetaData metadata);
+}
+
+// map all rows to List
+List<User> users = mapper.users(rs);
+
+// map one row to POJO
+JdbcRowMapper<User> rowMapper = mapper.prepare(rs.getMetaData());
+User user = rowMapper.map(rs);`
   },
   {
     id: 'patching',
