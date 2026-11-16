@@ -162,7 +162,7 @@ patch.apply(user);  // Update in place`,
     name: 'Modeling',
     path: '/docs/modeling',
     description: [
-      'OBNT provides the shared structural model for SJF4J APIs, covering native POJOs, Maps, Lists, and extensible object types.'
+      'Work with native Java objects through a consistent structural API for property access, iteration, and JSON-semantic comparison.'
     ],
     runtime: `// Access and convert property values
 Object raw = Nodes.getInObject(user, "name");
@@ -281,7 +281,7 @@ onUnmounted(() => {
         </p>
       </div>
 
-      <div class="capability-columns">
+      <div class="capability-columns" :class="{ 'modeling-columns': activeCapability.id === 'modeling' }">
         <HomeCodePanel
           v-if="activeCapability.runtime"
           :key="`${activeCapability.id}-runtime`"
@@ -294,6 +294,33 @@ onUnmounted(() => {
           title="Compiled"
           :code="activeCapability.compiled"
         />
+        <aside v-if="activeCapability.id === 'modeling'" class="modeling-info" aria-label="OBNT model overview">
+          <h4>Object-Based Node Tree (OBNT)</h4>
+          <p>
+            OBNT is the unified structural model behind SJF4J's APIs. It enables
+            JSON-oriented operations directly on native Java objects without
+            requiring intermediate JSON trees.
+          </p>
+          <p>OBNT defines three kinds of nodes:</p>
+          <table class="modeling-node-table">
+            <thead>
+              <tr><th>Node kind</th><th>Java representations</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Object</td><td><code>Map</code>, POJOs, <code>JsonObject</code>, JOJOs</td></tr>
+              <tr><td>Array</td><td><code>List</code>, Java arrays, <code>JsonArray</code>, JAJOs</td></tr>
+              <tr><td>Value</td><td>Strings, numbers, booleans, custom value types</td></tr>
+            </tbody>
+          </table>
+          <p>OBNT also supports extensible object models:</p>
+          <ul>
+            <li><strong>JOJO</strong> extends <code>JsonObject</code> with typed properties and dynamic members.</li>
+            <li><strong>JAJO</strong> extends <code>JsonArray</code> for typed, extensible arrays.</li>
+            <li><code>@NodeValue</code> defines logical value nodes.</li>
+            <li><code>@OneOf</code> models polymorphic node types.</li>
+            <li><code>ExternalNode</code> integrates custom structural types.</li>
+          </ul>
+        </aside>
       </div>
 
       <p v-if="activeCapability.id === 'binding'" class="capability-detail">
@@ -440,6 +467,64 @@ onUnmounted(() => {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 56px;
   margin-top: 16px;
+}
+
+.modeling-columns {
+  align-items: start;
+}
+
+.modeling-info {
+  min-width: 0;
+  color: var(--vp-c-text-2);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.modeling-info h4 {
+  margin: 0 0 8px;
+  color: var(--vp-c-text-1);
+  font-size: 17px;
+  font-weight: 650;
+  line-height: 1.4;
+}
+
+.modeling-info p {
+  margin: 0 0 10px;
+}
+
+.modeling-info .modeling-node-table {
+  display: table;
+  width: 100%;
+  margin: 6px 0 14px;
+  font-size: 13px;
+  line-height: 1.45;
+  border-collapse: collapse;
+}
+
+.modeling-node-table th,
+.modeling-node-table td {
+  padding: 5px 8px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.modeling-node-table th {
+  color: var(--vp-c-text-1);
+  font-weight: 600;
+}
+
+.modeling-info ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.modeling-info li {
+  margin: 3px 0;
+}
+
+.modeling-info code {
+  font-size: 0.92em;
 }
 
 @media (max-width: 800px) {
