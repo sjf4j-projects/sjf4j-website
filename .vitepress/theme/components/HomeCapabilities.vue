@@ -277,7 +277,7 @@ onUnmounted(() => {
   margin: 0;
   padding: 10px 12px 0;
   border-bottom: 1px solid var(--vp-c-divider);
-  background: var(--vp-c-bg-soft);
+  background: transparent;
   scrollbar-width: thin;
 }
 
@@ -301,7 +301,7 @@ onUnmounted(() => {
 
 .feature-tabs button:hover:not([aria-selected="true"]) {
   color: var(--vp-c-text-1);
-  background: var(--vp-c-bg);
+  background: var(--vp-c-bg-soft);
 }
 
 .feature-tabs button[aria-selected="true"] {
@@ -310,6 +310,7 @@ onUnmounted(() => {
   background: var(--vp-c-bg);
   border-color: var(--vp-c-divider);
   border-bottom-color: var(--vp-c-bg);
+  box-shadow: inset 0 3px 0 var(--vp-c-brand-1);
   font-weight: 700;
 }
 
