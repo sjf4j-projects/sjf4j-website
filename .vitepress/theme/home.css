@@ -67,32 +67,3 @@ html:has(.VPHome) {
     grid-template-columns: 1fr;
   }
 }
-
-/* Keep the feature index compact, linked, and naturally wrapped on small screens. */
-.VPHome .vp-doc .home-feature-nav {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  column-gap: 10px;
-  row-gap: 3px;
-  margin: 12px 0 4px;
-  font-size: 16px;
-  line-height: 1.7;
-}
-
-.VPHome .vp-doc .home-feature-nav a {
-  color: var(--vp-c-brand-1);
-  font-weight: 600;
-  white-space: nowrap;
-  text-decoration: underline;
-  text-decoration-color: var(--vp-c-divider);
-  text-underline-offset: 3px;
-}
-
-.VPHome .vp-doc .home-feature-nav a:hover {
-  text-decoration-color: currentColor;
-}
-
-.VPHome .vp-doc .home-feature-nav span {
-  color: var(--vp-c-text-3);
-}

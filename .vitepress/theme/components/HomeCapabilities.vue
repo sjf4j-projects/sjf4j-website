@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
 import HomeCodePanel from './HomeCodePanel.vue'
 
 type DescriptionPart = string | { text: string; href: string }
@@ -10,8 +11,6 @@ interface Capability {
   description: DescriptionPart[]
   runtime?: string
   compiled?: string
-  runtimeNote?: string
-  compiledNote?: string
 }
 
 const capabilities: Capability[] = [
@@ -101,7 +100,6 @@ interface UserMapper {
     description: [
       'Generate direct mappings from JDBC ResultSet rows to Java objects with @CompiledJdbcMapper.'
     ],
-    runtimeNote: 'JDBC Result Mapping is provided as a compile-time API.',
     compiled: `@CompiledJdbcMapper
 interface UserJdbcMapper {
     List<User> users(ResultSet resultSet);
@@ -120,7 +118,6 @@ interface UserJdbcMapper {
     ],
     runtime: `JsonPatch patch = JsonPatch.fromJson(patchJson);
 patch.apply(user);`,
-    compiledNote: 'JSON Patch is available through the runtime structural API.'
   },
   {
     id: 'modeling',
@@ -131,31 +128,131 @@ patch.apply(user);`,
     ],
     runtime: `Object raw = Nodes.getInObject(user, "name");
 String name = Nodes.toString(raw);`,
-    compiledNote: 'The same object-based node model underpins the compiled APIs.'
   }
 ]
+
+const activeId = ref(capabilities[0].id)
+const container = ref<HTMLElement | null>(null)
+const activeCapability = computed(() => capabilities.find((item) => item.id === activeId.value) ?? capabilities[0])
+
+function syncFromHash() {
+  const id = window.location.hash.slice(1)
+  const match = capabilities.find((item) => item.id === id)
+  activeId.value = match?.id ?? capabilities[0].id
+
+  if (match) {
+    // The requested tab might not exist in the server-rendered initial HTML.
+    void nextTick(() => {
+      container.value?.scrollIntoView({ block: 'start' })
+      document.getElementById(`home-feature-tab-${match.id}`)?.scrollIntoView({
+        block: 'nearest',
+        inline: 'nearest'
+      })
+    })
+  }
+}
+
+function selectTab(id: string) {
+  if (activeId.value === id) return
+  activeId.value = id
+  window.history.pushState(window.history.state, '', `#${id}`)
+}
+
+function onTabKeydown(event: KeyboardEvent, index: number) {
+  let nextIndex: number
+
+  switch (event.key) {
+    case 'ArrowRight':
+      nextIndex = (index + 1) % capabilities.length
+      break
+    case 'ArrowLeft':
+      nextIndex = (index - 1 + capabilities.length) % capabilities.length
+      break
+    case 'Home':
+      nextIndex = 0
+      break
+    case 'End':
+      nextIndex = capabilities.length - 1
+      break
+    default:
+      return
+  }
+
+  event.preventDefault()
+  const item = capabilities[nextIndex]
+  selectTab(item.id)
+  document.getElementById(`home-feature-tab-${item.id}`)?.focus()
+}
+
+onMounted(() => {
+  syncFromHash()
+  window.addEventListener('hashchange', syncFromHash)
+  window.addEventListener('popstate', syncFromHash)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('hashchange', syncFromHash)
+  window.removeEventListener('popstate', syncFromHash)
+})
 </script>
 
 <template>
-  <div class="home-capabilities">
-    <section v-for="item in capabilities" :id="item.id" :key="item.id" class="capability">
+  <div ref="container" class="home-capabilities">
+    <div class="feature-tabs" role="tablist" aria-label="SJF4J capabilities">
+      <button
+        v-for="(item, index) in capabilities"
+        :id="`home-feature-tab-${item.id}`"
+        :key="item.id"
+        type="button"
+        role="tab"
+        aria-controls="home-feature-panel"
+        :aria-selected="activeId === item.id"
+        :tabindex="activeId === item.id ? 0 : -1"
+        @click="selectTab(item.id)"
+        @keydown="onTabKeydown($event, index)"
+      >
+        {{ item.name }}
+      </button>
+    </div>
+
+    <section
+      id="home-feature-panel"
+      class="capability"
+      role="tabpanel"
+      :aria-labelledby="`home-feature-tab-${activeCapability.id}`"
+      tabindex="0"
+    >
       <div class="capability-heading">
-        <div>
-          <h3>{{ item.name }}</h3>
-          <p>
-            <template v-for="(part, index) in item.description" :key="index">
-              <template v-if="typeof part === 'string'">{{ part }}</template>
-              <a v-else :href="part.href" target="_blank" rel="noopener noreferrer">{{ part.text }}</a>
-            </template>
-          </p>
-        </div>
+        <h3 :id="activeCapability.id">{{ activeCapability.name }}</h3>
+        <p>
+          <template v-for="(part, index) in activeCapability.description" :key="index">
+            <template v-if="typeof part === 'string'">{{ part }}</template>
+            <a v-else :href="part.href" target="_blank" rel="noopener noreferrer">{{ part.text }}</a>
+          </template>
+        </p>
       </div>
+
       <div class="capability-columns">
-        <HomeCodePanel title="Runtime" :code="item.runtime" :note="item.runtimeNote" />
-        <HomeCodePanel title="Compiled" :code="item.compiled" :note="item.compiledNote" />
+        <HomeCodePanel
+          v-if="activeCapability.runtime"
+          :key="`${activeCapability.id}-runtime`"
+          title="Runtime"
+          :code="activeCapability.runtime"
+        />
+        <HomeCodePanel
+          v-if="activeCapability.compiled"
+          :key="`${activeCapability.id}-compiled`"
+          title="Compiled"
+          :code="activeCapability.compiled"
+        />
       </div>
-      <a class="home-learn-more capability-learn-more" :href="item.path" :aria-label="`Learn more about ${item.name}`">
-        Learn more <span aria-hidden="true">→</span> {{ item.name }}
+
+      <a
+        class="home-learn-more capability-learn-more"
+        :href="activeCapability.path"
+        :aria-label="`Learn more about ${activeCapability.name}`"
+      >
+        Learn more <span aria-hidden="true">→</span> {{ activeCapability.name }}
       </a>
     </section>
   </div>
@@ -164,22 +261,54 @@ String name = Nodes.toString(raw);`,
 <style scoped>
 .home-capabilities {
   margin-top: 12px;
-}
-
-.capability {
-  padding: 23px 0 26px;
   scroll-margin-top: 90px;
 }
 
-.capability:first-child {
-  padding-top: 7px;
+.feature-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  max-width: 100%;
+  padding: 0;
+  margin: 14px 0 16px;
+  border-bottom: 1px solid var(--vp-c-divider);
+  scrollbar-width: thin;
 }
 
-.capability-heading {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 18px;
+.feature-tabs button {
+  flex: 0 0 auto;
+  margin: 0 0 -1px;
+  padding: 11px 12px 12px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--vp-c-text-2);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 550;
+  line-height: 1.5;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.feature-tabs button:hover {
+  color: var(--vp-c-brand-1);
+  background: var(--vp-c-bg-soft);
+}
+
+.feature-tabs button[aria-selected="true"] {
+  color: var(--vp-c-brand-1);
+  font-weight: 650;
+  border-bottom-color: var(--vp-c-brand-1);
+}
+
+.feature-tabs button:focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: -3px;
+}
+
+.capability {
+  padding: 8px 0 24px;
 }
 
 .capability-heading h3 {
@@ -190,6 +319,7 @@ String name = Nodes.toString(raw);`,
   font-size: 20px;
   font-weight: 700;
   line-height: 1.5;
+  scroll-margin-top: 90px;
 }
 
 .capability-heading p {
@@ -225,14 +355,6 @@ String name = Nodes.toString(raw);`,
   .capability-columns {
     grid-template-columns: 1fr;
     gap: 11px;
-  }
-}
-
-@media (max-width: 540px) {
-  .capability-heading {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 7px;
   }
 }
 </style>
