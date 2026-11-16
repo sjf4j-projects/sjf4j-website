@@ -121,7 +121,7 @@ patch.apply(user);`,
   },
   {
     id: 'modeling',
-    name: 'Modeling (OBNT)',
+    name: 'Modeling',
     path: '/docs/modeling',
     description: [
       'OBNT provides the shared structural model for SJF4J APIs, covering native POJOs, Maps, Lists, and extensible object types.'
@@ -198,6 +198,10 @@ onUnmounted(() => {
 
 <template>
   <div ref="container" class="home-capabilities">
+    <div class="feature-tabs-heading">
+      <span class="feature-tabs-label">Select a feature</span>
+      <span class="feature-tabs-hint">Choose a tab to compare APIs</span>
+    </div>
     <div class="feature-tabs" role="tablist" aria-label="SJF4J capabilities">
       <button
         v-for="(item, index) in capabilities"
@@ -260,55 +264,84 @@ onUnmounted(() => {
 
 <style scoped>
 .home-capabilities {
-  margin-top: 12px;
+  margin-top: 18px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+  background: var(--vp-c-bg);
+  overflow: hidden;
   scroll-margin-top: 90px;
+}
+
+.feature-tabs-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 15px 18px 10px;
+  background: var(--vp-c-bg-soft);
+}
+
+.feature-tabs-label {
+  color: var(--vp-c-text-1);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.feature-tabs-hint {
+  color: var(--vp-c-text-3);
+  font-size: 13px;
 }
 
 .feature-tabs {
   display: flex;
-  gap: 8px;
+  gap: 7px;
   overflow-x: auto;
   max-width: 100%;
-  padding: 0;
-  margin: 14px 0 16px;
+  padding: 0 14px 14px;
+  margin: 0;
   border-bottom: 1px solid var(--vp-c-divider);
+  background: var(--vp-c-bg-soft);
   scrollbar-width: thin;
 }
 
 .feature-tabs button {
   flex: 0 0 auto;
-  margin: 0 0 -1px;
-  padding: 11px 12px 12px;
-  border: 0;
-  border-bottom: 2px solid transparent;
-  background: transparent;
+  padding: 9px 13px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 7px;
+  background: var(--vp-c-bg);
   color: var(--vp-c-text-2);
   font-family: inherit;
-  font-size: 16px;
-  font-weight: 550;
+  font-size: 15px;
+  font-weight: 600;
   line-height: 1.5;
   white-space: nowrap;
   cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
 }
 
 .feature-tabs button:hover {
   color: var(--vp-c-brand-1);
-  background: var(--vp-c-bg-soft);
+  border-color: var(--vp-c-brand-1);
 }
 
 .feature-tabs button[aria-selected="true"] {
   color: var(--vp-c-brand-1);
-  font-weight: 650;
-  border-bottom-color: var(--vp-c-brand-1);
+  background: var(--vp-c-brand-soft);
+  border-color: var(--vp-c-brand-1);
+  font-weight: 700;
 }
 
 .feature-tabs button:focus-visible {
   outline: 2px solid var(--vp-c-brand-1);
-  outline-offset: -3px;
+  outline-offset: 2px;
 }
 
 .capability {
-  padding: 8px 0 24px;
+  box-sizing: border-box;
+  height: 470px;
+  overflow-y: auto;
+  padding: 20px 20px 24px;
 }
 
 .capability-heading h3 {
@@ -352,9 +385,33 @@ onUnmounted(() => {
 }
 
 @media (max-width: 800px) {
+  .capability {
+    height: 780px;
+  }
+
   .capability-columns {
     grid-template-columns: 1fr;
     gap: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .feature-tabs-heading {
+    padding: 12px 14px 9px;
+  }
+
+  .feature-tabs-hint {
+    display: none;
+  }
+
+  .capability {
+    padding: 18px 14px 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .feature-tabs button {
+    transition: none;
   }
 }
 </style>
