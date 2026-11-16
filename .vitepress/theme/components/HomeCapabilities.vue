@@ -109,7 +109,7 @@ interface UserValidator {
     name: 'Object Mapping',
     path: '/docs/mapping',
     description: [
-      'Convert between Maps, POJOs, values, and nested Java structures; compile-time mapping supports property renaming and custom transformations.'
+      'Convert between Maps, POJOs, values, and nested Java structures.'
     ],
     runtime: `public record AnotherUser(String fullName, int age);
 
@@ -151,8 +151,11 @@ User user = rowMapper.map(rs);`
       { text: 'JSON Merge Patch (RFC 7386)', href: 'https://www.rfc-editor.org/info/rfc7386' },
       ', and indexed merge operations directly to Java object graphs.'
     ],
-    runtime: `JsonPatch patch = JsonPatch.fromJson(patchJson);
-patch.apply(user);`,
+    runtime: `JsonPatch patch = JsonPatch.fromJson("""
+        [{"op": "replace", "path": "/name", "value": "Alice Zhang"}]
+        """);
+
+patch.apply(user);  // Update in place`,
   },
   {
     id: 'modeling',
@@ -161,8 +164,19 @@ patch.apply(user);`,
     description: [
       'OBNT provides the shared structural model for SJF4J APIs, covering native POJOs, Maps, Lists, and extensible object types.'
     ],
-    runtime: `Object raw = Nodes.getInObject(user, "name");
-String name = Nodes.toString(raw);`,
+    runtime: `// Access and convert property values
+Object raw = Nodes.getInObject(user, "name");
+String name = Nodes.toString(raw);
+
+// Iterate over object properties
+Nodes.forEachObject(user, (key, value) ->
+        System.out.println(key + ": " + value));
+
+// Compare objects by JSON semantics
+if (!Nodes.equals(user, userMap)) {
+    // Inspect object structure
+    System.out.println("user: " + Nodes.inspect(user));
+}`,
   }
 ]
 
@@ -282,6 +296,18 @@ onUnmounted(() => {
         />
       </div>
 
+      <p v-if="activeCapability.id === 'binding'" class="capability-detail">
+        SJF4J's open streaming architecture supports custom data formats and backends.
+        Its rich binding capabilities include <code>@OneOf</code> polymorphism,
+        multi-format <code>ValueCodec</code> support, and fully managed
+        <code>ExternalNode</code> integration.
+      </p>
+      <p v-else-if="activeCapability.id === 'object-mapping'" class="capability-detail">
+        Runtime <code>Sjf4j.convert()</code> provides direct object conversion.
+        <code>@CompiledMapper</code> supports configurable mapping rules, including
+        property renaming, nested mapping, custom expressions, and creation strategies.
+      </p>
+
       <a
         class="home-learn-more capability-learn-more"
         :href="activeCapability.path"
@@ -360,7 +386,7 @@ onUnmounted(() => {
 
 .capability {
   box-sizing: border-box;
-  height: 470px;
+  height: 620px;
   overflow-y: auto;
   scrollbar-gutter: stable;
   padding: 20px 20px 24px;
@@ -398,6 +424,13 @@ onUnmounted(() => {
   text-decoration-color: currentColor;
 }
 
+.capability-detail {
+  margin: 18px 0 0;
+  color: var(--vp-c-text-2);
+  font-size: 16px;
+  line-height: 1.55;
+}
+
 .capability-learn-more {
   margin-top: 14px;
 }
@@ -411,7 +444,7 @@ onUnmounted(() => {
 
 @media (max-width: 800px) {
   .capability {
-    height: 780px;
+    height: 960px;
   }
 
   .capability-columns {
