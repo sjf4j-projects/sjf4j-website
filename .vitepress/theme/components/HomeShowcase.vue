@@ -266,6 +266,7 @@
   font-weight: 700;
   line-height: 1.35;
   letter-spacing: -0.028em;
+  text-align: center;
 }
 
 .feature-panel p {
