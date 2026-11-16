@@ -1,6 +1,7 @@
 <template>
   <section class="home-showcase" aria-labelledby="home-headline">
     <div class="hero-intro">
+      <p class="eyebrow">Java 8+ <span aria-hidden="true">·</span> Open Source</p>
       <h1 id="home-headline">S<span class="logo-java-j">J</span>F4J</h1>
       <p class="project-name">Simple JSON Facade for Java</p>
       <p class="tagline">
@@ -114,8 +115,27 @@
   text-align: center;
 }
 
-.hero-intro h1 {
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
   margin: 0;
+  padding: 6px 13px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 999px;
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-2);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.eyebrow span {
+  color: #e76f51;
+}
+
+.hero-intro h1 {
+  margin: 18px 0 0;
   padding: 0;
   border: 0;
   color: var(--vp-c-text-1);
