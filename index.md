@@ -11,8 +11,8 @@ import HomeCapabilities from './.vitepress/theme/components/HomeCapabilities.vue
 
 <HomeShowcase />
 
-## Explore Features {#explore-features}
+## SJF4J in Action {#explore-features}
 
-<p class="home-explore-lead">Bind, navigate, map, patch, and validate Java objects through a unified API. Explore practical examples of flexible runtime operations and optimized, compile-time generated code.</p>
+<p class="home-explore-lead">SJF4J unifies data binding, navigation, validation, mapping, and patching for Java objects in one layer built on JSON semantics.</p>
 
 <HomeCapabilities />
