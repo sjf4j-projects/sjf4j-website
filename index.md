@@ -12,13 +12,14 @@ import HomeCodePanel from './.vitepress/theme/components/HomeCodePanel.vue'
 
 const compiledNavigatorCode = `@CompiledNavigator
 interface UserNavigator {
+    UserNavigator INSTANCE = CompiledInstances.create(UserNavigator.class);
+
     @GetByPath("$.address.city")
     String getCity(User user);
 }`
 
 const compiledGeneratedCode = `// Simplified illustration of generated code
 public final class UserNavigator_Impl implements UserNavigator {
-
     @Override
     public String getCity(User user) {
         if (user == null) return null;
@@ -37,10 +38,7 @@ const compiledMavenPath = `target/
     └── com/example/
         └── UserNavigator_Impl.java`
 
-const compiledUsageCode = `// Declare inside UserNavigator:
-UserNavigator INSTANCE = CompiledInstances.create(UserNavigator.class);
-
-// Then call from application code:
+const compiledUsageCode = `// More commonly, just use the static INSTANCE
 String city = UserNavigator.INSTANCE.getCity(user);`
 </script>
 
@@ -78,7 +76,8 @@ Generated classes use the `_Impl` suffix. Their Java sources are written to the 
   <HomeCodePanel title="Maven" language="Text" :code="compiledMavenPath" />
 </div>
 
-Enable the processor with `annotationProcessor("org.sjf4j:sjf4j-processor:{version}")` in Gradle (or the Maven compiler plugin configuration shown in [Installation](/docs/installation)). Use `CompiledInstances.create()` to instantiate the generated implementation. A static `INSTANCE` field on the interface makes repeated use convenient:
+Enable the processor with `annotationProcessor("org.sjf4j:sjf4j-processor:{version}")` in Gradle. 
+Then use it:
 
 <div class="home-compiled-example">
   <HomeCodePanel title="Using Compiled APIs" :code="compiledUsageCode" />
