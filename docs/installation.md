@@ -5,7 +5,7 @@ description: "Select SJF4J modules, backends, and annotation processing for Grad
 
 # Installation
 
-SJF4J requires **Java 8+** and supports modular installation. The latest version is: [![Maven Central](https://img.shields.io/maven-central/v/org.sjf4j/sjf4j)](https://central.sonatype.com/search?q=sjf4j)
+SJF4J requires **Java 8+** and supports modular installation. <span class="maven-release-inline">The latest version is: <a href="https://central.sonatype.com/search?q=sjf4j"><img src="https://img.shields.io/maven-central/v/org.sjf4j/sjf4j" alt="Maven Central" /></a></span>
 
 Replace `{version}` in the following examples with the latest stable version shown above.
 
