@@ -11,7 +11,7 @@ annotationProcessor("org.sjf4j:sjf4j-processor:{version}")
 // Optional: JSON Schema validation
 implementation("org.sjf4j:sjf4j-schema:{version}")
 
-// Optional: Backend and its dependency (Jackson 2.x example) 
+// Optional: JSON backend and its dependency (Jackson 2.x example)
 implementation("org.sjf4j:sjf4j-backend-jackson2:{version}")
 implementation("com.fasterxml.jackson.core:jackson-databind:2.22.3")`
 const maven = `<dependencies>
@@ -29,7 +29,7 @@ const maven = `<dependencies>
         <version>{version}</version>
     </dependency>
 
-    <!-- Optional: Backend and its dependency (Jackson 2.x example) -->
+    <!-- Optional: JSON backend and its dependency (Jackson 2.x example) -->
     <dependency>
         <groupId>org.sjf4j</groupId>
         <artifactId>sjf4j-backend-jackson2</artifactId>
