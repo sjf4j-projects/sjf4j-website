@@ -1,6 +1,6 @@
 ---
 title: "Benchmarks"
-description: "Measured SJF4J performance across JSON binding, navigation, schema validation, object mapping, JDBC mapping, and GraalVM Native Image."
+description: "Measured SJF4J performance across data binding, navigation, schema validation, object mapping, JDBC mapping, and GraalVM Native Image."
 ---
 
 # Benchmarks
@@ -15,7 +15,7 @@ description: "Measured SJF4J performance across JSON binding, navigation, schema
 
 <div class="benchmark-highlights">
   <div class="benchmark-highlight">
-    <span class="benchmark-highlight-category">JSON Binding</span>
+    <span class="benchmark-highlight-category">Data Binding</span>
     <strong>3.77×</strong>
     <small>vs. direct Jackson 3 · 100KB Clients POJO read</small>
   </div>
@@ -51,32 +51,59 @@ description: "Measured SJF4J performance across JSON binding, navigation, schema
   baseline is different in each case; see the charts and linked reports below.
 </p>
 
-## JSON Binding
+## Data Binding
 
 On the JVM, `@CompiledBinder` adds compile-time specialization to the selected
-JSON backend. For **100KB Clients POJO reads**, it matches or outperforms
+JSON or YAML backend. For **100KB Clients POJO reads**, it matches or outperforms
 calling the same backend directly. The Clients model contains typed values
 such as UUIDs, date/time types, decimals, and enums.
 
 <BenchmarkBars
-  comparison="Direct backend binding / CompiledBinder · 100KB Clients POJO read"
+  comparison="Direct backend binding / CompiledBinder · 100KB Clients POJO read (JSON/YAML)"
   :items="[
     { label: 'Jackson 2', speedup: 3.57 },
     { label: 'Jackson 3', speedup: 3.77 },
     { label: 'Fastjson2', speedup: 1.04 },
-    { label: 'Gson', speedup: 2.41 }
+    { label: 'Gson', speedup: 2.41 },
+    { label: 'SnakeYAML', speedup: 1.53 }
   ]"
 />
 
 On the simpler Users POJO read workload, the advantage is smaller
-(**1.06–1.22×** for these four JSON backends). SJF4J is not uniformly faster:
+(**1.06–1.22×** for the four JSON backends). SJF4J is not uniformly faster:
 for example, 100KB Users POJO writes on Fastjson2 measure **0.99×** against
-direct binding. The full suite also covers Maps, JSON-P, SnakeYAML,
-separate reads/writes, and 1/10/100KB inputs.
+direct binding. SnakeYAML uses YAML input, so its results compare implementations
+within the YAML backend rather than ranking JSON against YAML. The full suite
+also covers Maps, JSON-P, separate reads/writes, and 1/10/100KB inputs.
 
 <small>v1.5.1-SNAPSHOT · Temurin 25 · JMH · November 13, 2026. Ratios compare each backend within its own runner job.</small>
 
 [Binding Full Benchmarks ↗](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/binding.md)
+
+## GraalVM Native Image Binding
+
+Compiled binding also runs in GraalVM **Native Image AOT executables**.
+In the serial Native Image benchmark, these are the speedups for
+**100KB Clients POJO reads** over direct third-party library binding.
+
+<BenchmarkBars
+  comparison="Direct backend binding / CompiledBinder · Native Image AOT"
+  :items="[
+    { label: 'Jackson 2', speedup: 3.40 },
+    { label: 'Jackson 3', speedup: 8.17 },
+    { label: 'Fastjson2', speedup: 3.37 },
+    { label: 'Gson', speedup: 2.56 }
+  ]"
+/>
+
+Native Image uses a different runtime and execution environment from the
+JVM measurements above. These ratios compare implementations **within the
+same AOT benchmark**, not JVM speed against Native Image speed. Map workloads
+typically show much smaller differences.
+
+<small>v1.5.1-SNAPSHOT · GraalVM Community 25.5.5.0.3 · Native Image -O2 · November 11, 2026. Three serial native processes per case; exploratory hosted-runner results.</small>
+
+[Native Image Binding Full Benchmarks ↗](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/binding-native.md)
 
 ## JSONPath Navigation
 
@@ -185,32 +212,7 @@ that result is specific to `DataClassRowMapper` on this fixture.
 
 [JDBC Mapping Full Benchmarks ↗](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/jdbc-mapping.md)
 
-## GraalVM Native Image Binding
-
-Compiled binding also runs in GraalVM **Native Image AOT executables**.
-In the serial Native Image benchmark, these are the speedups for
-**100KB Clients POJO reads** over direct third-party library binding.
-
-<BenchmarkBars
-  comparison="Direct backend binding / CompiledBinder · Native Image AOT"
-  :items="[
-    { label: 'Jackson 2', speedup: 3.40 },
-    { label: 'Jackson 3', speedup: 8.17 },
-    { label: 'Fastjson2', speedup: 3.37 },
-    { label: 'Gson', speedup: 2.56 }
-  ]"
-/>
-
-Native Image uses a different runtime and execution environment from the
-JVM measurements above. These ratios compare implementations **within the
-same AOT benchmark**, not JVM speed against Native Image speed. Map workloads
-typically show much smaller differences.
-
-<small>v1.5.1-SNAPSHOT · GraalVM Community 25.5.5.0.3 · Native Image -O2 · November 11, 2026. Three serial native processes per case; exploratory hosted-runner results.</small>
-
-[Native Image Binding Full Benchmarks ↗](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/binding-native.md)
-
-## Full Reports and Independent Projects
+## Independent Compliance and Benchmarks
 
 The main repository is the source of truth for benchmark configuration,
 complete latency and allocation tables, raw JMH results, and reproducibility
@@ -224,17 +226,3 @@ and compliance projects**, not the sources of the speedup figures on this page:
 - [Creek Service ↗](https://www.creekservice.org/json-schema-validation-comparison/) — JVM JSON Schema validation comparisons.
 - [Bowtie ↗](https://bowtie.report/) — JSON Schema specification compliance.
 - [Java Object Mapper Benchmark ↗](https://github.com/arey/java-object-mapper-benchmark) — object-mapping frameworks.
-
-## Reading the Results
-
-The bars show **baseline latency divided by SJF4J latency** for a matching
-workload: greater than **1×** favors SJF4J; less than **1×** favors the
-baseline. All comparisons are workload-specific, and no cross-suite average
-or single overall speedup is calculated.
-
-These results use **JMH 1.37** and GitHub-hosted runners. Binding, Mapping,
-and JDBC use **v1.5.1-SNAPSHOT** measurements; JSONPath and JSON Schema use
-**v1.5.0** measurements. Fork selection, CPUs, measurement windows, units,
-and preparation boundaries vary by report. Treat the charts as useful
-comparisons, not universal throughput promises, and consult each linked
-report before extrapolating to production workloads.
