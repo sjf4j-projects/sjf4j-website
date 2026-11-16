@@ -28,22 +28,26 @@
   text-decoration-color: currentColor;
 }
 
-/* Keep the Maven Central badge with its label, not on the next line. */
-.maven-release-inline {
-  white-space: nowrap;
+/* Center the standalone Explore Features introduction. */
+.VPHome .vp-doc #explore-features {
+  margin: 60px 0 18px;
+  padding: 0;
+  border: 0;
+  text-align: center;
+  font-size: clamp(28px, 3vw, 36px);
+  line-height: 1.25;
 }
 
-.maven-release-inline a,
-.maven-release-inline img {
-  display: inline-block;
-  vertical-align: middle;
+.VPHome .vp-doc .home-explore-lead {
+  max-width: 780px;
+  margin: 0 auto 30px;
+  color: var(--vp-c-text-2);
+  font-size: 17px;
+  line-height: 1.7;
+  text-align: center;
 }
 
-.maven-release-inline img {
-  max-width: none;
-}
-
-/* Smooth the Get Started jump to Explore Features on the homepage only. */
+/* Preserve smooth scrolling for feature deep links on the homepage only. */
 html:has(.VPHome) {
   scroll-behavior: smooth;
 }
@@ -51,22 +55,5 @@ html:has(.VPHome) {
 @media (prefers-reduced-motion: reduce) {
   html:has(.VPHome) {
     scroll-behavior: auto;
-  }
-}
-
-/* Keep interface/generated code and Gradle/Maven source paths side by side. */
-.VPHome .vp-doc .home-compiled-example,
-.VPHome .vp-doc .home-compiled-paths {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 56px;
-  margin: 16px 0 20px;
-}
-
-@media (max-width: 800px) {
-  .VPHome .vp-doc .home-compiled-example,
-  .VPHome .vp-doc .home-compiled-paths {
-    grid-template-columns: 1fr;
-    gap: 12px;
   }
 }
