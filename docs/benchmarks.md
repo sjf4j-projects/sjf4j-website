@@ -1,9 +1,9 @@
 ---
-title: "Benchmarks"
+title: "Compliance & Benchmarks"
 description: "Performance comparisons and independent standards-compliance projects."
 ---
 
-# Benchmarks
+# Compliance & Benchmarks
 
 SJF4J is evaluated using JMH benchmarks and independent comparisons. This site provides an index and, later, concise result summaries. The main repository remains the source of truth for detailed measurements.
 
