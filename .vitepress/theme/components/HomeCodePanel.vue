@@ -81,7 +81,7 @@ async function copyCode() {
 
 .panel-header strong {
   color: var(--vp-c-text-1);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 650;
 }
 
@@ -118,7 +118,7 @@ pre {
   padding: 17px 16px;
   color: var(--vp-c-text-1);
   font-family: var(--vp-font-family-mono);
-  font-size: 12.5px;
+  font-size: 14px;
   line-height: 1.7;
   tab-size: 4;
   white-space: pre;
@@ -131,7 +131,7 @@ pre {
   min-height: 80px;
   padding: 16px;
   color: var(--vp-c-text-2);
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.6;
 }
 
