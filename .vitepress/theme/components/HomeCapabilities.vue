@@ -312,7 +312,6 @@ onUnmounted(() => {
           v-if="activeCapability.compiled"
           :key="`${activeCapability.id}-compiled`"
           title="Compiled"
-          :class="{ 'compiled-only': activeCapability.id === 'jdbc-result-mapping' }"
           :code="activeCapability.compiled"
         />
         <aside v-if="activeCapability.id === 'modeling'" class="modeling-info" aria-label="OBNT model overview">
@@ -487,11 +486,6 @@ onUnmounted(() => {
   margin-top: 16px;
 }
 
-/* Keep the Compiled-only JDBC sample in the right column. */
-.capability-columns .compiled-only {
-  grid-column: 2;
-}
-
 .modeling-columns {
   align-items: start;
 }
@@ -554,10 +548,6 @@ onUnmounted(() => {
   .capability-columns {
     grid-template-columns: 1fr;
     gap: 11px;
-  }
-
-  .capability-columns .compiled-only {
-    grid-column: 1;
   }
 }
 
