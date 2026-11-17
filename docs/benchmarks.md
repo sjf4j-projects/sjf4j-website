@@ -54,13 +54,24 @@ description: "Measured SJF4J performance across data binding, navigation, schema
 
 ## Data Binding
 
-On the JVM, `@CompiledBinder` adds compile-time specialization to the selected
-JSON or YAML backend. For **100KB Clients POJO reads**, it matches or outperforms
-calling the same backend directly. The Clients model contains typed values
-such as UUIDs, date/time types, decimals, and enums.
+On the JVM, `@CompiledBinder` specializes the selected JSON or YAML backend
+at compile time. The following charts compare **100KB POJO reads** on two models:
+**Users** (ordinary scalar fields and nested objects) and **Clients** (typed
+values including UUIDs, date/time types, decimals, and enums).
 
 <BenchmarkBars
-  comparison="Direct backend binding / CompiledBinder · 100KB Clients POJO read (JSON/YAML)"
+  comparison="Users POJO Read · Direct backend / CompiledBinder · 100KB"
+  :items="[
+    { label: 'Jackson 2', speedup: 1.16 },
+    { label: 'Jackson 3', speedup: 1.09 },
+    { label: 'Fastjson2', speedup: 1.06 },
+    { label: 'Gson', speedup: 1.22 },
+    { label: 'SnakeYAML', speedup: 1.42 }
+  ]"
+/>
+
+<BenchmarkBars
+  comparison="Clients POJO Read · Direct backend / CompiledBinder · 100KB"
   :items="[
     { label: 'Jackson 2', speedup: 3.57 },
     { label: 'Jackson 3', speedup: 3.77 },
@@ -70,12 +81,13 @@ such as UUIDs, date/time types, decimals, and enums.
   ]"
 />
 
-On the simpler Users POJO read workload, the advantage is smaller
-(**1.06–1.22×** for the four JSON backends). SJF4J is not uniformly faster:
-for example, 100KB Users POJO writes on Fastjson2 measure **0.99×** against
-direct binding. SnakeYAML uses YAML input, so its results compare implementations
-within the YAML backend rather than ranking JSON against YAML. The full suite
-also covers Maps, JSON-P, separate reads/writes, and 1/10/100KB inputs.
+Compiled Binding stays close to direct backend performance on the simpler
+Users model, with larger gains on strongly typed Clients for some backends.
+Results depend on the operation and model: for example, 100KB Users POJO
+writes on Fastjson2 measure **0.99×** against direct binding. SnakeYAML
+measures YAML rather than JSON; compare implementations within each backend,
+not JSON against YAML. The full suite also covers Maps, JSON-P, separate
+reads/writes, and 1/10/100KB inputs.
 
 <small>v1.5.1-SNAPSHOT · Temurin 25 · JMH · November 13, 2026. Ratios compare each backend within its own runner job.</small>
 
@@ -84,11 +96,21 @@ also covers Maps, JSON-P, separate reads/writes, and 1/10/100KB inputs.
 ## GraalVM Native Image Binding
 
 Compiled binding also runs in GraalVM **Native Image AOT executables**.
-In the serial Native Image benchmark, these are the speedups for
-**100KB Clients POJO reads** over direct third-party library binding.
+The serial Native Image benchmark compares **100KB POJO reads** for both
+Users and Clients against direct third-party library binding.
 
 <BenchmarkBars
-  comparison="Direct backend binding / CompiledBinder · Native Image AOT"
+  comparison="Users POJO Read · Direct backend / CompiledBinder · Native Image AOT · 100KB"
+  :items="[
+    { label: 'Jackson 2', speedup: 1.35 },
+    { label: 'Jackson 3', speedup: 6.37 },
+    { label: 'Fastjson2', speedup: 5.50 },
+    { label: 'Gson', speedup: 1.15 }
+  ]"
+/>
+
+<BenchmarkBars
+  comparison="Clients POJO Read · Direct backend / CompiledBinder · Native Image AOT · 100KB"
   :items="[
     { label: 'Jackson 2', speedup: 3.40 },
     { label: 'Jackson 3', speedup: 8.17 },
@@ -213,7 +235,7 @@ that result is specific to `DataClassRowMapper` on this fixture.
 
 [JDBC Result Mapping Benchmarks ↗](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/jdbc-mapping.md)
 
-## Independent Compliance and Benchmarks
+## Independent Benchmarks
 
 The main repository is the source of truth for benchmark configuration,
 complete latency and allocation tables, raw JMH results, and reproducibility
