@@ -34,19 +34,13 @@ export default defineConfig({
       ],
       '/docs/': [
         {
-          text: 'Getting Started',
+          text: 'Introduction',
           items: [
-            { text: 'Introduction', link: '/docs/getting_started' },
+            { text: 'Get Started', link: '/docs/getting_started' },
             { text: 'Installation', link: '/docs/installation' },
-            { text: 'Quickstart', link: '/docs/quickstart' },
-          ],
-        },
-        {
-          text: 'Core Concepts',
-          items: [
-            { text: 'Architecture', link: '/docs/architecture' },
             { text: 'Modeling (OBNT)', link: '/docs/modeling' },
-            { text: 'Backends & Formats', link: '/docs/backends' },
+            { text: 'Compiled APIs', link: '/docs/compiled' },
+            { text: 'Benchmarks', link: '/docs/benchmarks' },
           ],
         },
         {
@@ -61,16 +55,15 @@ export default defineConfig({
           ],
         },
         {
-          text: 'Compiled APIs',
-          items: [{ text: 'Overview & How It Works', link: '/docs/compiled' }],
-        },
-        {
           text: 'Reference',
           items: [
-            { text: 'Benchmarks', link: '/docs/benchmarks' },
             { text: 'Javadocs', link: 'https://javadoc.io/doc/org.sjf4j/sjf4j-core' },
             { text: 'FAQ', link: '/docs/faq' },
             { text: 'Changelog', link: '/docs/changelog' },
+            { text: 'Bowtie — JSON Schema Compliance', link: 'https://bowtie.report/' },
+            { text: 'Creek Service — Validation Benchmarks', link: 'https://www.creekservice.org/json-schema-validation-comparison/' },
+            { text: 'JSONPath Comparison', link: 'https://cburgmer.github.io/json-path-comparison/' },
+            { text: 'Java JSON Benchmark', link: 'https://github.com/fabienrenaud/java-json-benchmark' },
           ],
         },
       ],
