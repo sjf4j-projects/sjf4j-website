@@ -1,11 +1,11 @@
 ---
 title: "Modeling (OBNT)"
-description: "Understand SJF4J's Object-Based Node Tree, choose Java representations, work with nodes, and extend the structural model."
+description: "Understand SJF4J's OBNT (Object-Based Node Tree), choose Java representations, work with nodes, and extend the structural model."
 ---
 
-# Object-Based Node Tree (OBNT)
+# OBNT (Object-Based Node Tree)
 
-SJF4J brings **JSON semantics to ordinary Java objects**. Its Object-Based Node Tree (OBNT) provides a shared structural model for POJOs, Maps, Lists, JSON containers, and custom types—without requiring a separate JSON tree.
+SJF4J brings **JSON semantics to ordinary Java objects**. Its OBNT (Object-Based Node Tree) provides a shared structural model for POJOs, Maps, Lists, JSON containers, and custom types—without requiring a separate JSON tree.
 
 You can keep the Java model that fits your application and still use the same structural operations. This page explains the model itself; serialization, JSONPath, validation, and mapping are covered in their respective guides.
 
@@ -325,4 +325,4 @@ OBNT supplies the shared **structure**; the other SJF4J capabilities supply the 
 
 Compiled APIs can optimize supported binding, navigation, validation, and mapping operations, but **OBNT itself does not require annotation processing**. You can start with ordinary Java objects and runtime APIs, then adopt compiled implementations where useful.
 
-Learn more → [Enjoy Compiled APIs](/docs/compiled)
+Learn more: [Enjoy Compiled APIs](/docs/compiled)

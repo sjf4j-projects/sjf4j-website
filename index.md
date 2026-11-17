@@ -21,4 +21,4 @@ import HomeCapabilities from './.vitepress/theme/components/HomeCapabilities.vue
 
 <BenchmarkHighlights />
 
-<p class="home-benchmark-more"><a href="/docs/benchmarks">Explore Benchmarks →</a></p>
+<p class="home-benchmark-more"><a href="/docs/benchmarks">Explore Benchmarks</a></p>

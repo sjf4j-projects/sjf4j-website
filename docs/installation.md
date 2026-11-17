@@ -146,4 +146,4 @@ Add `sjf4j-processor` to the annotation processor path (not as a normal runtime 
 
 `@CompiledValidator` also requires `sjf4j-schema` at runtime. Other compiled APIs do not need the schema module unless they use JSON Schema functionality.
 
-Learn more → [Compiled APIs](/docs/compiled) · [Binding](/docs/binding) · [Validating](/docs/validating)
+Learn more: [Compiled APIs](/docs/compiled) · [Binding](/docs/binding) · [Validating](/docs/validating)

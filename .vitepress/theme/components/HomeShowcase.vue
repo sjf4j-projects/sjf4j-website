@@ -9,7 +9,7 @@
         <span class="accent tagline-end">built on JSON semantics.</span>
       </p>
       <div class="actions">
-        <a class="primary" href="/docs/getting_started">Get Started <span aria-hidden="true">→</span></a>
+        <a class="primary" href="/docs/getting_started">Get Started</a>
         <a class="secondary" href="/docs/benchmarks"><span aria-hidden="true">⚡️</span> Benchmarks</a>
         <a
           class="secondary"

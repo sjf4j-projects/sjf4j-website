@@ -360,7 +360,7 @@ onUnmounted(() => {
         :href="activeCapability.path"
         :aria-label="`Learn more about ${activeCapability.name}`"
       >
-        Learn more <span aria-hidden="true">→</span> {{ activeCapability.name }}
+        Learn more about {{ activeCapability.name }}
       </a>
     </section>
   </div>
