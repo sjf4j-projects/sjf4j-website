@@ -7,11 +7,11 @@
   }
 
   /* Reclaim sidebar padding while preserving its centered wide-screen offset. */
-  .VPSidebar {
+  .Layout .VPSidebar {
     padding-right: 12px;
   }
 
-  .VPSidebar .nav {
+  .Layout .VPSidebar .nav {
     margin-left: -12px;
     width: calc(100% + 12px);
   }
@@ -21,7 +21,7 @@
   }
 
   /* Reduce the horizontal reading gutters from the default 32px. */
-  .VPContent .VPDoc {
+  .Layout .VPContent .VPDoc {
     padding-right: 22px;
     padding-left: 22px;
   }
