@@ -57,13 +57,9 @@ export default defineConfig({
         {
           text: 'Reference',
           items: [
+            { text: 'FAQ', link: 'https://github.com/sjf4j-projects/sjf4j/blob/main/docs/FAQ.md' },
             { text: 'Javadocs', link: 'https://javadoc.io/doc/org.sjf4j/sjf4j-core' },
-            { text: 'FAQ', link: '/docs/faq' },
             { text: 'Changelog', link: '/docs/changelog' },
-            { text: 'Bowtie — JSON Schema Compliance', link: 'https://bowtie.report/' },
-            { text: 'Creek Service — Validation Benchmarks', link: 'https://www.creekservice.org/json-schema-validation-comparison/' },
-            { text: 'JSONPath Comparison', link: 'https://cburgmer.github.io/json-path-comparison/' },
-            { text: 'Java JSON Benchmark', link: 'https://github.com/fabienrenaud/java-json-benchmark' },
           ],
         },
       ],
