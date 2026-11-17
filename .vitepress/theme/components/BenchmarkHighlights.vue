@@ -2,7 +2,7 @@
 const highlights = [
   {
     category: 'Data Binding',
-    speedup: '1.16×',
+    speedup: '1.21×',
     comparison: 'vs. direct Jackson 2 · 100KB Users POJO read'
   },
   {
