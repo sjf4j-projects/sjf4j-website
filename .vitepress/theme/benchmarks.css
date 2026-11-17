@@ -84,8 +84,47 @@
   }
 
   .VPDoc:has(.benchmark-highlights) .benchmark-bars {
-    max-width: 740px;
+    max-width: 480px;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  /* Paired JVM and Native Image comparisons share one row when space allows. */
+  .VPDoc:has(.benchmark-highlights) .benchmark-bars-pair {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    margin: 22px 0 12px;
+  }
+
+  .VPDoc:has(.benchmark-highlights) .benchmark-bars-pair > .benchmark-bars {
+    flex: 1 1 400px;
+    min-width: 0;
+    margin: 0;
+  }
+
+  /* Preserve readable labels and meaningful bar lengths at ~480px per chart. */
+  .VPDoc:has(.benchmark-highlights) .benchmark-bars-row {
+    grid-template-columns: minmax(108px, 132px) minmax(0, 1fr) 54px;
+    gap: 10px;
+  }
+
+  .VPDoc:has(.benchmark-highlights) .benchmark-bars-axis {
+    margin-right: 54px;
+    margin-left: 142px;
+  }
+}
+
+/* The pair wraps automatically on narrower screens; retain mobile bar spacing. */
+@media (max-width: 640px) {
+  .VPDoc:has(.benchmark-highlights) .benchmark-bars-row {
+    grid-template-columns: minmax(92px, 116px) minmax(0, 1fr) 48px;
+    gap: 8px;
+  }
+
+  .VPDoc:has(.benchmark-highlights) .benchmark-bars-axis {
+    margin-left: 124px;
+    margin-right: 48px;
   }
 }
