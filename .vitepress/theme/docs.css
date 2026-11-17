@@ -1,5 +1,5 @@
-/* Compact documentation navigation and give technical content more room.
-   Keep VitePress's mobile sidebar and the homepage unchanged. */
+/* Compact desktop documentation navigation and share a wider page layout.
+   Preserve VitePress's mobile sidebar behavior. */
 @media (min-width: 960px) {
   :root {
     /* Compact navigation while keeping long labels legible. */
@@ -45,7 +45,6 @@
   }
 
   /* Keep room for the 960px reading column and 310px outline. */
-
   .VPDoc.has-aside .container .content .content-container {
     max-width: 960px;
   }
