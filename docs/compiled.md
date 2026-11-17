@@ -135,7 +135,7 @@ Choose the API style based on how much of the operation is known before executio
 | Setup | No annotation processor | Annotation processing during the build |
 | Best suited for | Dynamic or ad hoc operations | Stable, frequently executed operations |
 
-Both operate on SJF4J's [Object-Based Node Tree (OBNT)](/docs/modeling), so adopting compiled APIs does not require adopting a separate Java object model.
+Both operate on SJF4J's [OBNT (Object-Based Node Tree)](/docs/modeling), so adopting compiled APIs does not require adopting a separate Java object model.
 
 ### Compilation limits and fallback
 
