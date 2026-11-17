@@ -31,4 +31,4 @@ Conclusions will be presented with their workload and environment caveats.
 
 ## Full Results & Source Code
 
-[View the current detailed report ↗](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/binding-native.md)
+[View the current detailed report](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/binding-native.md)
