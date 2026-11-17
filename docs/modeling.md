@@ -88,16 +88,29 @@ A **JOJO (JSON Object Java Object)** extends `JsonObject`. Declared fields remai
 ```java
 public class User extends JsonObject {
     public String name;
-    public List<String> roles;
+    public List<User> friends;
 }
 
-String json = "{\"name\":\"Alice\",\"roles\":[\"reader\"],\"region\":\"EU\"}";
+String json = "{\"name\":\"Alice\",\"friends\":["
+        + "{\"name\":\"Bill\",\"active\":true},"
+        + "{\"name\":\"Cindy\"}],\"age\":18}";
 User user = new Sjf4j().fromJson(json, User.class);
 
-String name = user.name;                  // Declared property
-String region = user.getString("region"); // Dynamic member
-user.put("active", true);                 // Add a dynamic member
+String name = user.name;                // Declared field
+Integer age = user.getInteger("age");  // Dynamic property
 ```
+
+`Nodes.inspect(...)` reveals the difference, including in nested JOJOs (output abbreviated):
+
+```java
+System.out.println(Nodes.inspect(user));
+// @User{*name=Alice, *friends=[@User{*name=Bill, *friends=null, active=true}, ...], age=18}
+//        └─────────────┴─────┬─────────┴────────────┘             └───────────┬──────┘
+//                            ↓                                                ↓
+//              Declared fields in POJO/JOJO                      Dynamic properties in JOJO
+```
+
+The `*` marks a declared Java field. Unmarked members such as `age` and `active` are dynamic properties retained from JSON. You can also add them at runtime with `user.put("verified", true)`.
 
 This is an **open object model**: stable data has Java types, while extensions remain accessible without changing the class. A POJO is still the simpler default for a closed domain model.
 
