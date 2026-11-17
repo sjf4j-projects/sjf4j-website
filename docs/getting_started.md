@@ -1,9 +1,9 @@
 ---
-title: "Introduction"
+title: "Get Started"
 description: "Understand what SJF4J is and how to start using it."
 ---
 
-# Introduction
+# Get Started
 
 **SJF4J (Simple JSON Facade for Java)** is a unified structural processing layer built on JSON semantics. It brings binding, navigation, validation, mapping, and patching together across native Java object graphs.
 
