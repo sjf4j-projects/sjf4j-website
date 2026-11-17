@@ -25,34 +25,34 @@ values including UUIDs, date/time types, decimals, and enums).
 <BenchmarkBars
   comparison="Users POJO Read · Direct backend / CompiledBinder · 100KB"
   :items="[
-    { label: 'Jackson 2', speedup: 1.16 },
-    { label: 'Jackson 3', speedup: 1.09 },
-    { label: 'Fastjson2', speedup: 1.06 },
-    { label: 'Gson', speedup: 1.22 },
-    { label: 'SnakeYAML', speedup: 1.42 }
+    { label: 'Jackson 2', speedup: 1.21 },
+    { label: 'Jackson 3', speedup: 1.15 },
+    { label: 'Fastjson2', speedup: 1.07 },
+    { label: 'Gson', speedup: 1.17 },
+    { label: 'SnakeYAML', speedup: 1.82 }
   ]"
 />
 
 <BenchmarkBars
   comparison="Clients POJO Read · Direct backend / CompiledBinder · 100KB"
   :items="[
-    { label: 'Jackson 2', speedup: 3.57 },
-    { label: 'Jackson 3', speedup: 3.77 },
+    { label: 'Jackson 2', speedup: 3.13 },
+    { label: 'Jackson 3', speedup: 3.23 },
     { label: 'Fastjson2', speedup: 1.04 },
-    { label: 'Gson', speedup: 2.41 },
-    { label: 'SnakeYAML', speedup: 1.53 }
+    { label: 'Gson', speedup: 2.43 },
+    { label: 'SnakeYAML', speedup: 1.86 }
   ]"
 />
 
 Compiled Binding stays close to direct backend performance on the simpler
 Users model, with larger gains on strongly typed Clients for some backends.
 Results depend on the operation and model: for example, 100KB Users POJO
-writes on Fastjson2 measure **0.99×** against direct binding. SnakeYAML
+writes on Fastjson2 measure **1.01×** against direct binding. SnakeYAML
 measures YAML rather than JSON; compare implementations within each backend,
 not JSON against YAML. The full suite also covers Maps, JSON-P, separate
 reads/writes, and 1/10/100KB inputs.
 
-<small>v1.5.1-SNAPSHOT · Temurin 25 · JMH · November 13, 2026. Ratios compare each backend within its own runner job.</small>
+<small>v1.5.2-SNAPSHOT · Temurin 25 · JMH · November 17, 2026. Ratios compare each backend within its own runner job.</small>
 
 [Data Binding Benchmarks ↗](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/binding.md)
 
