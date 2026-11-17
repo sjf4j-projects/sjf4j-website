@@ -11,11 +11,12 @@ SJF4J provides a unified API for JSON, YAML, and Java Properties while letting y
 
 | Format | Backend | SJF4J module |
 | --- | --- | --- |
-| JSON | Simple (built-in) | `sjf4j-core` |
-| JSON | Jackson 2.x / 3.x | `sjf4j-backend-jackson2` / `sjf4j-backend-jackson3` |
+| JSON | Jackson 3.x | `sjf4j-backend-jackson3` |
+| JSON | Jackson 2.x | `sjf4j-backend-jackson2` |
 | JSON | Gson | `sjf4j-backend-gson` |
 | JSON | Fastjson2 | `sjf4j-backend-fastjson2` |
 | JSON | JSON-P | `sjf4j-backend-jsonp` |
+| JSON | Simple (built-in) | `sjf4j-core` |
 | YAML | SnakeYAML | `sjf4j-backend-snake` |
 | Properties | Built-in | `sjf4j-core` |
 
@@ -31,9 +32,13 @@ See [Installation](/docs/installation) for Maven, other backend dependencies, an
 
 ## Backend Selection
 
-**Runtime:** `new Sjf4j()` discovers available `BinderProvider` implementations through Java's `ServiceLoader` and uses the highest-priority provider for each format. JSON falls back to Simple; YAML requires SnakeYAML. Use `Sjf4j.builder()` to supply a custom provider when needed.
+For the built-in JSON backends, the **default order (highest priority first)** is:
 
-**Compiled:** `@CompiledBinder` selects a backend at compile time. `Backend.AUTO` uses the first compatible backend available on the compilation classpath, or you can select one explicitly:
+**Jackson 3 → Jackson 2 → Gson → Fastjson2 → JSON-P → Simple**
+
+**Runtime:** `new Sjf4j()` discovers `BinderProvider` implementations via `ServiceLoader` and selects the highest-priority available provider. The built-in priorities are Jackson 3 (600), Jackson 2 (500), Gson (400), Fastjson2 (300), and JSON-P (200); Simple is the fallback. Availability requires the adapter and native library, plus an implementation for JSON-P. Custom providers can define their own priority. Use `Sjf4j.builder().jsonProvider(...)` to select one explicitly.
+
+**Compiled:** `@CompiledBinder(backend = Backend.AUTO)` uses the same built-in order, but selects the first usable backend on the **compilation classpath**. It does not discover custom runtime providers. Specify a backend explicitly when needed:
 
 ```java
 @CompiledBinder(backend = Backend.JACKSON2)
