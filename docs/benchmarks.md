@@ -15,7 +15,7 @@ description: "Measured SJF4J performance across data binding, navigation, schema
 
 <BenchmarkHighlights />
 
-## Data Binding
+## Data Binding on the JVM
 
 On the JVM, `@CompiledBinder` specializes the selected JSON or YAML backend
 at compile time. The following charts compare **100KB POJO reads** on two models:
@@ -56,7 +56,7 @@ reads/writes, and 1/10/100KB inputs.
 
 [Data Binding Benchmarks ↗](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/binding.md)
 
-## GraalVM Native Image Binding
+## Binding on GraalVM Native Image
 
 Compiled binding also runs in GraalVM **Native Image AOT executables**.
 The serial Native Image benchmark compares **100KB POJO reads** for both
