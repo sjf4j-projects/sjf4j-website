@@ -45,7 +45,17 @@ To try the example independently, include `sjf4j-core` and the Gson library, *wi
 Implement `ExternalNode<N>` for the library's root node type. Only `nodeType()` and `jsonType()` are mandatory; implement the operations you want to expose.
 
 ```java
-// ExampleGsonNode.java (imports omitted)
+// ExampleGsonNode.java
+package com.example.sjf4j;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import org.sjf4j.JsonType;
+import org.sjf4j.exception.NodeException;
+import org.sjf4j.external.ExternalNode;
+
 public final class ExampleGsonNode implements ExternalNode<JsonElement> {
     @Override
     public Class<JsonElement> nodeType() {
@@ -97,6 +107,11 @@ This minimal adapter supports type classification, direct object lookup/mutation
 
 ```java
 // ExampleGsonProvider.java
+package com.example.sjf4j;
+
+import org.sjf4j.external.ExternalNode;
+import org.sjf4j.external.ExternalProvider;
+
 public final class ExampleGsonProvider implements ExternalProvider {
     @Override
     public ExternalNode<?> externalNode() {
