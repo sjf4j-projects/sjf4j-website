@@ -14,18 +14,18 @@ You can keep the Java model that fits your application and still use the same st
 ```mermaid
 graph BT
   node(("Object-Based <br/> Node Tree"))
-  node --> object(("JSON Object <br/> { }"))
+  node --> object(("Object Node<br/> { }"))
     object ---> map("*Map")
     object --> jo("JsonObject")
     object ---> jojo(" &lt;JOJO&gt; <br/> (extends JsonObject)")
     object --> pojo(" &lt;POJO&gt; ")
-  node --> array(("JSON Array <br/> [ ]"))
+  node --> array(("Array Node<br/> [ ]"))
     array ---> list("*List")
     array --> ja("JsonArray")
     array ---> jajo(" &lt;JAJO&gt; <br/> (extends JsonArray)")
     array --> arr("Array")
     array ---> set("Set")
-  node --> value(("JSON Value <br/> ..."))
+  node --> value(("Value Node <br/> ..."))
     value --> string("*String")
     value ---> number("*Number")
     value --> boolean("*Boolean")
@@ -40,9 +40,9 @@ Every supported OBNT value has a logical JSON shape:
 
 | Node | Meaning | Java representations |
 | --- | --- | --- |
-| **Object** | Named members | `Map`, `JsonObject`, POJO, JOJO |
-| **Array** | An ordered sequence of elements | `List`, Java array, `JsonArray`, JAJO; also `Set` with ordering caveats |
-| **Value** | A scalar, null, or a custom logical value | `String`, numbers, booleans, enums, `null`, `@NodeValue` types |
+| **Object Node** | Named members | `Map`, `JsonObject`, POJO, JOJO |
+| **Array Node** | An ordered sequence of elements | `List`, Java array, `JsonArray`, JAJO; also `Set` with ordering caveats |
+| **Value Node** | A scalar, null, or a custom logical value | `String`, numbers, booleans, enums, `null`, `@NodeValue` types |
 
 The key idea is that a Java class does not have to inherit from an SJF4J base type to participate in this model. A regular POJO can be an object node; a `List` can be an array node; and an application-specific identifier can be a single value node.
 
