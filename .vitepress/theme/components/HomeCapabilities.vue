@@ -35,16 +35,21 @@ const capabilities: Capability[] = [
 public class Address {
     public String city;
 }
+Sjf4j sjf4j = Sjf4j().builer().build();
 
-User user = new Sjf4j().fromJson(json, User.class);`,
+User user = sjf4j.fromJson(json, User.class);
+String json2 = sjf4j.toJsonString(user);`,
     compiled: `@CompiledBinder
 interface UserBinder {
-    @Read User read(String json);
+    @Read User fromJson(String json);
+    @Read String toJson(User user);
 }
-
 UserBinder binder = CompiledInstances.create(UserBinder.class);
-User user = binder.read(json);
-`
+
+
+
+User user = binder.fromJson(json);
+String json2 = binder.toJson(user);`
   },
   {
     id: 'navigating',
@@ -101,16 +106,18 @@ interface UserNavigator {
 }
 """);
 SchemaPlan plan = schema.createPlan();
-ValidationResult result = plan.validate(user);`,
+
+boolean valid = plan.isValid(user);`,
     compiled: `@CompiledValidator
 interface UserValidator {
+    UserValidator INSTANCE = ...;
 
     @ValidJsonSchema(ref = "classpath:/schemas/user.json")
     boolean isValid(User user);
+}
 
-    @ValidJsonSchema(ref = "classpath:/schemas/user.json")
-    void requireValid(User user);
-}`
+
+boolean valid = UserValidator.INSTANCE.isValid(user);`
   },
   {
     id: 'object-mapping',
@@ -127,6 +134,8 @@ interface UserValidator {
 AnotherUser dto = sjf4j.convert(user, AnotherUser.class);`,
     compiled: `@CompiledMapper
 interface UserMapper {
+    UserMapper INSTANCE = ...;
+
     @Mapping(target = "fullName", source = "name")
     AnotherUser toAnother(User user);
 }`
@@ -140,16 +149,16 @@ interface UserMapper {
     ],
     compiled: `@CompiledJdbcMapper
 interface UserJdbcMapper {
-    List<User> users(ResultSet rs);
     JdbcRowMapper<User> prepare(ResultSetMetaData metadata);
+    List<User> users(ResultSet rs);
 }
-
-// Map all rows to a List
-List<User> users = mapper.users(rs);
 
 // Map a single row to a User
 JdbcRowMapper<User> rowMapper = mapper.prepare(rs.getMetaData());
-User user = rowMapper.map(rs);`
+User user = rowMapper.map(rs);
+
+// Map all rows to a List
+List<User> users = mapper.users(rs);`
   },
   {
     id: 'patching',
@@ -338,7 +347,7 @@ onUnmounted(() => {
         <code>ExternalNode</code> integration.
       </p>
       <p v-else-if="activeCapability.id === 'object-mapping'" class="capability-detail">
-        The Runtime API, <code>Sjf4j.convert()</code>, performs direct object conversion.
+        The Runtime API, <code>Sjf4j.convert()</code>, performs direct object conversion.<br/>
         <code>@CompiledMapper</code> supports custom mapping rules for property renaming,
         nested mappings, expressions, and object creation.
       </p>
