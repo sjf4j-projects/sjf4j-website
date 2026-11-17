@@ -63,14 +63,22 @@ User user = binder.read(json);
 String city = path.getString(user); 
 
 // Update a property
-path.put(user, "Chongqing");`,
+path.put(user, "Chongqing");
+
+// Find to a List
+List<String> names = 
+        JsonPath.parse("$..friends[?@.scores.math >= 90].name")
+        .find(student, String.class);`,
     compiled: `@CompiledNavigator
 interface UserNavigator {
-    @GetByPath("$.address.city")
+    @GetByPath("/address/city")
     String getCity(User user);
 
     @PutByPath("$.address.city")
     String putCity(User user, String city);
+
+    @FindByPath("$..friends[?@.scores.math >= 90].name")
+    List<String> find(Student student);
 }`
   },
   {
