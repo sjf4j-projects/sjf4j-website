@@ -52,14 +52,14 @@ The diagram distinguishes **direct module dependencies** (solid lines) from the 
 | Module | Purpose | SJF4J dependencies |
 | --- | --- | --- |
 | `sjf4j-core` | OBNT, runtime structural APIs, shared binding contracts and built-in Simple JSON/Properties | None |
-| `sjf4j-schema` | Runtime JSON Schema validation | `sjf4j-core` |
+| `sjf4j-schema` | Runtime JSON Schema validation and runtime support for compiled validators | `sjf4j-core` |
 | `sjf4j-processor` | Generates Compiled API implementations at build time | `sjf4j-core`, `sjf4j-schema` |
 | `sjf4j-backend-*` | Format-specific parser/writer adapters | `sjf4j-core` |
 | `sjf4j` | Convenience aggregate artifact | Core, schema and all six backend adapters |
 
 **Important distinctions:**
 
-- `sjf4j-schema` is not necessary for ordinary JSON binding, navigation, mapping or patching. Add it for runtime JSON Schema validation.
+- `sjf4j-schema` is not necessary for ordinary JSON binding, navigation, mapping or patching. Add it for runtime JSON Schema validation **and** when using `@CompiledValidator`; generated validators reference schema runtime classes.
 - `sjf4j-processor` runs during compilation; it is **not** a normal application runtime dependency. It uses schema support internally to generate compiled validators.
 - Every external adapter depends on `sjf4j-core`, but its underlying JSON/YAML library must be available separately. If your application already has a compatible library, you can reuse it.
 - The built-in **Simple JSON** and **Java Properties** implementations live in `sjf4j-core`; they do **not** require additional backend artifacts.
@@ -84,7 +84,7 @@ dependencies {
     implementation("org.sjf4j:sjf4j-backend-jackson2:{version}")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.22.3")
 
-    // Optional: runtime JSON Schema validation
+    // Optional: JSON Schema validation (runtime or compiled)
     implementation("org.sjf4j:sjf4j-schema:{version}")
 
     // Optional: compile-time generated APIs
@@ -117,7 +117,7 @@ Only `sjf4j-core` is required for core structural operations. Remove either opti
         <version>2.22.3</version>
     </dependency>
 
-    <!-- Optional: runtime JSON Schema validation -->
+    <!-- Optional: JSON Schema validation (runtime or compiled) -->
     <dependency>
         <groupId>org.sjf4j</groupId>
         <artifactId>sjf4j-schema</artifactId>
@@ -282,8 +282,10 @@ dependencies {
     implementation("org.sjf4j:sjf4j-core:{version}")
     annotationProcessor("org.sjf4j:sjf4j-processor:{version}")
 
+    // Required when using @CompiledValidator
+    implementation("org.sjf4j:sjf4j-schema:{version}")
+
     // Add a backend + its library for compiled data binding.
-    // Add sjf4j-schema only if runtime JSON Schema validation is needed.
 }
 ```
 
@@ -312,7 +314,7 @@ Keep your runtime dependencies in `<dependencies>` and configure the processor s
 </build>
 ```
 
-The processor has its own dependency on `sjf4j-schema` for code generation. You do not need to add the schema module as a normal runtime dependency **solely** because you use compiled validation.
+The processor depends on `sjf4j-schema` during code generation. **Generated `@CompiledValidator` implementations also reference schema runtime classes**, so add `sjf4j-schema` as a normal application dependency when using compiled validation. Other compiled APIs do not need the schema module unless they use schema functionality.
 
 See [Compiled APIs](/docs/compiled) for generated class names, output paths and usage.
 
@@ -323,6 +325,7 @@ See [Compiled APIs](/docs/compiled) for generated class names, output paths and 
 - **YAML unavailable:** Install both `sjf4j-backend-snake` and SnakeYAML.
 - **JSON-P provider missing:** The Jakarta JSON-P API is not a parser implementation. Add a compatible provider, such as Parsson.
 - **No generated `_Impl` class:** Check the annotation processor path and verify annotation processing is enabled in your build.
+- **Compiled validator linkage error:** Include `sjf4j-schema` on the application's runtime classpath.
 - **Version conflicts:** Keep SJF4J modules on the same release; verify the Java requirements of the third-party libraries you choose.
 
 For API examples, see [Binding](/docs/binding), [Validating](/docs/validating) and [Compiled APIs](/docs/compiled).
