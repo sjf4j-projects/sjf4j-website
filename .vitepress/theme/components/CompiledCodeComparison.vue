@@ -47,7 +47,7 @@ const generatedHtml = Prism.highlight(generatedCode, Prism.languages.java, 'java
 <style scoped>
 .compiled-code-comparison {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: 14px;
   margin: 22px 0 10px;
 }
@@ -81,7 +81,7 @@ const generatedHtml = Prism.highlight(generatedCode, Prism.languages.java, 'java
 }
 
 .compiled-code-panel pre {
-  min-height: 218px;
+  min-height: 0;
   margin: 0;
   overflow-x: auto;
   background: var(--vp-code-block-bg);
@@ -94,7 +94,7 @@ const generatedHtml = Prism.highlight(generatedCode, Prism.languages.java, 'java
   padding: 20px 16px;
   color: var(--vp-code-block-color);
   font-family: var(--vp-font-family-mono);
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.75;
   white-space: pre;
 }
@@ -111,16 +111,5 @@ const generatedHtml = Prism.highlight(generatedCode, Prism.languages.java, 'java
 
 .compiled-code-panel :deep(.token.string) {
   color: var(--vp-c-green-1);
-}
-
-@media (max-width: 740px) {
-  .compiled-code-comparison {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-
-  .compiled-code-panel pre {
-    min-height: 0;
-  }
 }
 </style>
