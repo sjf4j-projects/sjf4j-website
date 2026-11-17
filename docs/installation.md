@@ -102,18 +102,24 @@ The complete set of built-in and optional backends:
 
 | Format | Backend | SJF4J module | Required third-party library |
 | --- | --- | --- | --- |
-| JSON | Simple | `sjf4j-core` | None |
-| JSON | Jackson 2.x | `sjf4j-backend-jackson2` | `com.fasterxml.jackson.core:jackson-databind:2.22.3` |
 | JSON | Jackson 3.x | `sjf4j-backend-jackson3` | `tools.jackson.core:jackson-databind:3.2.3` |
+| JSON | Jackson 2.x | `sjf4j-backend-jackson2` | `com.fasterxml.jackson.core:jackson-databind:2.22.3` |
 | JSON | Gson | `sjf4j-backend-gson` | `com.google.code.gson:gson:2.13.1` |
 | JSON | Fastjson2 | `sjf4j-backend-fastjson2` | `com.alibaba.fastjson2:fastjson2:2.0.66` |
 | JSON | JSON-P | `sjf4j-backend-jsonp` | `jakarta.json:jakarta.json-api:2.1.3` and provider `org.eclipse.parsson:parsson:1.1.7` |
+| JSON | Simple | `sjf4j-core` | None |
 | YAML | SnakeYAML | `sjf4j-backend-snake` | `org.yaml:snakeyaml:2.5` |
 | Properties | Built-in | `sjf4j-core` | None |
 
 The versions shown are those used by the SJF4J project; compatible library versions may also work. For each external backend, add **both its SJF4J module and third-party library**. The libraries are not transitively included.
 
-**Selection:** SJF4J discovers backends through `ServiceLoader` and selects the highest-priority available provider for each format. JSON falls back to Simple when no external backend is available. YAML requires SnakeYAML. For `@CompiledBinder`, `Backend.AUTO` resolves against the compilation classpath instead.
+**Automatic JSON selection (highest priority first):**
+
+**Jackson 3 → Jackson 2 → Gson → Fastjson2 → JSON-P → Simple**
+
+SJF4J chooses the first available built-in backend in this order. Runtime binding discovers providers through `ServiceLoader`; `@CompiledBinder(backend = Backend.AUTO)` selects a backend at compile time. Both require the corresponding adapter and native library (JSON-P also requires an implementation). Simple is the built-in fallback.
+
+YAML uses SnakeYAML when available; Java Properties support is built in. See [Backends & Formats](/docs/backends#backend-selection) for selection rules and explicit overrides.
 
 ## Compiled APIs
 
