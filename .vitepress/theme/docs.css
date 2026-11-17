@@ -33,14 +33,13 @@
 }
 
 @media (min-width: 1280px) {
-  /* Default content max-width with outline is 688px. */
-  .VPDoc.has-aside .container .content .content-container {
-    max-width: 860px;
+  /* Make room for a 960px reading column alongside the 310px outline. */
+  .Layout:has(.VPDoc) {
+    --vp-layout-max-width: min(1600px, 100vw);
   }
 
-  /* Keep the dedicated benchmark overview's wider reading cap. */
-  .VPDoc.has-aside:has(.benchmark-highlights) .container .content .content-container {
-    max-width: 900px;
+  .VPDoc.has-aside .container .content .content-container {
+    max-width: 960px;
   }
 
   /* Shift the in-page outline right without hiding or overlaying it. */
