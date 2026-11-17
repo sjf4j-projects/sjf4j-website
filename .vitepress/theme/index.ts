@@ -5,6 +5,7 @@ import CompiledCodeComparison from './components/CompiledCodeComparison.vue'
 import './home.css'
 import './docs.css'
 import './benchmarks.css'
+import './links.css'
 
 export default {
   extends: DefaultTheme,
