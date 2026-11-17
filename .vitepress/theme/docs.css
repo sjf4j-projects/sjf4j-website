@@ -21,12 +21,12 @@
   }
 
   /* Reduce the horizontal reading gutters from the default 32px. */
-  .VPDoc {
+  .VPContent .VPDoc {
     padding-right: 22px;
     padding-left: 22px;
   }
 
-  .VPDoc .content {
+  .VPDoc .container .content {
     padding-right: 22px;
     padding-left: 22px;
   }
@@ -34,18 +34,18 @@
 
 @media (min-width: 1280px) {
   /* Default content max-width with outline is 688px. */
-  .VPDoc.has-aside .content-container {
+  .VPDoc.has-aside .container .content .content-container {
     max-width: 860px;
   }
 
   /* Shift the in-page outline right without hiding or overlaying it. */
-  .VPDoc .aside {
+  .VPDoc .container .aside {
     padding-left: 24px;
     max-width: 224px;
   }
 
-  .VPDoc .aside-container,
-  .VPDoc .aside-curtain {
+  .VPDoc .aside .aside-container,
+  .VPDoc .aside .aside-curtain {
     width: 200px;
   }
 }
