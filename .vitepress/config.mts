@@ -37,7 +37,7 @@ export default withMermaid(defineConfig({
         {
           text: 'Introduction',
           items: [
-            { text: 'Get Started', link: '/docs/getting_started' },
+            { text: 'Getting Started', link: '/docs/getting_started' },
             { text: 'Installation', link: '/docs/installation' },
             { text: 'Modeling (OBNT)', link: '/docs/modeling' },
             { text: 'Compiled APIs', link: '/docs/compiled' },
