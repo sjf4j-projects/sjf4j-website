@@ -21,8 +21,8 @@ description: "Measured SJF4J performance across data binding, navigation, schema
   </div>
   <div class="benchmark-highlight">
     <span class="benchmark-highlight-category">GraalVM Native Image</span>
-    <strong>8.17×</strong>
-    <small>vs. direct Jackson 3 · 100KB Clients POJO read</small>
+    <strong>1.35×</strong>
+    <small>vs. direct Jackson 2 · 100KB Users POJO read</small>
   </div>
   <div class="benchmark-highlight">
     <span class="benchmark-highlight-category">JSONPath Navigation</span>
@@ -79,7 +79,7 @@ also covers Maps, JSON-P, separate reads/writes, and 1/10/100KB inputs.
 
 <small>v1.5.1-SNAPSHOT · Temurin 25 · JMH · November 13, 2026. Ratios compare each backend within its own runner job.</small>
 
-[Data Binding Benchmark Report ↗](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/binding.md)
+[Data Binding Benchmarks ↗](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/binding.md)
 
 ## GraalVM Native Image Binding
 
@@ -104,7 +104,7 @@ typically show much smaller differences.
 
 <small>v1.5.1-SNAPSHOT · GraalVM Community 25.5.5.0.3 · Native Image -O2 · November 11, 2026. Three serial native processes per case; exploratory hosted-runner results.</small>
 
-[Native Image Binding Full Benchmarks ↗](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/binding-native.md)
+[GraalVM Native Image Benchmarks ↗](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/binding-native.md)
 
 ## JSONPath Navigation
 
@@ -131,7 +131,7 @@ Map/JsonNode/POJO queries.
 
 <small>v1.5.0 · Temurin 25 · JMH · November 11, 2026. Query execution excludes path parsing; the Jayway comparison above is for Map/List inputs, not POJO inputs.</small>
 
-[JSONPath Full Benchmarks ↗](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/path.md)
+[JSONPath Navigation Benchmarks ↗](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/path.md)
 
 ## JSON Schema Validation
 
@@ -159,7 +159,7 @@ to illustrate the combined compiled path, not to claim equivalent validation wor
 
 <small>v1.5.0 · Temurin 25 · JMH · November 9, 2026 · JSON Schema Draft 2020-12.</small>
 
-[JSON Schema Full Benchmarks ↗](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/schema.md)
+[JSON Schema Validation Benchmarks ↗](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/schema.md)
 
 ## Object Mapping
 
@@ -185,7 +185,7 @@ Order workload exercises nested Beans, Maps, JsonObjects, and list conversion.
 
 <small>v1.5.1-SNAPSHOT · Temurin 25 · JMH · November 12, 2026. Mapping excludes JSON binding and JDBC work.</small>
 
-[Object Mapping Full Benchmarks ↗](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/mapping.md)
+[Object Mapping Benchmarks ↗](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/mapping.md)
 
 ## JDBC Result Mapping
 
@@ -211,13 +211,13 @@ that result is specific to `DataClassRowMapper` on this fixture.
 
 <small>v1.5.1-SNAPSHOT · Temurin 25 · JMH · November 13, 2026. Includes ResultSet traversal and object materialization; excludes SQL execution, connection setup, and network I/O.</small>
 
-[JDBC Mapping Full Benchmarks ↗](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/jdbc-mapping.md)
+[JDBC Result Mapping Benchmarks ↗](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/jdbc-mapping.md)
 
 ## Independent Compliance and Benchmarks
 
 The main repository is the source of truth for benchmark configuration,
 complete latency and allocation tables, raw JMH results, and reproducibility
-notes. The six **Full Benchmarks** links above lead directly to those reports.
+notes. The six **Benchmarks** links above lead directly to those reports.
 
 For additional context, the following are **separate third-party comparison
 and compliance projects**, not the sources of the speedup figures on this page:
