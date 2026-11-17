@@ -46,11 +46,11 @@
   /* Shift the in-page outline right without hiding or overlaying it. */
   .VPDoc .container .aside {
     padding-left: 24px;
-    max-width: 260px;
+    max-width: 310px;
   }
 
   .VPDoc .aside .aside-container,
   .VPDoc .aside .aside-curtain {
-    width: 236px;
+    width: 286px;
   }
 }
