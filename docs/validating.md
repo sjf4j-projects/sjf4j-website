@@ -73,19 +73,21 @@ ValidationResult errors = plan.validate(user);
 for (ValidationResult.Detail error : errors.getErrors()) {
     System.out.println(error.getKeyword() + ": "
             + error.getInstancePs().rootedPointerExpr()
-            + " — " + error.getMessage());
+            + " - " + error.getMessage());
 }
 ```
 
 Use `ValidationOptions` when you need fail-fast control, strict `format` assertions, or JSON Schema annotations:
 
 ```java
+user.name = "Alice"; // Restore a valid instance.
+
 ValidationOptions options = ValidationOptions.builder()
         .collectAnnotations(true)
         .build();
 
-ValidationResult result = plan.validate(user, options);
-result.getAnnotations(); // title, description, default, examples, etc.
+ValidationResult annotated = plan.validate(user, options);
+annotated.getAnnotations(); // title, description, default, examples, etc.
 ```
 
 Annotation collection is optional. By default, `SchemaPlan` treats `format` as an annotation rather than an assertion; enable `strictFormat` to check supported formats.
