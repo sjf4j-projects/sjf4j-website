@@ -2,6 +2,7 @@ import DefaultTheme from 'vitepress/theme'
 import BenchmarkBars from './components/BenchmarkBars.vue'
 import BenchmarkHighlights from './components/BenchmarkHighlights.vue'
 import './home.css'
+import './docs.css'
 import './benchmarks.css'
 
 export default {
