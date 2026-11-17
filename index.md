@@ -19,8 +19,6 @@ import HomeCapabilities from './.vitepress/theme/components/HomeCapabilities.vue
 
 ## Performance at a Glance {#performance-at-a-glance}
 
-<p class="home-benchmark-lead">Measured performance across binding, navigation, validation, and mapping — on the JVM and GraalVM Native Image.</p>
-
 <BenchmarkHighlights />
 
 <p class="home-benchmark-more"><a href="/docs/benchmarks">Explore Benchmarks →</a></p>
