@@ -80,3 +80,12 @@
   white-space: normal;
   overflow-wrap: anywhere;
 }
+
+/* Keep status badges inline with surrounding documentation text.
+   VitePress renders ordinary images as blocks; diagrams stay unchanged. */
+.VPDoc .vp-doc img[src^="https://img.shields.io/"],
+.VPDoc .vp-doc img[src^="https://javadoc.io/badge"],
+.VPDoc .vp-doc img[src^="https://codecov.io/gh/"][src*="/badge"] {
+  display: inline-block;
+  vertical-align: middle;
+}
