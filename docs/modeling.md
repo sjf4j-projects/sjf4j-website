@@ -19,20 +19,23 @@ graph BT
     object --> jo("JsonObject")
     object ---> jojo(" &lt;JOJO&gt; <br/> (extends JsonObject)")
     object --> pojo(" &lt;POJO&gt; ")
+    object --> externalObject("ExternalNode<br/> (object)")
   node --> array(("Array Node<br/> [ ]"))
     array ---> list("*List")
     array --> ja("JsonArray")
     array ---> jajo(" &lt;JAJO&gt; <br/> (extends JsonArray)")
     array --> arr("Array")
     array ---> set("Set")
+    array --> externalArray("ExternalNode<br/> (array)")
   node --> value(("Value Node <br/> ..."))
     value --> string("*String")
     value ---> number("*Number")
     value --> boolean("*Boolean")
     value ---> nodeValue("&lt;NodeValue&gt;")
+    value --> externalValue("ExternalNode<br/> (value)")
 ```
 
-*The starred types are the default raw representations for JSON values when no target Java type is supplied.*
+*The starred types are the default raw representations for JSON values when no target Java type is supplied. `ExternalNode` adapters can represent any of the three node kinds.*
 
 ### Three kinds of nodes
 
@@ -40,11 +43,13 @@ Every supported OBNT value has a logical JSON shape:
 
 | Node | Meaning | Java representations |
 | --- | --- | --- |
-| **Object Node** | Named members | `Map`, `JsonObject`, POJO, JOJO |
-| **Array Node** | An ordered sequence of elements | `List`, Java array, `JsonArray`, JAJO; also `Set` with ordering caveats |
-| **Value Node** | A scalar, null, or a custom logical value | `String`, numbers, booleans, enums, `null`, `@NodeValue` types |
+| **Object Node** | Named members | `Map`, `JsonObject`, POJO, JOJO, external object nodes |
+| **Array Node** | An ordered sequence of elements | `List`, Java array, `JsonArray`, JAJO, external array nodes; also `Set` with ordering caveats |
+| **Value Node** | A scalar, null, or a custom logical value | `String`, numbers, booleans, enums, `null`, `@NodeValue` types, external value nodes |
 
 The key idea is that a Java class does not have to inherit from an SJF4J base type to participate in this model. A regular POJO can be an object node; a `List` can be an array node; and an application-specific identifier can be a single value node.
+
+**External nodes are not a fourth kind.** An [`ExternalNode` adapter](/docs/external-nodes) connects a third-party Java representation to any of these shapes: object, array, or value (including JSON null). For example, Gson's `JsonObject`, `JsonArray`, and `JsonPrimitive` all participate in OBNT through one adapter.
 
 ### JSON semantics vs. Java representations
 
@@ -62,7 +67,7 @@ JsonType.of(user); // JsonType.OBJECT
 NodeKind.of(user); // NodeKind.OBJECT_MAP
 ```
 
-A `Map`, a POJO, and a JOJO can all have `JsonType.OBJECT` while retaining different `NodeKind` values. Most application code should care about the **JSON structure**, not the representation-specific classification.
+A `Map`, a POJO, a JOJO, and an external object can all have `JsonType.OBJECT` while retaining different `NodeKind` values (including `OBJECT_EXTERNAL`). External arrays and scalar values are classified similarly. Most application code should care about the **JSON structure**, not the representation-specific classification.
 
 ### No intermediate tree required
 
@@ -318,11 +323,11 @@ For reusable or multi-format conversions, SJF4J also supports `ValueCodec` regis
 
 ### External node integration
 
-`ExternalNode<N>` is the extension point for integrating backend-native JSON trees and other structural representations into OBNT.
+`ExternalNode<N>` is the extension point for integrating backend-native JSON trees and other structural representations into OBNT. An adapter can classify the same native root type as an object, array, or value node depending on the actual instance.
 
 An adapter identifies its node type and JSON shape, then implements the access, iteration, mutation, conversion, and copying operations it supports. This keeps existing native trees available instead of forcing an eager conversion into `Map` / `List`. Not every operation is automatically supported: unimplemented adapter operations can fail explicitly.
 
-SJF4J already provides integrations for supported native node models. Build a custom adapter only when you need another representation or operation set.
+SJF4J already provides integrations for supported native node models. Build a custom adapter only when you need another representation or operation set. See [External Nodes](/docs/external-nodes) for supported models and a Gson-based integration example.
 
 ## Beyond Modeling
 
