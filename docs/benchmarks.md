@@ -22,6 +22,8 @@ at compile time. The following charts compare **100KB POJO reads** on two models
 **Users** (ordinary scalar fields and nested objects) and **Clients** (typed
 values including UUIDs, date/time types, decimals, and enums).
 
+<div class="benchmark-bars-pair">
+
 <BenchmarkBars
   comparison="Users POJO Read · Direct backend / CompiledBinder · 100KB"
   :items="[
@@ -44,6 +46,8 @@ values including UUIDs, date/time types, decimals, and enums).
   ]"
 />
 
+</div>
+
 Compiled Binding stays close to direct backend performance on the simpler
 Users model, with larger gains on strongly typed Clients for some backends.
 Results depend on the operation and model: for example, 100KB Users POJO
@@ -61,6 +65,8 @@ reads/writes, and 1/10/100KB inputs.
 Compiled binding also runs in GraalVM **Native Image AOT executables**.
 The serial Native Image benchmark compares **100KB POJO reads** for both
 Users and Clients against direct third-party library binding.
+
+<div class="benchmark-bars-pair">
 
 <BenchmarkBars
   comparison="Users POJO Read · Direct backend / CompiledBinder · Native Image AOT · 100KB"
@@ -81,6 +87,8 @@ Users and Clients against direct third-party library binding.
     { label: 'Gson', speedup: 2.56 }
   ]"
 />
+
+</div>
 
 Native Image uses a different runtime and execution environment from the
 JVM measurements above. These ratios compare implementations **within the
