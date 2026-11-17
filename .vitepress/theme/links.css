@@ -1,21 +1,21 @@
-/* Text links: an unobtrusive outlined icon for external destinations only.
-   Match VitePress's ::after marker so it is replaced, not duplicated.
-   Badges and links with their own SVG icon keep their existing artwork. */
+/* Add a simple ↗ character to external text links only.
+   Override VitePress's masked SVG icon without adding a second marker.
+   Image badges and links with built-in SVG icons remain unchanged. */
 :is(.VPContent .vp-doc, .VPHome, .VPSidebar, .VPNavBar, .VPFooter)
   a:is([href^="https://"], [href^="http://"]):not(.no-icon):not(:has(img, svg))::after {
-  content: '';
+  content: '↗';
   display: inline-block;
-  width: 13px;
-  height: 13px;
+  width: auto;
+  height: auto;
+  margin-top: 0;
   margin-left: 4px;
-  vertical-align: -2px;
+  vertical-align: baseline;
   color: var(--vp-c-text-3);
-  background: currentColor;
-  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 3h6v6'/%3E%3Cpath d='m10 14 11-11'/%3E%3Cpath d='M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6'/%3E%3C/svg%3E");
-  -webkit-mask-image: var(--icon);
-  mask-image: var(--icon);
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-size: contain;
-  mask-size: contain;
+  background: none;
+  font-size: 0.9em;
+  font-weight: 400;
+  line-height: 1;
+  --icon: none;
+  -webkit-mask-image: none;
+  mask-image: none;
 }
