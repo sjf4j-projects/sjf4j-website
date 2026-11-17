@@ -53,3 +53,30 @@
     width: 286px;
   }
 }
+
+/* Installation: keep long Maven coordinates from widening the Backends table. */
+@media (min-width: 768px) {
+  .vp-doc #backends + p + table {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+  }
+
+  .vp-doc #backends + p + table th:nth-child(1) { width: 12%; }
+  .vp-doc #backends + p + table th:nth-child(2) { width: 18%; }
+  .vp-doc #backends + p + table th:nth-child(3) { width: 26%; }
+  .vp-doc #backends + p + table th:nth-child(4) { width: 44%; }
+
+  .vp-doc #backends + p + table th,
+  .vp-doc #backends + p + table td {
+    padding-right: 10px;
+    padding-left: 10px;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* Allow inline dependency coordinates to wrap within their assigned cells. */
+.vp-doc #backends + p + table td code {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
