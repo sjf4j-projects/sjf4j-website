@@ -3,10 +3,10 @@ html {
   scrollbar-gutter: stable;
 }
 
-/* Widen only the homepage content; keep documentation pages at VitePress defaults. */
+/* Share the same outer layout width with documentation pages. */
 @media (min-width: 960px) {
   .VPHome .vp-doc.container {
-    max-width: 1490px;
+    max-width: var(--vp-layout-max-width);
   }
 }
 
