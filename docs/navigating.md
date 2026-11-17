@@ -13,13 +13,13 @@ Choose runtime navigation for dynamic expressions, or `@CompiledNavigator` for p
 
 Parse a path once and reuse it across different object representations:
 
-~~~java
+```java
 JsonPath path = JsonPath.parse("$.address.city");
 
 String city1 = path.get(user, String.class);
 String city2 = path.get(map, String.class);
 String city3 = path.get(jsonObject, String.class);
-~~~
+```
 
 `JsonPath.parse()` accepts JSONPath expressions and slash-prefixed JSON Pointers. To parse Pointer syntax without trimming whitespace, use `JsonPointer.parse()` instead.
 
@@ -38,7 +38,7 @@ String city3 = path.get(jsonObject, String.class);
 | `contains(root)` | Check whether a location exists, even if its value is `null` | `boolean` |
 | `hasNonNull(root)` | Check for an existing non-null value | `boolean` |
 
-~~~java
+```java
 String name = JsonPath.parse("$.name")
         .get(user, String.class);
 
@@ -50,7 +50,7 @@ List<String> adults = JsonPath.parse("$.friends[?@.age >= 18].name")
 
 Integer count = JsonPath.parse("$.friends[*].count()")
         .eval(user, Integer.class);
-~~~
+```
 
 `get()` and `find()` use strict SJF4J conversion; `getAs()` and `findAs()` use lenient conversion. Dedicated typed getters (such as `getString()` and `getInt()`) and container getters (such as `getList()` and `getMap()`) are also available.
 
@@ -65,7 +65,7 @@ Integer count = JsonPath.parse("$.friends[*].count()")
 
 Use `JsonPath` to update an object graph in place:
 
-~~~java
+```java
 JsonPath.parse("$.name").put(user, "Alice");
 
 JsonPath.parse("$.settings.theme")
@@ -75,7 +75,7 @@ JsonPath.parse("$.settings.language")
         .ensurePutIfAbsent(user, "en");
 
 JsonPath.parse("$.tags[+]").put(user, "java");
-~~~
+```
 
 | Method | Behavior |
 | --- | --- |
@@ -154,12 +154,12 @@ A filter selector `[?expression]` selects array elements or object members for w
 
 The `?` appears inside the surrounding brackets; for example:
 
-~~~java
+```java
 JsonPath.parse("$.users[?@.age >= 18]");
 JsonPath.parse("$.users[?(@.vip || @.age >= 18) && @.active]");
 JsonPath.parse("$.users[?@.age >= $.minimumAge]");
 JsonPath.parse("$.users[?match(@.name, '^A')]");
-~~~
+```
 
 Logical precedence is `!`, then `&&`, then `||`. Parentheses make grouping explicit. Filter operands may include path references, literals, and function calls.
 
@@ -173,9 +173,11 @@ Logical precedence is `!`, then `&&`, then `||`. Parentheses make grouping expli
 | `count(nodes)` | Number of matched nodes | `count(@.tags[*])` |
 | `match(text, pattern)` | Whole-string I-Regexp match | `match(@.name, '^A.*')` |
 | `search(text, pattern)` | Substring I-Regexp search | `search(@.name, 'Ann')` |
-| `value(nodes)` | Extract a value from a singular nodelist | `value(@.age)` |
+| `value(nodes)` | Return the evaluated input value in SJF4J | `value(@.age)` |
 
-The standard function style above is used **inside filters**. SJF4J also supports terminal functions in dot notation, with runtime evaluation semantics described below.
+The standard function style above is used **inside filters**. SJF4J's current `value()` implementation returns its input unchanged rather than enforcing the RFC's singular-nodelist restriction. The `match()` and `search()` implementations use the supported [I-Regexp (RFC 9485)](https://www.rfc-editor.org/rfc/rfc9485.html) subset.
+
+SJF4J also supports terminal functions in dot notation, with runtime evaluation semantics described below.
 
 #### SJF4J Extensions
 
@@ -191,7 +193,7 @@ The following are SJF4J conveniences or extensions, not portable RFC 9535 JSONPa
 | Root omitted | Parse a relative-looking expression from root | `name` |
 | `.function()` | Terminal function evaluation | `$.prices.sum()` |
 
-The `=~` operator performs a regex search; it is separate from the RFC `match()` and `search()` functions. `in` and `nin` accept array expressions, including array literals.
+The `=~` operator performs a Java regex search; it is separate from the RFC `match()` and `search()` functions. Regex literals accept `i` (case-insensitive), `m` (multiline), `s` (dotall), and `u` (Unicode case) flags. `g` is accepted but has no effect. `in` and `nin` accept array expressions, including array literals.
 
 **Built-in terminal functions**
 
@@ -214,7 +216,7 @@ These functions operate on the matched input, which may be a single node or the 
 
 You can register a custom function with `FunctionRegistry`:
 
-~~~java
+```java
 FunctionRegistry.register(
         new FunctionRegistry.FunctionDescriptor(
                 "twice",
@@ -224,7 +226,7 @@ FunctionRegistry.register(
 
 Integer result = JsonPath.parse("$.age.twice()")
         .eval(user, Integer.class);
-~~~
+```
 
 Registrations are global to the JVM; registering the same name replaces its existing function.
 
@@ -256,16 +258,16 @@ Escaping is defined token by token:
 
 For example, the member name `a~/b` is written `/a~0~1b`. Invalid `~` escape sequences are rejected.
 
-~~~java
+```java
 JsonPointer pointer = JsonPointer.parse("/users/0/name");
 
 String name = pointer.get(user, String.class);
 pointer.put(user, "Alice");
 
 JsonPointer.parse("/items/-").add(user, "new item");
-~~~
+```
 
-A numeric reference token selects an array index when the parent is array-like, but remains an object key when the parent is object-like. The terminal `-` token is an append position for writable arrays, not a readable array element; on an object it can name the member `"-"`. A nonterminal `-` is an ordinary member name.
+A canonical nonnegative integer token (within the 32-bit index range, without leading zeros except `0`) selects an array index when the parent is array-like, but remains an object key when the parent is object-like. Tokens such as `/01` are member names, not array indexes. The terminal `-` token is an append position for writable arrays, not a readable array element; on an object it can name the member `"-"`. A nonterminal `-` is an ordinary member name.
 
 `JsonPointer.parse("")` selects the root, while `JsonPointer.parse("/")` selects the empty-name member. Unlike `JsonPath.parse()`, `JsonPointer.parse()` does not trim leading or trailing whitespace, because whitespace can be part of a token.
 
@@ -273,13 +275,13 @@ RFC 6901 also defines a URI-fragment representation beginning with `#`. The `Jso
 
 #### JSONPath and Pointer Interoperability
 
-~~~java
+```java
 JsonPath path = JsonPath.parse("/users/0/name");
 JsonPointer pointer = JsonPointer.parse("/users/0/name");
 
 String expr = pointer.toExpr();          // JSONPath expression
 String ptr = path.toPointerExpr();       // JSON Pointer expression
-~~~
+```
 
 `JsonPath.parse()` recognizes slash-prefixed input as Pointer syntax. Conversion to a Pointer is only available for paths that identify a single location using representable name/index tokens; wildcard, filter, union, slice, and descendant selectors cannot be converted to a JSON Pointer.
 
@@ -287,13 +289,13 @@ String ptr = path.toPointerExpr();       // JSON Pointer expression
 
 `NodeStream` combines navigation over OBNT values with Java Stream-style processing. Path-based operations can read one value per item or flatten multiple matches.
 
-~~~java
+```java
 List<String> names = NodeStream.of(user)
         .findByPath("$.friends[*].name", String.class)
         .filter(name -> name.length() > 3)
         .distinct()
         .toList();
-~~~
+```
 
 | Method | Behavior |
 | --- | --- |
@@ -311,7 +313,7 @@ For paths known at build time, `@CompiledNavigator` generates specialized Java i
 
 Define an interface (with `User`, `Friend`, and `Settings` as ordinary Java classes):
 
-~~~java
+```java
 @CompiledNavigator(fallback = true)
 interface UserNavigator {
 
@@ -330,11 +332,11 @@ interface UserNavigator {
     @EnsurePutByPath("$.settings.theme")
     void setTheme(User user, String value);
 }
-~~~
+```
 
 Create and reuse the generated implementation:
 
-~~~java
+```java
 UserNavigator nav = CompiledInstances.create(UserNavigator.class);
 
 String name = nav.name(user);
@@ -342,7 +344,7 @@ String friend = nav.friendName(user, 0);
 List<String> adults = nav.adultNames(user);
 
 nav.setTheme(user, "dark");
-~~~
+```
 
 ### Supported Operations
 
