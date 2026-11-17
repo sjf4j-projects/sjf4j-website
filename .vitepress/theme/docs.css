@@ -38,6 +38,11 @@
     max-width: 860px;
   }
 
+  /* Keep the dedicated benchmark overview's wider reading cap. */
+  .VPDoc.has-aside:has(.benchmark-highlights) .container .content .content-container {
+    max-width: 900px;
+  }
+
   /* Shift the in-page outline right without hiding or overlaying it. */
   .VPDoc .container .aside {
     padding-left: 24px;
