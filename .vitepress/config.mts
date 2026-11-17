@@ -56,6 +56,13 @@ export default withMermaid(defineConfig({
           ],
         },
         {
+          text: 'Integrations',
+          items: [
+            { text: 'Backends & Formats', link: '/docs/backends' },
+            { text: 'External Nodes', link: '/docs/external-nodes' },
+          ],
+        },
+        {
           text: 'Reference',
           items: [
             { text: 'FAQ', link: '/docs/faq' },
