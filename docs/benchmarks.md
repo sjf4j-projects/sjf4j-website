@@ -13,44 +13,7 @@ description: "Measured SJF4J performance across data binding, navigation, schema
 
 ## Performance at a Glance
 
-<div class="benchmark-highlights">
-  <div class="benchmark-highlight">
-    <span class="benchmark-highlight-category">Data Binding</span>
-    <strong>1.16×</strong>
-    <small>vs. direct Jackson 2 · 100KB Users POJO read</small>
-  </div>
-  <div class="benchmark-highlight">
-    <span class="benchmark-highlight-category">GraalVM Native Image</span>
-    <strong>1.35×</strong>
-    <small>vs. direct Jackson 2 · 100KB Users POJO read</small>
-  </div>
-  <div class="benchmark-highlight">
-    <span class="benchmark-highlight-category">JSONPath Navigation</span>
-    <strong>55.31×</strong>
-    <small>vs. SJF4J Runtime · direct POJO lookup, 100KB</small>
-  </div>
-  <div class="benchmark-highlight">
-    <span class="benchmark-highlight-category">JSON Schema Validation</span>
-    <strong>53.6×</strong>
-    <small>vs. SJF4J Runtime · Creek POJO validation</small>
-  </div>
-  <div class="benchmark-highlight">
-    <span class="benchmark-highlight-category">Object Mapping</span>
-    <strong>1.31×</strong>
-    <small>vs. MapStruct · extended Order, 100KB</small>
-  </div>
-  <div class="benchmark-highlight">
-    <span class="benchmark-highlight-category">JDBC Result Mapping</span>
-    <strong>16.03×</strong>
-    <small>vs. Spring JDBC · 1,000 POJO rows</small>
-  </div>
-
-</div>
-
-<p class="benchmark-caption">
-  Selected, workload-specific speedups, not a cross-category ranking. The comparison
-  baseline is different in each case; see the charts and linked reports below.
-</p>
+<BenchmarkHighlights />
 
 ## Data Binding
 
