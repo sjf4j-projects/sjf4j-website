@@ -15,7 +15,7 @@ Choose flexible **Runtime Binding** or generate specialized readers and writers 
 
 Use `Sjf4j` to work with the same Java model across formats:
 
-~~~java
+```java
 class User {
     public String name;
 }
@@ -32,7 +32,7 @@ Properties props = sjf4j.toProperties(user);
 
 // Properties → POJO
 User restored = sjf4j.fromProperties(props, User.class);
-~~~
+```
 
 No base class or binding annotation is required for a regular POJO. YAML binding requires the SnakeYAML backend; JSON and Properties work with the built-in implementations.
 
@@ -40,7 +40,7 @@ No base class or binding annotation is required for a regular POJO. YAML binding
 
 `TypeReference` preserves generic target types. JSON also supports direct stream I/O:
 
-~~~java
+```java
 List<User> users = sjf4j.fromJson(
     json,
     new TypeReference<List<User>>() {}
@@ -48,7 +48,7 @@ List<User> users = sjf4j.fromJson(
 
 User user = sjf4j.fromJson(inputStream, User.class);
 sjf4j.toJson(outputStream, user);
-~~~
+```
 
 For JSON, inputs can be `String`, `byte[]`, `Reader`, or `InputStream`; outputs can be `String`, `byte[]`, `Writer`, or `OutputStream`. YAML offers text and character-stream binding, while Java Properties uses `Properties` objects.
 
@@ -58,7 +58,7 @@ For JSON, inputs can be `String`, `byte[]`, `Reader`, or `InputStream`; outputs 
 
 ### Define a binder
 
-~~~java
+```java
 @CompiledBinder
 interface UserBinder {
     @Read User read(String json);
@@ -67,16 +67,16 @@ interface UserBinder {
     @Write String write(User user);
     @Write byte[] writeBytes(User user);
 }
-~~~
+```
 
 ### Use the generated implementation
 
-~~~java
+```java
 UserBinder binder = CompiledInstances.create(UserBinder.class);
 
 User user = binder.read(json);
 byte[] output = binder.writeBytes(user);
-~~~
+```
 
 The generated implementation is named `UserBinder_Impl`. Read methods also accept `Reader` and `InputStream`; write methods can write to `Writer` or `OutputStream`.
 
@@ -104,7 +104,7 @@ SJF4J binds both conventional Java types and its extensible object models:
 
 Use `@NodeObject` for type-level rules and `@NodeProperty` for individual properties:
 
-~~~java
+```java
 @NodeObject(naming = NamingStrategy.SNAKE_CASE)
 class Account {
     @NodeProperty(aliases = {"username"})
@@ -112,7 +112,7 @@ class Account {
 
     public String displayName;
 }
-~~~
+```
 
 Here, `userName` and `displayName` bind to `user_name` and `display_name`; `username` is also accepted when reading.
 
@@ -124,7 +124,7 @@ Learn more in [Modeling (OBNT)](/docs/modeling).
 
 `@OneOf` selects a concrete subtype using a discriminator or, for distinct shapes, the input's JSON structure. It works with Runtime and Compiled Binding.
 
-~~~java
+```java
 @OneOf(discriminatorKey = "type", cases = {
     @OneOfCase(type = Login.class, when = "login"),
     @OneOfCase(type = Logout.class, when = "logout")
@@ -145,7 +145,7 @@ Event event = sjf4j.fromJson(
     "{\"type\":\"login\",\"user\":\"Alice\"}",
     Event.class
 ); // Login
-~~~
+```
 
 Discriminators can be read from the current object; selected property-level mappings can also use a parent discriminator. Nested polymorphism and creator parameters have additional restrictions. See the `@OneOf` API documentation for those cases.
 
@@ -157,7 +157,7 @@ Built-in binding supports common Java values such as `UUID`, `URI`, `Instant`, `
 
 A property can override the default representation:
 
-~~~java
+```java
 class EventRecord {
     @NodeProperty(valueFormat = "epochMillis")
     public Instant timestamp;
@@ -165,21 +165,21 @@ class EventRecord {
     @NodeProperty(valuePattern = "yyyy-MM-dd")
     public LocalDate date;
 }
-~~~
+```
 
 Or configure a default format for a `Sjf4j` instance:
 
-~~~java
+```java
 Sjf4j sjf4j = Sjf4j.builder()
     .valueFormat(Instant.class, "epochMillis")
     .build();
-~~~
+```
 
 ### Define a custom value type
 
 `@NodeValue` models a domain type as one logical value rather than an object with properties:
 
-~~~java
+```java
 @NodeValue
 public final class UserId {
     private final String value;
@@ -198,7 +198,7 @@ public final class UserId {
         return raw == null ? null : new UserId(raw);
     }
 }
-~~~
+```
 
 A `UserId` is now bound as a JSON string. For reusable codecs, named representations, and direct streaming conversions, use `ValueCodec` and `StreamingValueCodec`. See [Modeling (OBNT)](/docs/modeling#custom-value-types) for more details.
 
@@ -206,25 +206,25 @@ A `UserId` is now bound as a JSON string. For reusable codecs, named representat
 
 SJF4J separates format handling from Java object binding. Its streaming architecture supports multiple backends through a common set of parser and generator operations.
 
-~~~mermaid
+```mermaid
 flowchart TD
     A["JSON / YAML"] --> B["Streaming backends"]
     B --> C["Runtime Binding"]
     B --> D["Compiled Binding"]
     C --> E["Java object models"]
     D --> E
-~~~
+```
 
 Supported backends include **Jackson 2/3, Gson, Fastjson2, JSON-P, SnakeYAML**, and the built-in **Simple JSON** implementation. Java Properties uses a separate runtime binder.
 
 Runtime binding discovers available backend providers automatically, or you can choose one explicitly:
 
-~~~java
+```java
 Sjf4j sjf4j = Sjf4j.builder()
     .jsonProvider(new Jackson2BinderProvider())
     .includeNulls(false)
     .build();
-~~~
+```
 
 Custom providers can integrate additional streaming parsers and generators. `ExternalNode` adapters also make supported third-party native object models available to SJF4J's structural APIs without eagerly converting them to Maps or Lists.
 
