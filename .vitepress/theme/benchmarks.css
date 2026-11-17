@@ -83,14 +83,16 @@
     margin-right: auto;
   }
 
+  /* Single charts can use a wider track. */
   .VPDoc:has(.benchmark-highlights) .benchmark-bars {
-    max-width: 480px;
+    max-width: 600px;
     margin-left: auto;
     margin-right: auto;
   }
 
   /* Paired JVM and Native Image comparisons share one row when space allows. */
   .VPDoc:has(.benchmark-highlights) .benchmark-bars-pair {
+    container-type: inline-size;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -100,6 +102,7 @@
 
   .VPDoc:has(.benchmark-highlights) .benchmark-bars-pair > .benchmark-bars {
     flex: 1 1 400px;
+    max-width: 480px;
     min-width: 0;
     margin: 0;
   }
@@ -113,6 +116,16 @@
   .VPDoc:has(.benchmark-highlights) .benchmark-bars-axis {
     margin-right: 54px;
     margin-left: 142px;
+  }
+}
+
+/* When the pair cannot fit two 400px charts plus the gap, stack at up to 600px. */
+@media (min-width: 960px) {
+  @container (max-width: 815px) {
+    .VPDoc:has(.benchmark-highlights) .benchmark-bars-pair > .benchmark-bars {
+      flex-basis: 100%;
+      max-width: 600px;
+    }
   }
 }
 
