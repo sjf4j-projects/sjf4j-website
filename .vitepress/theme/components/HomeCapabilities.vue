@@ -316,7 +316,7 @@ onUnmounted(() => {
         />
         <aside v-if="activeCapability.id === 'modeling'" class="modeling-info" aria-label="OBNT model overview">
           <p>
-            <strong>Object-Based Node Tree (OBNT)</strong> is the unified structural model behind SJF4J's APIs.
+            <strong>OBNT (Object-Based Node Tree)</strong> is the unified structural model behind SJF4J's APIs.
             It defines three kinds of nodes:
           </p>
           <table class="modeling-node-table">
