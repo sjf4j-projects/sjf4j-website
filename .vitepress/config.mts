@@ -1,8 +1,9 @@
 import { defineConfig } from 'vitepress'
+import { withMermaid } from 'vitepress-plugin-mermaid'
 
 const repo = 'https://github.com/sjf4j-projects/sjf4j'
 
-export default defineConfig({
+export default withMermaid(defineConfig({
   title: 'SJF4J',
   description: 'A unified structural processing layer built on JSON semantics.',
   lang: 'en-US',
@@ -72,5 +73,4 @@ export default defineConfig({
       copyright: 'SJF4J contributors',
     },
   },
-})
-
+}))
