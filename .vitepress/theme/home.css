@@ -1,3 +1,8 @@
+/* Keep the viewport width stable when VitePress locks body scrolling for search. */
+html {
+  scrollbar-gutter: stable;
+}
+
 /* Widen only the homepage content; keep documentation pages at VitePress defaults. */
 @media (min-width: 960px) {
   .VPHome .vp-doc.container {
