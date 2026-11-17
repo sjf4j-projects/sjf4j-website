@@ -3,7 +3,7 @@
 @media (min-width: 960px) {
   :root {
     /* Compact navigation while keeping long labels legible. */
-    --vp-sidebar-width: 210px;
+    --vp-sidebar-width: 230px;
   }
 
   /* Reclaim sidebar padding while preserving its centered wide-screen offset. */
