@@ -34,19 +34,11 @@ export default defineConfig({
       ],
       '/docs/': [
         {
-          text: 'Getting Started',
+          text: 'Introduction',
           items: [
-            { text: 'Introduction', link: '/docs/getting_started' },
+            { text: 'Get Started', link: '/docs/getting_started' },
             { text: 'Installation', link: '/docs/installation' },
-            { text: 'Quickstart', link: '/docs/quickstart' },
-          ],
-        },
-        {
-          text: 'Core Concepts',
-          items: [
-            { text: 'Architecture', link: '/docs/architecture' },
             { text: 'Modeling (OBNT)', link: '/docs/modeling' },
-            { text: 'Backends & Formats', link: '/docs/backends' },
           ],
         },
         {
@@ -58,19 +50,6 @@ export default defineConfig({
             { text: 'Object Mapping', link: '/docs/mapping' },
             { text: 'JDBC Result Mapping', link: '/docs/jdbc-mapping' },
             { text: 'Patching', link: '/docs/patching' },
-          ],
-        },
-        {
-          text: 'Compiled APIs',
-          items: [{ text: 'Overview & How It Works', link: '/docs/compiled' }],
-        },
-        {
-          text: 'Reference',
-          items: [
-            { text: 'Benchmarks', link: '/docs/benchmarks' },
-            { text: 'Javadocs', link: 'https://javadoc.io/doc/org.sjf4j/sjf4j-core' },
-            { text: 'FAQ', link: '/docs/faq' },
-            { text: 'Changelog', link: '/docs/changelog' },
           ],
         },
       ],
