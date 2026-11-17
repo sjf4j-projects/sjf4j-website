@@ -16,7 +16,12 @@ description: "Measured SJF4J performance across data binding, navigation, schema
 <div class="benchmark-highlights">
   <div class="benchmark-highlight">
     <span class="benchmark-highlight-category">Data Binding</span>
-    <strong>3.77×</strong>
+    <strong>1.16×</strong>
+    <small>vs. direct Jackson 2 · 100KB Users POJO read</small>
+  </div>
+  <div class="benchmark-highlight">
+    <span class="benchmark-highlight-category">GraalVM Native Image</span>
+    <strong>8.17×</strong>
     <small>vs. direct Jackson 3 · 100KB Clients POJO read</small>
   </div>
   <div class="benchmark-highlight">
@@ -39,11 +44,7 @@ description: "Measured SJF4J performance across data binding, navigation, schema
     <strong>16.03×</strong>
     <small>vs. Spring JDBC · 1,000 POJO rows</small>
   </div>
-  <div class="benchmark-highlight">
-    <span class="benchmark-highlight-category">GraalVM Native Image</span>
-    <strong>8.17×</strong>
-    <small>vs. direct Jackson 3 · 100KB Clients POJO read</small>
-  </div>
+
 </div>
 
 <p class="benchmark-caption">
@@ -78,7 +79,7 @@ also covers Maps, JSON-P, separate reads/writes, and 1/10/100KB inputs.
 
 <small>v1.5.1-SNAPSHOT · Temurin 25 · JMH · November 13, 2026. Ratios compare each backend within its own runner job.</small>
 
-[Binding Full Benchmarks ↗](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/binding.md)
+[Data Binding Benchmark Report ↗](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/binding.md)
 
 ## GraalVM Native Image Binding
 
