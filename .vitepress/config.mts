@@ -59,7 +59,7 @@ export default defineConfig({
           items: [
             { text: 'FAQ', link: '/docs/faq' },
             { text: 'Javadocs', link: 'https://javadoc.io/doc/org.sjf4j/sjf4j-core' },
-            { text: 'Changelog', link: '/docs/changelog' },
+            { text: 'Changelog', link: 'https://github.com/sjf4j-projects/sjf4j/blob/main/CHANGELOG.md' },
           ],
         },
       ],
