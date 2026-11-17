@@ -1,0 +1,51 @@
+/* Compact documentation navigation and give technical content more room.
+   Keep VitePress's mobile sidebar and the homepage unchanged. */
+@media (min-width: 960px) {
+  :root {
+    /* VitePress default: 272px. Approximately 35% narrower. */
+    --vp-sidebar-width: 176px;
+  }
+
+  /* Reclaim sidebar padding while preserving its centered wide-screen offset. */
+  .VPSidebar {
+    padding-right: 12px;
+  }
+
+  .VPSidebar .nav {
+    margin-left: -12px;
+    width: calc(100% + 12px);
+  }
+
+  .VPSidebar .nav > .group {
+    width: 100%;
+  }
+
+  /* Reduce the horizontal reading gutters from the default 32px. */
+  .VPDoc {
+    padding-right: 22px;
+    padding-left: 22px;
+  }
+
+  .VPDoc .content {
+    padding-right: 22px;
+    padding-left: 22px;
+  }
+}
+
+@media (min-width: 1280px) {
+  /* Default content max-width with outline is 688px. */
+  .VPDoc.has-aside .content-container {
+    max-width: 860px;
+  }
+
+  /* Shift the in-page outline right without hiding or overlaying it. */
+  .VPDoc .aside {
+    padding-left: 24px;
+    max-width: 224px;
+  }
+
+  .VPDoc .aside-container,
+  .VPDoc .aside-curtain {
+    width: 200px;
+  }
+}
