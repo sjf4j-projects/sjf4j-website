@@ -89,3 +89,19 @@
   display: inline-block;
   vertical-align: middle;
 }
+
+/* Light theme: distinguish the current in-page section from the other links.
+   Leave dark-mode colors and the outline's geometry unchanged. */
+:root:not(.dark) .VPDocAsideOutline .outline-link.active {
+  color: var(--vp-c-text-1);
+  font-weight: 650;
+  background-color: var(--vp-c-brand-soft);
+  border-radius: 4px;
+  padding-left: 8px;
+  margin-left: -8px;
+}
+
+:root:not(.dark) .VPDocAsideOutline .outline-marker {
+  width: 3px;
+  background-color: var(--vp-c-brand-1);
+}
