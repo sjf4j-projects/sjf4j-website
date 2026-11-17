@@ -1,14 +1,20 @@
-/* Compact documentation navigation and give technical content more room.
-   Keep VitePress's mobile sidebar and the homepage unchanged. */
+/* Compact desktop documentation navigation and share a wider page layout.
+   Preserve VitePress's mobile sidebar behavior. */
 @media (min-width: 960px) {
   :root {
     /* Compact navigation while keeping long labels legible. */
     --vp-sidebar-width: 230px;
   }
 
-  /* Reclaim sidebar padding while preserving its centered wide-screen offset. */
+  /* Reclaim sidebar padding and hide the scrollbar without disabling scrolling. */
   .Layout .VPSidebar {
     padding-right: 12px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .Layout .VPSidebar::-webkit-scrollbar {
+    display: none;
   }
 
   .Layout .VPSidebar .nav {
@@ -33,11 +39,12 @@
 }
 
 @media (min-width: 1280px) {
-  /* Make room for a 960px reading column alongside the 310px outline. */
-  .Layout:has(.VPDoc) {
+  /* Use one outer width across the homepage and documentation. */
+  .Layout {
     --vp-layout-max-width: min(1600px, 100vw);
   }
 
+  /* Keep room for the 960px reading column and 310px outline. */
   .VPDoc.has-aside .container .content .content-container {
     max-width: 960px;
   }
