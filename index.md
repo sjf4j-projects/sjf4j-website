@@ -13,7 +13,7 @@ import HomeCapabilities from './.vitepress/theme/components/HomeCapabilities.vue
 
 ## Explore Features {#explore-features}
 
-<p class="home-explore-lead">Data binding, navigation, validation, mapping, and patching for Java objects through flexible <strong>Runtime APIs</strong> and optimized <strong>Compiled APIs</strong>.</p>
+<p class="home-explore-lead">Work directly with Java objects using flexible <strong>Runtime APIs</strong> and optimized <strong>Compiled APIs</strong>.</p>
 
 <HomeCapabilities />
 
