@@ -60,27 +60,32 @@ dependencies {
 ```
 
 ```xml [Maven]
-<dependency>
-    <groupId>org.sjf4j</groupId>
-    <artifactId>sjf4j-core</artifactId>
-    <version>{version}</version>
-</dependency>
+<dependencies>
+    <dependency>
+        <groupId>org.sjf4j</groupId>
+        <artifactId>sjf4j-core</artifactId>
+        <version>{version}</version>
+    </dependency>
+</dependencies>
 
-<!-- Under <build><plugins> -->
-<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-compiler-plugin</artifactId>
-    <version>3.13.0</version>
-    <configuration>
-        <annotationProcessorPaths>
-            <path>
-                <groupId>org.sjf4j</groupId>
-                <artifactId>sjf4j-processor</artifactId>
-                <version>{version}</version>
-            </path>
-        </annotationProcessorPaths>
-    </configuration>
-</plugin>
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.13.0</version>
+            <configuration>
+                <annotationProcessorPaths>
+                    <path>
+                        <groupId>org.sjf4j</groupId>
+                        <artifactId>sjf4j-processor</artifactId>
+                        <version>{version}</version>
+                    </path>
+                </annotationProcessorPaths>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
 ```
 
 :::
