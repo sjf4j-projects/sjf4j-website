@@ -16,3 +16,11 @@ import HomeCapabilities from './.vitepress/theme/components/HomeCapabilities.vue
 <p class="home-explore-lead">Data binding, navigation, validation, mapping, and patching for Java objects through flexible <strong>Runtime APIs</strong> and optimized <strong>Compiled APIs</strong>.</p>
 
 <HomeCapabilities />
+
+## Performance at a Glance {#performance-at-a-glance}
+
+<p class="home-benchmark-lead">Measured performance across binding, navigation, validation, and mapping — on the JVM and GraalVM Native Image.</p>
+
+<BenchmarkHighlights />
+
+<p class="home-benchmark-more"><a href="/docs/benchmarks">Explore Benchmarks →</a></p>
