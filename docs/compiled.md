@@ -46,53 +46,7 @@ In particular, `@CompiledJdbcMapper` maps database columns directly rather than 
 
 ## Getting Started
 
-### Enable annotation processing
-
-SJF4J supports **Java 8+**. Add `sjf4j-processor` to the **annotation processor path**; it is not a normal application runtime dependency. Replace `{version}` with the current [Maven Central release](https://central.sonatype.com/artifact/org.sjf4j/sjf4j).
-
-::: code-group
-
-```kotlin [Gradle (Kotlin DSL)]
-dependencies {
-    implementation("org.sjf4j:sjf4j-core:{version}")
-    annotationProcessor("org.sjf4j:sjf4j-processor:{version}")
-}
-```
-
-```xml [Maven]
-<dependencies>
-    <dependency>
-        <groupId>org.sjf4j</groupId>
-        <artifactId>sjf4j-core</artifactId>
-        <version>{version}</version>
-    </dependency>
-</dependencies>
-
-<build>
-    <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.13.0</version>
-            <configuration>
-                <annotationProcessorPaths>
-                    <path>
-                        <groupId>org.sjf4j</groupId>
-                        <artifactId>sjf4j-processor</artifactId>
-                        <version>{version}</version>
-                    </path>
-                </annotationProcessorPaths>
-            </configuration>
-        </plugin>
-    </plugins>
-</build>
-```
-
-:::
-
-These are the minimum dependencies for the navigation example. Add a suitable backend and its library for compiled binding, or `sjf4j-schema` for compiled validation.
-
-For complete dependency and Maven configuration examples, see [Installation](/docs/installation).
+For dependencies and annotation processor setup, see [Installation](/docs/installation).
 
 ### Create and reuse instances
 
@@ -150,8 +104,4 @@ These options do not mean every dynamic expression or conversion can be compiled
 
 ## Performance
 
-Generated implementations can reduce repeated parsing, interpretation, reflection, and generic dispatch, but **there is no universal speedup**. Results depend on the backend, Java model, data size, and operation.
-
-The [Benchmarks](/docs/benchmarks) overview links to project-run JMH results and independent comparisons. For details, see [Binding](/docs/performance/binding), [Native Image Binding](/docs/performance/binding-native), [JSONPath Navigation](/docs/performance/path), [JSON Schema Validation](/docs/performance/schema), [Object Mapping](/docs/performance/mapping), and [JDBC Result Mapping](/docs/performance/jdbc-mapping).
-
-Use those workload-specific measurements to decide where compilation provides a worthwhile benefit.
+Compiled APIs generate specialized Java code to reduce runtime overhead for supported operations. Results vary by workload; see [Benchmarks](/docs/benchmarks) for measurements and methodology.
