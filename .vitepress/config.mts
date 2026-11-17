@@ -57,7 +57,7 @@ export default defineConfig({
         {
           text: 'Reference',
           items: [
-            { text: 'FAQ', link: 'https://github.com/sjf4j-projects/sjf4j/blob/main/docs/FAQ.md' },
+            { text: 'FAQ', link: '/docs/faq' },
             { text: 'Javadocs', link: 'https://javadoc.io/doc/org.sjf4j/sjf4j-core' },
             { text: 'Changelog', link: '/docs/changelog' },
           ],
