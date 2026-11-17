@@ -48,33 +48,42 @@ The selected backend is fixed for the generated implementation. See [Binding](/d
 
 SJF4J separates **structural binding** from the underlying parser and writer. A backend implements the `StreamingParser` and `StreamingGenerator` contracts; SJF4J handles binding to POJOs, Maps, Lists, and other supported Java types.
 
-### Example: Jackson 2
+### Example: Gson
 
-The Jackson 2 adapter wraps Jackson's native `JsonParser` and `JsonGenerator` with `Jackson2Parser` and `Jackson2Generator`. You can configure the Jackson factory and supply it to an SJF4J runtime:
+Gson exposes a small streaming API through `JsonReader` and `JsonWriter`. SJF4J's adapter translates those operations into its own streaming contract. For example, these methods come directly from the Gson adapter (other required methods omitted):
 
 ```java
-JsonFactory factory = JsonFactory.builder()
-        .enable(JsonReadFeature.ALLOW_JAVA_COMMENTS)
-        .build();
+// GsonParser extends StreamingParser
+@Override
+public void readObjectStart() throws IOException {
+    reader.beginObject();
+}
 
-Sjf4j sjf4j = Sjf4j.builder()
-        .jsonProvider(Jackson2BinderProvider.of(factory))
-        .build();
+@Override
+public String readString() throws IOException {
+    return nextIfNull() ? null : reader.nextString();
+}
 
-User user = sjf4j.fromJson("{ /* comment */ \"name\": \"Alice\" }", User.class);
-String json = sjf4j.toJsonString(user);
+// GsonGenerator extends StreamingGenerator
+@Override
+public void writeObjectStart() throws IOException {
+    writer.beginObject();
+}
+
+@Override
+public void writeStringValue(String value) throws IOException {
+    writer.value(value);
+}
 ```
 
-This example allows comments in the input while keeping SJF4J's object binding and output APIs unchanged. The feature is enabled on this runtime's Jackson backend; it does not change JSON's standard syntax.
+`GsonBinder` creates these adapters from Gson's native readers and writers. `GsonBinderProvider` exposes the binder through `ServiceLoader`, so applications can use the normal `Sjf4j` API without any Gson-specific binding code.
 
-The integration follows four layers:
-
-| Layer | Jackson 2 implementation | Responsibility |
+| Layer | Gson implementation | Responsibility |
 | --- | --- | --- |
-| Native streaming | `JsonParser` / `JsonGenerator` | Read and write JSON tokens |
-| SJF4J streaming | `Jackson2Parser` / `Jackson2Generator` | Adapt tokens and values to SJF4J's contract |
-| Binding | `Jackson2Binder` | Connect the streaming adapters to SJF4J binding |
-| Discovery | `Jackson2BinderProvider` | Create binders and participate in backend selection |
+| Native streaming | `JsonReader` / `JsonWriter` | Read and write JSON tokens |
+| SJF4J streaming | `GsonParser` / `GsonGenerator` | Translate streaming operations |
+| Binding | `GsonBinder` | Create the parser and generator adapters |
+| Discovery | `GsonBinderProvider` | Register the backend for selection |
 
 ### Adding a Backend
 
@@ -86,4 +95,4 @@ To integrate another streaming library or format:
 
 A provider identifies its format with `Format.JSON`, `Format.YAML`, or a custom identifier such as `Format.of("com.example:toml")`. Custom formats can be resolved through `BinderFactory`; the `Sjf4j` facade exposes built-in JSON, YAML, and Properties entry points.
 
-For working directly with a library's *existing in-memory node tree*, use [External Nodes](/docs/external-nodes) instead. For a complete reference implementation, see [Jackson2Binder](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-backend-jackson2/src/main/java/org/sjf4j/backend/jackson2/binding/Jackson2Binder.java).
+For working directly with a library's *existing in-memory node tree*, use [External Nodes](/docs/external-nodes) instead. For a complete reference implementation, see [GsonBinder](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-backend-gson/src/main/java/org/sjf4j/backend/gson/binding/GsonBinder.java) and [GsonParser](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-backend-gson/src/main/java/org/sjf4j/backend/gson/binding/GsonParser.java).
