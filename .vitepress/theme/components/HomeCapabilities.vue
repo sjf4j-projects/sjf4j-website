@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
-import HomeCodePanel from './HomeCodePanel.vue'
+import CodePanel from './CodePanel.vue'
 
 type DescriptionPart = string | { text: string; href: string }
 
@@ -35,18 +35,16 @@ const capabilities: Capability[] = [
 public class Address {
     public String city;
 }
-Sjf4j sjf4j = Sjf4j().builer().build();
+Sjf4j sjf4j = Sjf4j.builder().build();
 
 User user = sjf4j.fromJson(json, User.class);
 String json2 = sjf4j.toJsonString(user);`,
     compiled: `@CompiledBinder
 interface UserBinder {
     @Read User fromJson(String json);
-    @Read String toJson(User user);
+    @Write String toJson(User user);
 }
 UserBinder binder = CompiledInstances.create(UserBinder.class);
-
-
 
 User user = binder.fromJson(json);
 String json2 = binder.toJson(user);`
@@ -74,7 +72,7 @@ path.put(user, "Chongqing");
 List<String> names = 
         JsonPath.parse("$..friends[?@.scores.math >= 90].name")
         .find(student, String.class);`,
-    compiled: `@CompiledNavigator
+    compiled: `@CompiledNavigator(fallback = true)
 interface UserNavigator {
     @GetByPath("/address/city")
     String getCity(User user);
@@ -95,29 +93,19 @@ interface UserNavigator {
       { text: 'JSON Schema', href: 'https://json-schema.org/' },
       ' (drafts 2020-12, 2019-09, and 7), without constructing intermediate JSON trees.'
     ],
-    runtime: `JsonSchema schema = JsonSchema.fromJson("""
-{
-  "type": "object",
-  "properties": {
-    "name": {"type": "string", "minLength": 1},
-    "age": {"type": "integer", "minimum": 0}
-  },
-  "required": ["name"]
-}
-""");
+    runtime: `// schemaJson contains a JSON Schema document
+JsonSchema schema = JsonSchema.fromJson(schemaJson);
 SchemaPlan plan = schema.createPlan();
 
 boolean valid = plan.isValid(user);`,
     compiled: `@CompiledValidator
 interface UserValidator {
-    UserValidator INSTANCE = ...;
-
     @ValidJsonSchema(ref = "classpath:/schemas/user.json")
     boolean isValid(User user);
 }
 
-
-boolean valid = UserValidator.INSTANCE.isValid(user);`
+UserValidator validator = CompiledInstances.create(UserValidator.class);
+boolean valid = validator.isValid(user);`
   },
   {
     id: 'object-mapping',
@@ -127,18 +115,21 @@ boolean valid = UserValidator.INSTANCE.isValid(user);`
       'Convert between Maps, POJOs, values, and nested Java structures.'
     ],
     runtime: `public class AnotherUser {
+    public String name;
     public String fullName;
     public int age;
 }
 
+// Runtime conversion maps matching properties
 AnotherUser dto = sjf4j.convert(user, AnotherUser.class);`,
     compiled: `@CompiledMapper
 interface UserMapper {
-    UserMapper INSTANCE = ...;
-
     @Mapping(target = "fullName", source = "name")
     AnotherUser toAnother(User user);
-}`
+}
+
+UserMapper mapper = CompiledInstances.create(UserMapper.class);
+AnotherUser dto = mapper.toAnother(user);`
   },
   {
     id: 'jdbc-result-mapping',
@@ -149,16 +140,20 @@ interface UserMapper {
     ],
     compiled: `@CompiledJdbcMapper
 interface UserJdbcMapper {
-    JdbcRowMapper<User> prepare(ResultSetMetaData metadata);
     List<User> users(ResultSet rs);
+    JdbcRowMapper<User> prepare(ResultSetMetaData metadata);
 }
 
-// Map a single row to a User
-JdbcRowMapper<User> rowMapper = mapper.prepare(rs.getMetaData());
-User user = rowMapper.map(rs);
+UserJdbcMapper mapper = CompiledInstances.create(UserJdbcMapper.class);
 
-// Map all rows to a List
-List<User> users = mapper.users(rs);`
+// Cursor-consuming mapping: before the first row
+List<User> users = mapper.users(rs);
+
+// Or map current rows on a separate ResultSet
+JdbcRowMapper<User> rowMapper = mapper.prepare(otherRs.getMetaData());
+while (otherRs.next()) {
+    User user = rowMapper.map(otherRs);
+}`
   },
   {
     id: 'patching',
@@ -171,9 +166,8 @@ List<User> users = mapper.users(rs);`
       { text: 'JSON Merge Patch (RFC 7386)', href: 'https://www.rfc-editor.org/info/rfc7386' },
       ', and indexed merge operations directly to Java object graphs.'
     ],
-    runtime: `JsonPatch patch = JsonPatch.fromJson("""
-        [{"op": "replace", "path": "/name", "value": "Alice Zhang"}]
-        """);
+    runtime: `JsonPatch patch = JsonPatch.fromJson(
+        \"[{\\\"op\\\":\\\"replace\\\",\\\"path\\\":\\\"/name\\\",\\\"value\\\":\\\"Alice Zhang\\\"}]\");
 
 patch.apply(user);  // Update in place`,
   },
@@ -302,13 +296,13 @@ onUnmounted(() => {
       </div>
 
       <div class="capability-columns" :class="{ 'modeling-columns': activeCapability.id === 'modeling' }">
-        <HomeCodePanel
+        <CodePanel
           v-if="activeCapability.runtime"
           :key="`${activeCapability.id}-runtime`"
           title="Runtime"
           :code="activeCapability.runtime"
         />
-        <HomeCodePanel
+        <CodePanel
           v-if="activeCapability.compiled"
           :key="`${activeCapability.id}-compiled`"
           title="Compiled"

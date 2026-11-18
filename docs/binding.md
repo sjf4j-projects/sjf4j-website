@@ -234,4 +234,4 @@ For backend dependencies and selection rules, see [Installation](/docs/installat
 
 Compiled Binding generates specialized Java code to reduce runtime metadata lookup and generic dispatch. Performance depends on the backend, object model, and workload.
 
-See the measurements and methodology in [Binding on the JVM](/docs/performance/binding) and [Binding on GraalVM Native Image](/docs/performance/binding-native).
+See the measurements and methodology in [Binding on the JVM](/docs/benchmarks#data-binding-on-the-jvm) and [Binding on GraalVM Native Image](/docs/benchmarks#binding-on-graalvm-native-image).

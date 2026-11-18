@@ -43,7 +43,7 @@ async function copyCode() {
 </script>
 
 <template>
-  <div class="home-code-panel">
+  <div class="code-panel">
     <div class="panel-header">
       <strong>{{ title }}</strong>
       <span class="panel-meta">
@@ -59,7 +59,7 @@ async function copyCode() {
 </template>
 
 <style scoped>
-.home-code-panel {
+.code-panel {
   display: flex;
   min-width: 0;
   flex-direction: column;
