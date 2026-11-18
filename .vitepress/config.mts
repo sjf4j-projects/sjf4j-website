@@ -10,6 +10,14 @@ export default withMermaid(defineConfig({
   cleanUrls: true,
   ignoreDeadLinks: false,
 
+  // Documentation code fences use Shiki; the homepage has separate Prism panels.
+  markdown: {
+    theme: {
+      light: 'github-light-high-contrast',
+      dark: 'github-dark-high-contrast',
+    },
+  },
+
   themeConfig: {
     siteTitle: 'S<span class="logo-java-j">J</span>F4J',
     nav: [
