@@ -5,13 +5,6 @@ const repo = 'https://github.com/sjf4j-projects/sjf4j'
 const SITE_URL = 'https://sjf4j.org'
 const SOCIAL_IMAGE = SITE_URL + '/brand/sjf4j-square-512x512.png'
 const DEFAULT_DESCRIPTION = 'A unified structural processing layer built on JSON semantics.'
-const LEGACY_REDIRECTS = new Set([
-  '/docs/getting_started',
-  '/docs/jdbc_mapping',
-  '/docs/accelerating',
-  '/docs/parsing',
-])
-
 function pagePath(relativePath: string): string {
   if (relativePath === 'index.md') return '/'
   return '/' + relativePath.replace(/\.md$/, '')
@@ -26,10 +19,6 @@ export default withMermaid(defineConfig({
 
   sitemap: {
     hostname: SITE_URL,
-    transformItems: (items) => items.filter(({ url }) => {
-      const path = new URL(url, SITE_URL).pathname.replace(/\.html$/, '')
-      return !LEGACY_REDIRECTS.has(path)
-    }),
   },
 
   head: [
@@ -45,11 +34,6 @@ export default withMermaid(defineConfig({
 
   transformHead({ pageData, title, description }) {
     const path = pagePath(pageData.relativePath)
-    if (LEGACY_REDIRECTS.has(path)) {
-      // Redirect pages set their canonical target in frontmatter.
-      return [['meta', { name: 'robots', content: 'noindex, follow' }]]
-    }
-
     const canonical = new URL(path, SITE_URL).toString()
     const summary = description || DEFAULT_DESCRIPTION
     const schema = path === '/'

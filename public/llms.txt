@@ -28,5 +28,6 @@
 - JSON Patching: https://sjf4j.org/docs/patching
 - Backends & Formats: https://sjf4j.org/docs/backends
 - External Nodes: https://sjf4j.org/docs/external-nodes
+- Spring Integration: https://sjf4j.org/docs/spring-integration
 - Benchmarks: https://sjf4j.org/docs/benchmarks
 - FAQ: https://sjf4j.org/docs/faq
