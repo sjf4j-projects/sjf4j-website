@@ -109,56 +109,133 @@ No package scanning or Spring annotations on generated classes are required.
 
 ## HTTP JSON and YAML (Spring MVC)
 
-Spring MVC uses `HttpMessageConverter` to read `@RequestBody` parameters and serialize response bodies. The optional `Sjf4jHttpMessageConverter` in `sjf4j-spring` delegates these operations to **SJF4J Runtime Binding**, without requiring a compiled binder or any changes to Controllers.
-
-The adapter is available in the SJF4J version containing [the MVC converter change](https://github.com/sjf4j-projects/sjf4j/pull/323). It must be **registered explicitly**; the Spring Boot starter does not currently install it automatically.
+Spring MVC uses `HttpMessageConverter` for `@RequestBody` and response bodies. To use **SJF4J Runtime Binding** automatically, provide a converter in your application. No compiled binder or Controller changes are needed. This is an optional application-level integration; neither `sjf4j-spring` nor the Spring Boot starter installs a JSON converter.
 
 ### Dependencies
 
-Use Spring MVC (for Spring Boot, `spring-boot-starter-web`) and add the desired SJF4J backends. For JSON and YAML:
+For Spring Boot 3.x, add Spring Web and the SJF4J backends you want:
 
 ```kotlin
 implementation("org.springframework.boot:spring-boot-starter-web")
-implementation("org.sjf4j:sjf4j-spring-boot-starter:{version}")
-
-// Optional: JSON backend (Jackson 2.x)
+implementation("org.sjf4j:sjf4j-core:{version}")
 implementation("org.sjf4j:sjf4j-backend-jackson2:{version}")
-
-// YAML backend and its library
 implementation("org.sjf4j:sjf4j-backend-snake:{version}")
 implementation("org.yaml:snakeyaml:2.5")
 ```
 
-The Spring Boot Web starter supplies Jackson 2.x on Spring Boot 3.x. For plain Spring Framework, use `sjf4j-spring` and include Spring MVC and your backend's native libraries separately. JSON can also use SJF4J's built-in Simple backend.
+Spring Boot 3's Web starter already supplies Jackson 2. For plain Spring Framework, use `spring-webmvc` and add the native Jackson dependency if needed. YAML requires both the SJF4J SnakeYAML adapter and SnakeYAML library. JSON can also use SJF4J's built-in Simple backend.
 
-### Register the converter
+### Register in Spring Boot
+
+**A single converter Bean is enough**: Spring Boot adds custom `HttpMessageConverter` Beans ahead of its default converters.
 
 ```java
 @Configuration
-public class Sjf4jMvcConfig implements WebMvcConfigurer {
+class Sjf4jMvcConfig {
 
-    @Override
-    public void extendMessageConverters(
-            List<HttpMessageConverter<?>> converters) {
+    @Bean
+    Sjf4jHttpMessageConverter sjf4jHttpMessageConverter() {
+        RuntimeContext context = new RuntimeContext(false);
 
-        var sjf4j = new Sjf4jHttpMessageConverter();
-
-        // Give SJF4J priority over the default Jackson JSON converter.
-        for (int i = 0; i < converters.size(); i++) {
-            if (converters.get(i)
-                    instanceof MappingJackson2HttpMessageConverter) {
-                converters.add(i, sjf4j);
-                return;
-            }
-        }
-        converters.add(sjf4j);
+        return new Sjf4jHttpMessageConverter(
+                BinderFactory.jsonProvider().create(context),
+                BinderFactory.yamlProvider().create(context));
     }
 }
 ```
 
-The converter handles `application/json`, `application/*+json` (for example, `application/problem+json`), and `application/yaml` as well as common YAML media type aliases. `application/*+json` **does not** include plain `application/json`; both are registered. Spring's built-in converters remain available for special body types such as `String`, `byte[]`, and `Resource`.
+Change `RuntimeContext` or supply a specific `BinderProvider` to choose formats and backends. For example, replace `BinderFactory.jsonProvider()` with `new Jackson2BinderProvider()`. The `Sjf4jHttpMessageConverter` class below belongs to **your application**; it is not a built-in SJF4J class.
 
-Controllers keep using standard Spring MVC annotations:
+For **plain Spring MVC**, register the same converter through `WebMvcConfigurer.extendMessageConverters` instead:
+
+```java
+@Override
+public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+    converters.add(0, sjf4jHttpMessageConverter);
+}
+```
+
+### Converter implementation
+
+::: details Sjf4jHttpMessageConverter.java
+
+```java
+public final class Sjf4jHttpMessageConverter
+        extends AbstractGenericHttpMessageConverter<Object> {
+
+    private final Binder<?, ?> json;
+    private final Binder<?, ?> yaml;
+
+    public Sjf4jHttpMessageConverter(
+            Binder<?, ?> json, Binder<?, ?> yaml) {
+        super(MediaType.APPLICATION_JSON,
+              MediaType.parseMediaType("application/*+json"),
+              MediaType.parseMediaType("application/yaml"));
+        this.json = json;
+        this.yaml = yaml;
+    }
+
+    @Override
+    protected boolean supports(Class<?> type) {
+        return type != String.class
+                && type != byte[].class
+                && !Resource.class.isAssignableFrom(type)
+                && !ProblemDetail.class.isAssignableFrom(type);
+    }
+
+    @Override
+    public Object read(Type type, Class<?> contextClass,
+                       HttpInputMessage input) throws IOException {
+        Type resolved = contextClass == null ? type
+                : GenericTypeResolver.resolveType(type, contextClass);
+        try {
+            if (isYaml(input.getHeaders().getContentType())) {
+                return yaml.readNode(new InputStreamReader(
+                        input.getBody(), StandardCharsets.UTF_8), resolved);
+            }
+            return json.readNode(input.getBody(), resolved);
+        } catch (BindingException e) {
+            throw new HttpMessageNotReadableException(
+                    "Cannot read request body", e, input);
+        }
+    }
+
+    @Override
+    protected Object readInternal(Class<?> type,
+                                  HttpInputMessage input) throws IOException {
+        return read(type, null, input);
+    }
+
+    @Override
+    protected void writeInternal(Object value, Type type,
+                                 HttpOutputMessage output) throws IOException {
+        try {
+            if (isYaml(output.getHeaders().getContentType())) {
+                Writer writer = new OutputStreamWriter(
+                        output.getBody(), StandardCharsets.UTF_8);
+                yaml.writeNode(writer, value);
+                writer.flush();
+            } else {
+                json.writeNode(output.getBody(), value);
+            }
+        } catch (BindingException e) {
+            throw new HttpMessageNotWritableException(
+                    "Cannot write response body", e);
+        }
+    }
+
+    private static boolean isYaml(MediaType type) {
+        return type != null && "application".equals(type.getType())
+                && "yaml".equals(type.getSubtype());
+    }
+}
+```
+
+This example uses UTF-8 for YAML and supports `application/yaml`; add additional media types if your API requires them. Imports are omitted.
+
+:::
+
+### Use standard Controllers
 
 ```java
 @RestController
@@ -174,11 +251,11 @@ public class UserController {
 }
 ```
 
-Spring selects JSON or YAML from the request `Content-Type` and response `Accept`. The converter uses streaming IO and supports generic request body targets such as `List<User>`.
+Spring selects the format using `Content-Type` and `Accept`. The converter handles `application/json` and `application/*+json` separately (the latter **does not** include `application/json`) and preserves generic types such as `List<User>` when reading.
 
-This integration applies to **HTTP request/response bodies only**; it does not replace Spring Boot's `application.yml` configuration loader. SJF4J and Jackson have different object-binding semantics, so verify existing DTO annotations and behavior before replacing Jackson for application endpoints. If SJF4J starts a body read and fails, Spring does not retry the same body with Jackson.
+This replaces **HTTP body binding only**, not Spring Boot's `application.yml` loader or Spring's validation mechanisms. SJF4J uses its own object-binding rules rather than Jackson's annotations and modules. If a read fails after SJF4J is selected, Spring does not retry with Jackson.
 
-For runtime binding features and backend configuration, see [Binding](/docs/binding) and [Backends](/docs/backends).
+See [Binding](/docs/binding) and [Backends](/docs/backends) for supported types and backend selection.
 
 ## Spring Converter
 
