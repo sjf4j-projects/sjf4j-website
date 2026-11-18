@@ -68,7 +68,7 @@ UserDto dto = mapper.toView(user);
 
 Use `@Mapping` to rename, ignore, or compute fields. Generated code uses normal Java property and constructor access without converting through JSON.
 
-In Spring Boot, compiled mappers can be injected directly and can implement Spring's `Converter<S, T>` interface. See [Spring Boot Integration](/docs/spring-boot#spring-converter).
+In Spring Framework and Spring Boot, compiled mappers can be injected directly and can implement Spring's `Converter<S, T>` interface. See [Spring Integration](/docs/spring#spring-converter).
 
 ## Structural Mapping
 

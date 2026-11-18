@@ -75,7 +75,8 @@ dependencies {
 | `sjf4j-core` | Structural APIs, binding, navigation, mapping and patching | — |
 | `sjf4j-schema` | JSON Schema validation | Core |
 | `sjf4j-processor` | Compile-time code generation | Core, Schema |
-| `sjf4j-spring-boot-starter` | Auto-register compiled interfaces as Spring Beans (Java 17+) | Core, Spring Boot |
+| `sjf4j-spring` | Register compiled interfaces as Spring Beans (Java 17+) | Core, Spring Framework |
+| `sjf4j-spring-boot-starter` | Spring Boot auto-configuration for compiled APIs (Java 17+) | Spring, Spring Boot |
 | `sjf4j-backend-*` | JSON/YAML backend adapters | Core |
 | `sjf4j` | All-in-one: Core, Schema and six adapters | All above except Processor |
 
@@ -157,9 +158,41 @@ Add `sjf4j-processor` to the annotation processor path (not as a normal runtime 
 
 Learn more: [Compiled APIs](/docs/compiled) · [Binding](/docs/binding) · [Validating](/docs/validating)
 
-## Spring Boot
+## Spring Integration
 
-For **Spring Boot 3.x (Java 17+)**, add the optional starter and enable annotation processing. It brings in `sjf4j-core` transitively; add other SJF4J modules only when needed.
+Both options require Java 17+ and annotation processing.
+
+### Spring Framework
+
+For plain **Spring Framework 6.2+**, enable compiled interface registration with `@EnableSjf4j`.
+
+::: code-group
+
+```kotlin [Gradle (Kotlin DSL)]
+implementation("org.sjf4j:sjf4j-spring:{version}")
+annotationProcessor("org.sjf4j:sjf4j-processor:{version}")
+```
+
+```xml [Maven]
+<dependency>
+    <groupId>org.sjf4j</groupId>
+    <artifactId>sjf4j-spring</artifactId>
+    <version>{version}</version>
+</dependency>
+```
+
+:::
+
+```java
+@Configuration
+@EnableSjf4j
+public class AppConfig {
+}
+```
+
+### Spring Boot
+
+For **Spring Boot 3.x**, use the Starter. It enables the same integration automatically; no `@EnableSjf4j` annotation is required.
 
 ::: code-group
 
@@ -178,6 +211,6 @@ annotationProcessor("org.sjf4j:sjf4j-processor:{version}")
 
 :::
 
-For Maven, also configure the [annotation processor](#compiled-apis) as described above. No `@Enable...` annotation or manual Bean registration is needed.
+Both options bring in `sjf4j-core` transitively. For Maven, configure the [annotation processor](#compiled-apis) separately. Other optional SJF4J modules are added as needed.
 
-See [Spring Boot Integration](/docs/spring-boot) for examples with dependency injection, Spring `Converter`, and `JdbcTemplate`.
+See [Spring Integration](/docs/spring) for dependency injection, Spring `Converter`, and `JdbcTemplate` examples.
