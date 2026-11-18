@@ -105,3 +105,5 @@ These options do not mean every dynamic expression or conversion can be compiled
 ## Performance
 
 Compiled APIs generate specialized Java code to reduce runtime overhead for supported operations. Results vary by workload; see [Benchmarks](/docs/benchmarks) for measurements and methodology.
+
+**API Reference (latest release):** [CompiledInstances](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/CompiledInstances.html) · [@CompiledNavigator](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/annotation/path/CompiledNavigator.html) · [@CompiledMapper](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/annotation/mapping/CompiledMapper.html) · [@CompiledValidator](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/annotation/schema/CompiledValidator.html)

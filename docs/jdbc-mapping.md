@@ -124,3 +124,5 @@ To enable code generation, see [Installation](/docs/installation).
 In the measured Customer Account POJO workload, generated list mapping outperforms Spring JDBC's `BeanPropertyRowMapper` and MyBatis automatic mapping.
 
 See [JDBC Result Mapping benchmarks](/docs/benchmarks#jdbc-result-mapping) and the [full benchmark report](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/jdbc-mapping.md). The benchmarks include ResultSet traversal and object materialization, **not SQL execution or network I/O**.
+
+**API Reference (latest release):** [@CompiledJdbcMapper](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/annotation/mapping/jdbc/CompiledJdbcMapper.html) · [JdbcRowMapper](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/mapping/JdbcRowMapper.html) · [@JdbcMappingOptions](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/annotation/mapping/jdbc/JdbcMappingOptions.html)

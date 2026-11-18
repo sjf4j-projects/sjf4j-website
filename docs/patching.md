@@ -143,3 +143,5 @@ Indexed Merge mutates the existing target and returns `void`. It cannot truncate
 ## Advanced Usage
 
 Use `PatchOperation` to construct individual operations programmatically, or `OperationRegistry` to register custom operation handlers. See the [patch API source](https://github.com/sjf4j-projects/sjf4j/tree/main/sjf4j-core/src/main/java/org/sjf4j/patch) for details.
+
+**API Reference (latest release):** [JsonPatch](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/patch/JsonPatch.html) · [Patches](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/patch/Patches.html) · [PatchOperation](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/patch/PatchOperation.html) · [OperationRegistry](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/patch/OperationRegistry.html)

@@ -139,3 +139,5 @@ com.example.sjf4j.ExampleGsonProvider
 With the provider on the application classpath, the [Gson example above](#example-gson) works through the same `JsonType` and `Nodes` APIs. No explicit registration call is needed.
 
 For the full production implementation, see [GsonNode](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-backend-gson/src/main/java/org/sjf4j/backend/gson/external/GsonNode.java) and [GsonExternalProvider](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-backend-gson/src/main/java/org/sjf4j/backend/gson/external/GsonExternalProvider.java). See also [ExternalNode](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-core/src/main/java/org/sjf4j/external/ExternalNode.java) and the [OBNT model](/docs/modeling).
+
+**API Reference (latest release):** [ExternalNode](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/external/ExternalNode.html) · [ExternalProvider](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/external/ExternalProvider.html) · [ExternalRegistry](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/external/ExternalRegistry.html)

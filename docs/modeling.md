@@ -343,3 +343,5 @@ OBNT supplies the shared **structure**; the other SJF4J capabilities supply the 
 Compiled APIs can optimize supported binding, navigation, validation, and mapping operations, but **OBNT itself does not require annotation processing**. You can start with ordinary Java objects and runtime APIs, then adopt compiled implementations where useful.
 
 Learn more: [Enjoy Compiled APIs](/docs/compiled)
+
+**API Reference (latest release):** [Nodes](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/Nodes.html) · [JsonObject](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/JsonObject.html) · [JsonArray](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/JsonArray.html) · [@OneOf](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/annotation/node/OneOf.html)
