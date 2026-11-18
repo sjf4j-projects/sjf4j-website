@@ -1,17 +1,51 @@
 ---
-title: "Spring Boot Integration"
-description: "Inject SJF4J compiled mappers, navigators, binders, validators, and JDBC mappers as Spring Boot beans."
+title: "Spring Integration"
+description: "Integrate compiled SJF4J APIs with Spring Framework or Spring Boot using automatic Bean registration."
 ---
 
-# Spring Boot Integration
+# Spring Integration
 
-The `sjf4j-spring-boot-starter` registers generated SJF4J implementations as ordinary Spring Beans. Declare a compiled interface, then inject it — no `@Component`, `@Bean`, `@Enable...`, or manual `CompiledInstances.create()` call required.
+SJF4J registers its generated interfaces as ordinary Spring Beans. With **Spring Framework**, enable registration once using `@EnableSjf4j`. With **Spring Boot**, the starter enables the same integration automatically. No annotations on the generated implementations or manual `CompiledInstances.create()` calls are needed.
 
-Requires **Spring Boot 3.x and Java 17+**. The framework-independent SJF4J core still supports Java 8+.
+Requires **Spring Framework 6.2+ (Java 17+)** or **Spring Boot 3.x (Java 17+)**. The framework-independent SJF4J core still supports Java 8+.
 
 ## Installation
 
-Add the starter and annotation processor:
+### Spring Framework (without Boot)
+
+Add `sjf4j-spring` and the annotation processor:
+
+::: code-group
+
+```kotlin [Gradle (Kotlin DSL)]
+implementation("org.sjf4j:sjf4j-spring:{version}")
+annotationProcessor("org.sjf4j:sjf4j-processor:{version}")
+```
+
+```xml [Maven]
+<dependency>
+    <groupId>org.sjf4j</groupId>
+    <artifactId>sjf4j-spring</artifactId>
+    <version>{version}</version>
+</dependency>
+```
+
+:::
+
+Enable SJF4J once in your Spring configuration:
+
+```java
+@Configuration
+@EnableSjf4j
+public class AppConfig {
+}
+```
+
+Existing Spring component scanning or Bean configuration still controls your application services; SJF4J registers compiled interfaces from its generated index, without scanning their packages.
+
+### Spring Boot
+
+Add the starter and annotation processor. The starter enables the same registration **without `@EnableSjf4j`**:
 
 ::: code-group
 
@@ -30,7 +64,7 @@ annotationProcessor("org.sjf4j:sjf4j-processor:{version}")
 
 :::
 
-The starter includes `sjf4j-core`. With Maven, [configure annotation processing](/docs/installation#compiled-apis) separately. See [Installation](/docs/installation) for version selection, optional backends, and schema dependencies.
+Both integration artifacts include `sjf4j-core` transitively. With Maven, [configure annotation processing](/docs/installation#compiled-apis) separately. See [Installation](/docs/installation) for version selection, optional backends, and schema dependencies.
 
 ## Automatic Bean Registration
 
@@ -68,7 +102,7 @@ This works for all five compiled API families:
 | `@CompiledJdbcMapper` | JDBC result mapping |
 | `@CompiledValidator` | JSON Schema validation |
 
-At compilation, the annotation processor generates `_Impl` classes and `META-INF/sjf4j/compiled.interfaces`. At startup, the starter reads these indexes from the classpath (including dependency JARs), then registers **lazy singleton** Bean definitions. An explicitly declared Bean of the same interface takes precedence, including prototype Beans.
+At compilation, the annotation processor generates `_Impl` classes and `META-INF/sjf4j/compiled.interfaces`. At startup, the shared Spring integration reads these indexes from the classpath (including dependency JARs), then registers **lazy singleton** Bean definitions. An explicitly declared Bean of the same interface takes precedence, including prototype Beans.
 
 No package scanning or Spring annotations on generated classes are required.
 
@@ -86,7 +120,7 @@ public interface CarMapper extends Converter<Car, CarDto> {
 }
 ```
 
-You can inject `CarMapper` directly. In a Spring Boot MVC application, MVC also discovers `Converter` Beans and registers them in its own conversion service:
+You can inject `CarMapper` directly in either Spring setup. In a Spring Boot MVC application, MVC also discovers `Converter` Beans and registers them in its own conversion service:
 
 ```java
 @Autowired
@@ -150,13 +184,13 @@ class Sjf4jConfig {
 }
 ```
 
-The starter also supports ordinary Spring injection, `ObjectProvider`, collections, and Bean post-processing.
+Both integrations support ordinary Spring injection, `ObjectProvider`, collections, and Bean post-processing.
 
 **Current limits:**
 
 - Generated implementations are `final`. Spring AOP on these Beans requires interface-based JDK proxies (for example, `spring.aop.proxy-target-class=false`), not CGLIB subclass proxies.
 - `@CompiledMapper(importing = ...)` creates imported mappers internally; those instances are not shared with Spring-managed Beans.
-- Spring AOT and GraalVM Native Image are not yet supported by this starter.
-- The starter does **not** replace Spring MVC's JSON `HttpMessageConverter` or Spring's validation infrastructure.
+- Spring AOT and GraalVM Native Image are not yet supported by these integrations.
+- Neither integration replaces Spring MVC's JSON `HttpMessageConverter` or Spring's validation infrastructure.
 
-For implementation details, see the [Spring Boot Starter source](https://github.com/sjf4j-projects/sjf4j/tree/main/sjf4j-spring-boot-starter).
+For implementation details, see the [Spring Framework integration](https://github.com/sjf4j-projects/sjf4j/tree/main/sjf4j-spring) and [Spring Boot Starter](https://github.com/sjf4j-projects/sjf4j/tree/main/sjf4j-spring-boot-starter).

@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 640" role="img" aria-labelledby="title description">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 790" role="img" aria-labelledby="title description">
   <title id="title">SJF4J published module dependency graph</title>
-  <desc id="description">The sjf4j aggregate includes core, schema and six backend adapters. The processor depends on core and schema; schema and each backend adapter depend on core. The optional Spring Boot starter depends on core and Spring Boot. Third-party backend libraries must be added separately.</desc>
+  <desc id="description">The sjf4j aggregate includes core, schema and six backend adapters. The processor depends on core and schema; schema and each backend adapter depend on core. The optional Spring Framework module depends on core and Spring; the Spring Boot starter depends on it and Spring Boot. Third-party backend libraries must be added separately.</desc>
   <defs>
     <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse">
       <path d="M1 1 L9 5 L1 9 Z" fill="#55738f"/>
@@ -9,7 +9,7 @@
       <path d="M1 1 L9 5 L1 9 Z" fill="#198c8b"/>
     </marker>
   </defs>
-  <rect x="1" y="1" width="1118" height="638" rx="14" fill="#f8fafc" stroke="#d8e2ea"/>
+  <rect x="1" y="1" width="1118" height="788" rx="14" fill="#f8fafc" stroke="#d8e2ea"/>
   <text x="42" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="700" fill="#1d344c">Published modules and their dependencies</text>
   <g fill="none" stroke-width="2.5" stroke-linejoin="round">
     <path d="M205 175 V282" stroke="#198c8b" stroke-dasharray="7 6" marker-end="url(#include)"/>
@@ -20,6 +20,7 @@
     <path d="M230 375 V465 H475 V500" stroke="#55738f" marker-end="url(#arrow)"/>
     <path d="M744 426 V500" stroke="#55738f" marker-end="url(#arrow)"/>
     <path d="M785 547 H747" stroke="#55738f" marker-end="url(#arrow)"/>
+    <path d="M920 628 V594" stroke="#55738f" marker-end="url(#arrow)"/>
   </g>
   <rect x="70" y="78" width="320" height="97" rx="12" fill="#e3f6f3" stroke="#58a9a3" stroke-width="1.5"/>
   <text x="92" y="111" font-family="system-ui, -apple-system, sans-serif" font-size="23" font-weight="700" fill="#164e4a">sjf4j</text>
@@ -48,12 +49,16 @@
   <text x="416" y="561" font-family="system-ui, -apple-system, sans-serif" font-size="16" fill="#3c688a">Common APIs and object model</text>
   <text x="416" y="581" font-family="system-ui, -apple-system, sans-serif" font-size="13.5" fill="#537d9d">Built-in Simple JSON + Properties</text>
   <rect x="785" y="500" width="279" height="91" rx="13" fill="#f3f6f9" stroke="#9aaebe" stroke-width="1.8"/>
-  <text x="800" y="530" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" font-weight="700" fill="#274157">sjf4j-spring-boot-starter</text>
-  <text x="800" y="554" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#405f77">Optional Spring Boot 3 integration</text>
-  <text x="800" y="575" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#56768d">Depends on core + Spring Boot</text>
-  <line x1="48" y1="615" x2="86" y2="615" stroke="#198c8b" stroke-width="2.5" stroke-dasharray="7 6"/>
-  <text x="94" y="620" font-family="system-ui, -apple-system, sans-serif" font-size="13.5" fill="#425970">Bundle includes</text>
-  <line x1="243" y1="615" x2="281" y2="615" stroke="#55738f" stroke-width="2.5"/>
-  <text x="289" y="620" font-family="system-ui, -apple-system, sans-serif" font-size="13.5" fill="#425970">Direct project dependency</text>
-  <text x="580" y="620" font-family="system-ui, -apple-system, sans-serif" font-size="13.5" fill="#425970">External backend libraries are separate dependencies</text>
+  <text x="800" y="530" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="18" font-weight="700" fill="#274157">sjf4j-spring</text>
+  <text x="800" y="554" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#405f77">Spring Framework 6.2+ integration</text>
+  <text x="800" y="575" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#56768d">Depends on core + Spring</text>
+  <rect x="785" y="628" width="279" height="91" rx="13" fill="#f3f6f9" stroke="#9aaebe" stroke-width="1.8"/>
+  <text x="800" y="655" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" font-weight="700" fill="#274157">sjf4j-spring-boot-starter</text>
+  <text x="800" y="681" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#405f77">Spring Boot 3 auto-configuration</text>
+  <text x="800" y="699" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#56768d">Depends on sjf4j-spring + Boot</text>
+  <line x1="48" y1="751" x2="86" y2="751" stroke="#198c8b" stroke-width="2.5" stroke-dasharray="7 6"/>
+  <text x="94" y="756" font-family="system-ui, -apple-system, sans-serif" font-size="13.5" fill="#425970">Bundle includes</text>
+  <line x1="243" y1="751" x2="281" y2="751" stroke="#55738f" stroke-width="2.5"/>
+  <text x="289" y="756" font-family="system-ui, -apple-system, sans-serif" font-size="13.5" fill="#425970">Direct project dependency</text>
+  <text x="580" y="756" font-family="system-ui, -apple-system, sans-serif" font-size="13.5" fill="#425970">External backend libraries are separate dependencies</text>
 </svg>

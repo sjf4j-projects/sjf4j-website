@@ -136,7 +136,7 @@ export default withMermaid(defineConfig({
           items: [
             { text: 'Backends & Formats', link: '/docs/backends' },
             { text: 'External Nodes', link: '/docs/external-nodes' },
-            { text: 'Spring Boot', link: '/docs/spring-boot' },
+            { text: 'Spring', link: '/docs/spring' },
           ],
         },
         {

@@ -66,7 +66,7 @@ String city = UserNavigator.INSTANCE.getCity(user);
 
 The factory also supports supplying a `RuntimeContext`; compiled binders may accept a preconfigured matching backend binder. See the corresponding feature guide for configuration details.
 
-In **Spring Boot 3.x**, the optional starter automatically registers generated interfaces as Spring Beans, so you can inject them with `@Autowired` instead of calling `CompiledInstances.create()`. See [Spring Boot Integration](/docs/spring-boot).
+In **Spring Framework 6.2+**, `sjf4j-spring` registers generated interfaces via `@EnableSjf4j`. **Spring Boot 3.x** can use the Starter for the same behavior without extra configuration. Both support `@Autowired` instead of calling `CompiledInstances.create()`. See [Spring Integration](/docs/spring).
 
 ### Inspect generated source
 
