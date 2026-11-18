@@ -43,6 +43,8 @@ class UserDto {
     public int age;
     public String displayName;
     public String city;
+
+    public UserDto() {}
 }
 ```
 
