@@ -1,4 +1,4 @@
-import type { SchemaLocation, SchemaNode, SchemaObject } from './types'
+import type { SchemaLocation, SchemaNode, SchemaObject } from './types.ts'
 
 const INTERNAL_BASE = 'https://schema-generator.sjf4j.invalid/'
 
