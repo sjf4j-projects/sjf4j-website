@@ -125,9 +125,8 @@ public class UserRepository {
     private JdbcTemplate jdbcTemplate;
 
     public List<User> findAll() {
-        ResultSetExtractor<List<User>> extractor = mapper::users;
         return jdbcTemplate.query(
-                "SELECT id, name FROM users", extractor);
+                "SELECT id, name FROM users", mapper::users);
     }
 }
 ```
