@@ -24,7 +24,7 @@ npm run docs:preview
 
 - `index.md` — homepage
 - `generator.md` — reserved page for a future Schema-to-Java Generator
-- `docs/getting_started.md`, `installation.md`, `quickstart.md` — onboarding
+- `docs/getting-started.md`, `installation.md`, `quickstart.md` — onboarding
 - `docs/architecture.md`, `modeling.md`, `backends.md` — core concepts
 - `docs/binding.md`, `navigating.md`, `validating.md`, `mapping.md`, `jdbc-mapping.md`, `patching.md` — features
 - `docs/compiled.md` — cross-cutting compiled API mechanism
