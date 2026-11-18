@@ -129,16 +129,16 @@ Spring Boot 3's Web starter already supplies Jackson 2. For plain Spring Framewo
 
 Create the following class in your application (not in an SJF4J module):
 
-::: details AppJsonYamlHttpMessageConverter.java
+::: details MyHttpMessageConverter.java
 
 ```java
-public final class AppJsonYamlHttpMessageConverter
+public final class MyHttpMessageConverter
         extends AbstractGenericHttpMessageConverter<Object> {
 
     private final Binder<?, ?> json;
     private final Binder<?, ?> yaml;
 
-    public AppJsonYamlHttpMessageConverter(
+    public MyHttpMessageConverter(
             Binder<?, ?> json, Binder<?, ?> yaml) {
         super(MediaType.APPLICATION_JSON,
               MediaType.parseMediaType("application/*+json"),
@@ -216,17 +216,17 @@ Once the application-local converter above exists, **a single Bean is enough**. 
 class Sjf4jMvcConfig {
 
     @Bean
-    AppJsonYamlHttpMessageConverter sjf4jHttpMessageConverter() {
+    MyHttpMessageConverter sjf4jHttpMessageConverter() {
         RuntimeContext context = new RuntimeContext(false);
 
-        return new AppJsonYamlHttpMessageConverter(
+        return new MyHttpMessageConverter(
                 BinderFactory.jsonProvider().create(context),
                 BinderFactory.yamlProvider().create(context));
     }
 }
 ```
 
-Change `RuntimeContext` or supply a specific `BinderProvider` to choose formats and backends. For example, replace `BinderFactory.jsonProvider()` with `new Jackson2BinderProvider()`. The `AppJsonYamlHttpMessageConverter` class above is application-owned and can use any SJF4J backend.
+Change `RuntimeContext` or supply a specific `BinderProvider` to choose formats and backends. For example, replace `BinderFactory.jsonProvider()` with `new Jackson2BinderProvider()`. The `MyHttpMessageConverter` class above is application-owned and can use any SJF4J backend.
 
 For **plain Spring MVC**, register the same converter through `WebMvcConfigurer.extendMessageConverters` instead:
 
@@ -234,7 +234,7 @@ For **plain Spring MVC**, register the same converter through `WebMvcConfigurer.
 @Override
 public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
     RuntimeContext context = RuntimeContext.EMPTY;
-    converters.add(0, new AppJsonYamlHttpMessageConverter(
+    converters.add(0, new MyHttpMessageConverter(
             BinderFactory.jsonProvider().create(context),
             BinderFactory.yamlProvider().create(context)));
 }
