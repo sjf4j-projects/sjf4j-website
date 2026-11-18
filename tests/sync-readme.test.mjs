@@ -27,9 +27,9 @@ test('sync converts website URLs to local links and preserves external links', (
     '## Installation',
     'Context for import. '.repeat(85),
     '[Binding](https://sjf4j.org/docs/binding)',
-    '[JDBC old](https://sjf4j.org/docs/jdbc_mapping)',
-    '[JDBC anchor](https://sjf4j.org/docs/jdbc_mapping#columns)',
-    '[Getting started](https://www.sjf4j.org/docs/getting_started?source=readme#setup)',
+    '[JDBC](https://sjf4j.org/docs/jdbc-mapping)',
+    '[JDBC anchor](https://sjf4j.org/docs/jdbc-mapping#columns)',
+    '[Getting started](https://www.sjf4j.org/docs/getting-started?source=readme#setup)',
     '[Generator](https://sjf4j.org/generator)',
     '[Home](https://sjf4j.org/)',
     '[Home fragment](https://sjf4j.org#performance-at-a-glance)',
@@ -39,7 +39,7 @@ test('sync converts website URLs to local links and preserves external links', (
   ].join('\n');
   const output = generate(readme);
   assert.match(output, /\[Binding\]\(\/docs\/binding\)/);
-  assert.match(output, /\[JDBC old\]\(\/docs\/jdbc-mapping\)/);
+  assert.match(output, /\[JDBC\]\(\/docs\/jdbc-mapping\)/);
   assert.match(output, /\[JDBC anchor\]\(\/docs\/jdbc-mapping#columns\)/);
   assert.match(output, /\[Getting started\]\(\/docs\/getting-started\?source=readme#setup\)/);
   assert.match(output, /\[Generator\]\(\/generator\)/);
