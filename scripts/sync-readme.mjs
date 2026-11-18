@@ -11,15 +11,8 @@ if (readme.length < 1000 || !readme.includes('SJF4J') || !readme.includes('## In
   throw new Error('Upstream README is missing expected content; refusing to overwrite the page.');
 }
 
-const body = readme
-  // Relative docs links refer to the upstream GitHub repository, not to website pages.
-  .replace(
-    /\]\(((?:\.\/)?docs\/[^\s)]+)\)/g,
-    (_match, path) => '](https://github.com/sjf4j-projects/sjf4j/blob/main/' +
-      path.replace(/^\.\//, '') + ')',
-  )
-  // An absolute link to this website is an internal VitePress link after import.
-  .replace(
+// Convert links to this website into VitePress internal navigation.
+const body = readme.replace(
     /\]\(https:\/\/(?:www\.)?sjf4j\.org((?:\/|[?#])[^\s)]*)?\)/g,
     (_match, location = '') => '](' +
       (location.startsWith('/') ? location : '/' + location) + ')',
