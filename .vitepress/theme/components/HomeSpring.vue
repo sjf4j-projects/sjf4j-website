@@ -38,7 +38,7 @@ public class UserService {
 <style scoped>
 .home-spring {
   max-width: 980px;
-  margin: 30px auto 110px;
+  margin: 30px auto 0;
 }
 
 .home-spring-code {
@@ -83,10 +83,6 @@ public class UserService {
 }
 
 @media (max-width: 760px) {
-  .home-spring {
-    margin-bottom: 70px;
-  }
-
   .home-spring-code {
     grid-template-columns: 1fr;
     gap: 16px;
