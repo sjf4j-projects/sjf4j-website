@@ -1,0 +1,77 @@
+name: Sync Getting Started
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '15 2 * * *' # Daily at 02:15 UTC
+
+# Repository setting required: Actions > General > Allow GitHub Actions
+# to create and approve pull requests.
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: sync-getting-started
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Download upstream README
+        run: |
+          curl -fsSL --retry 3 --max-time 30 \
+            "https://raw.githubusercontent.com/sjf4j-projects/sjf4j/main/README.md" \
+            -o "$RUNNER_TEMP/sjf4j-readme.md"
+
+      - name: Generate Getting Started page
+        run: node scripts/sync-readme.mjs "$RUNNER_TEMP/sjf4j-readme.md" docs/getting_started.md
+
+      - name: Detect changes
+        id: changes
+        run: |
+          if git diff --quiet -- docs/getting_started.md; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # GITHUB_TOKEN-created pull requests may need approval to run separate CI.
+      # Validate the generated page here before proposing any change.
+      - name: Install dependencies
+        if: steps.changes.outputs.changed == 'true'
+        run: npm ci --no-audit --no-fund
+
+      - name: Build website and check links
+        if: steps.changes.outputs.changed == 'true'
+        run: npm run docs:build
+
+      - name: Create or update sync PR
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: main
+          branch: automation/sync-getting-started
+          add-paths: docs/getting_started.md
+          commit-message: "docs: sync Getting Started from sjf4j README"
+          title: "docs: sync Getting Started from sjf4j README"
+          body: |
+            Automated synchronization from [sjf4j/README.md](https://github.com/sjf4j-projects/sjf4j/blob/main/README.md).
+
+            The sync adds VitePress frontmatter and a page title, and rewrites
+            upstream-relative documentation links to their GitHub URLs.
+
+            The synchronization workflow builds the website and validates links
+            before creating or updating this PR. Review before merging.
