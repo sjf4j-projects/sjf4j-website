@@ -7,6 +7,7 @@ description: A unified structural processing layer built on JSON semantics.
 <script setup>
 import HomeShowcase from './.vitepress/theme/components/HomeShowcase.vue'
 import HomeCapabilities from './.vitepress/theme/components/HomeCapabilities.vue'
+import HomeSpring from './.vitepress/theme/components/HomeSpring.vue'
 </script>
 
 <HomeShowcase />
@@ -22,3 +23,9 @@ import HomeCapabilities from './.vitepress/theme/components/HomeCapabilities.vue
 <BenchmarkHighlights />
 
 <p class="home-benchmark-more"><a href="/docs/benchmarks">Explore Benchmarks</a></p>
+
+## Use SJF4J with Spring Boot {#use-sjf4j-with-spring-boot}
+
+<p class="home-spring-lead">Use compiled SJF4J APIs as Spring-managed beans — no manual instantiation or component annotations required.</p>
+
+<HomeSpring />
