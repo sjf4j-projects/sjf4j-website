@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 
 const [sourcePath, targetPath] = process.argv.slice(2);
 if (!sourcePath || !targetPath) {
-  console.error('Usage: node scripts/sync-readme.mjs <README.md> <getting_started.md>');
+  console.error('Usage: node scripts/sync-readme.mjs <README.md> <getting-started.md>');
   process.exit(2);
 }
 
