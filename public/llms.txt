@@ -1,0 +1,32 @@
+# SJF4J (Simple JSON Facade for Java)
+
+> A unified structural processing layer built on JSON semantics. SJF4J processes native Java object graphs using consistent APIs for binding, navigation, validation, mapping, and patching.
+
+- Website: https://sjf4j.org/
+- Source code: https://github.com/sjf4j-projects/sjf4j
+- Getting Started: https://sjf4j.org/docs/getting-started
+
+## Using the documentation
+
+- Website guides explain SJF4J concepts, capability selection, examples, and limitations.
+- Class-specific API Reference links in the guides lead to Javadoc for exact method signatures, parameters, return values, and contracts.
+- Core API Javadoc: https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/
+- JSON Schema API Javadoc: https://javadoc.io/doc/org.sjf4j/sjf4j-schema/latest/
+- The `latest` Javadoc reflects the latest published release; guides may describe newer development features. Match the API reference to the dependency version used.
+- Examples illustrate usage and may omit imports or surrounding Java code.
+
+## Key documentation
+
+- Installation: https://sjf4j.org/docs/installation
+- OBNT (Object-Based Node Tree): https://sjf4j.org/docs/modeling
+- Compiled APIs: https://sjf4j.org/docs/compiled
+- Binding: https://sjf4j.org/docs/binding
+- Navigation (JSONPath / JSON Pointer): https://sjf4j.org/docs/navigating
+- JSON Schema Validation: https://sjf4j.org/docs/validating
+- Object Mapping: https://sjf4j.org/docs/mapping
+- JDBC Result Mapping: https://sjf4j.org/docs/jdbc-mapping
+- JSON Patching: https://sjf4j.org/docs/patching
+- Backends & Formats: https://sjf4j.org/docs/backends
+- External Nodes: https://sjf4j.org/docs/external-nodes
+- Benchmarks: https://sjf4j.org/docs/benchmarks
+- FAQ: https://sjf4j.org/docs/faq
