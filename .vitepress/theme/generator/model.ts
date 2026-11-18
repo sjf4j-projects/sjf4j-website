@@ -266,7 +266,9 @@ export function buildModel(resolver: SchemaResolver, options: GeneratorOptions):
     const existing = known.get(key)
     if (existing) return existing
     const schema = asObject(here.schema)
-    const name = nameFor(forceName ? preferred : optionalString(schema, 'title') || preferred)
+    const refName = here.pointer.includes('/$defs/')
+      ? decodeURIComponent(here.pointer.split('/').pop() || '') : preferred
+    const name = nameFor(forceName ? preferred : optionalString(schema, 'title') || refName)
     known.set(key, name)
     const model: JavaModel = {
       kind: 'class', name, fields: [], constants: [],
