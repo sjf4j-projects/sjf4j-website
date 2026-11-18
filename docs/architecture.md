@@ -1,24 +1,26 @@
 ---
 title: "Architecture"
-description: "SJF4J architecture and the shared object-based node model."
+description: "How SJF4J unifies JSON-oriented operations over Java objects."
 ---
 
 # Architecture
 
-SJF4J organizes multiple structural operations around one JSON-semantic object model.
+SJF4J exposes JSON-semantic structural operations over ordinary Java objects, without requiring conversion into an intermediate JSON tree.
 
-## One Model, Many Capabilities
+## Shared Object Model
 
-**OBNT (Object-Based Node Tree)** provides a shared structural view of native Java objects. Binding, navigation, patching, validation, and mapping can operate without mandatory conversion to a second JSON tree.
+**OBNT (Object-Based Node Tree)** provides the structural view shared by binding, navigation, validation, patching, and mapping. It supports POJOs, Maps, Lists, SJF4J containers, and compatible external node models.
 
-## Runtime and Compile-time
+See [Modeling (OBNT)](/docs/modeling) for the object model, property access, and custom value types.
 
-**Runtime APIs** prioritize flexibility. **Compiled APIs** generate Java implementations during annotation processing for supported operations. Both are exposed through the same overarching model.
+## Runtime and Compiled APIs
 
-## Backends and Data Formats
+Runtime APIs support dynamic operations. Compiled APIs generate specialized Java implementations for supported statically declared operations.
 
-Input and output adapters include JSON library backends and YAML. Visit [Backends & Formats](/docs/backends) for the planned adapter guide.
+See [Compiled APIs](/docs/compiled) for the generation model and its limits.
 
-## Design and Extension Points
+## Backends and Extensions
 
-Future content will cover the streaming Reader/Writer interfaces, RuntimeContext, ValueCodec, and ExternalNode integration.
+Streaming adapters integrate JSON and YAML backends, while external-node adapters expose native in-memory JSON trees.
+
+See [Backends & Formats](/docs/backends) for streaming integration and [External Nodes](/docs/external-nodes) for native object models.
