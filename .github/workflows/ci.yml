@@ -20,5 +20,17 @@ jobs:
         run: npm install --no-audit --no-fund
       - name: Test README synchronization
         run: node --test tests/sync-readme.test.mjs
+      - name: Test Schema-to-Java generator
+        run: npm run test:generator
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Compile generated Java against SJF4J 1.5.1
+        run: |
+          curl --fail --location --retry 3 \
+            https://repo.maven.apache.org/maven2/org/sjf4j/sjf4j-core/1.5.1/sjf4j-core-1.5.1.jar \
+            -o "$RUNNER_TEMP/sjf4j-core.jar"
+          npm run test:generator:java -- "$RUNNER_TEMP/sjf4j-core.jar"
       - name: Build website and check internal links
         run: npm run docs:build
