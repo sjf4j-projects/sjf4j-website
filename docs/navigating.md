@@ -375,3 +375,5 @@ For annotation processing setup, see [Installation](/docs/installation). For cod
 SJF4J provides runtime JSONPath navigation and compile-time generated alternatives. Their performance depends on the path, object representation, and workload; compiled navigation can reduce overhead substantially for statically typed POJO access.
 
 See [Benchmarks](/docs/benchmarks) for measured comparisons with Jayway JsonPath and the test methodology.
+
+**API Reference (latest release):** [JsonPath](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/path/JsonPath.html) · [JsonPointer](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/path/JsonPointer.html) · [@CompiledNavigator](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/annotation/path/CompiledNavigator.html) · [NodeStream](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/node/NodeStream.html)
