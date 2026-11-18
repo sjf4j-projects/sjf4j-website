@@ -85,7 +85,7 @@ Four common choices represent JSON objects:
 | **POJO** | Your model has a stable, strongly typed Java contract |
 | **JOJO** | You need typed Java properties **and** undeclared JSON members |
 
-A **JOJO (JSON Object Java Object)** extends `JsonObject`. Declared fields remain normal Java properties, while unknown members can be retained as dynamic properties.
+A **JOJO (JSON Object Java Object)** extends `JsonObject`. Declared members remain normal Java properties, while unknown members can be retained as dynamic members.
 
 ```java
 public class User extends JsonObject {
@@ -98,8 +98,8 @@ String json = "{\"name\":\"Alice\",\"friends\":["
         + "{\"name\":\"Cindy\"}],\"age\":18}";
 User user = new Sjf4j().fromJson(json, User.class);
 
-String name = user.name;                // Declared field
-Integer age = user.getInteger("age");  // Dynamic property
+String name = user.name;                // Declared property
+Integer age = user.getInteger("age");   // Dynamic member
 ```
 
 `Nodes.inspect(...)` reveals the difference, including in nested JOJOs (output abbreviated):
@@ -109,10 +109,10 @@ System.out.println(Nodes.inspect(user));
 // @User{*name=Alice, *friends=[@User{*name=Bill, *friends=null, active=true}, ...], age=18}
 //        └─────────────┴─────┬─────────┴────────────┘             └───────────┬──────┘
 //                            ↓                                                ↓
-//              Declared fields in POJO/JOJO                      Dynamic properties in JOJO
+//              Declared properties in POJO/JOJO                    Dynamic members in JOJO
 ```
 
-The `*` marks a declared Java field. Unmarked members such as `age` and `active` are dynamic properties retained from JSON. You can also add them at runtime with `user.put("verified", true)`.
+The `*` marks a declared Java property. Unmarked members such as `age` and `active` are dynamic members retained from JSON. You can also add them at runtime with `user.put("verified", true)`.
 
 This is an **open object model**: stable data has Java types, while extensions remain accessible without changing the class. A POJO is still the simpler default for a closed domain model.
 
