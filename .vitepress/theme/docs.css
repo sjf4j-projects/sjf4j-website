@@ -112,3 +112,13 @@
   width: 3px;
   background-color: var(--vp-c-brand-1);
 }
+
+/* Shiki token colors for Markdown code blocks (Java and other languages).
+   Keep light/dark theme selection local to documentation; homepage Prism is separate. */
+html:not(.dark) .VPDoc .vp-doc pre.vp-code span[style*="--shiki-light"] {
+  color: var(--shiki-light);
+}
+
+html.dark .VPDoc .vp-doc pre.vp-code span[style*="--shiki-dark"] {
+  color: var(--shiki-dark);
+}
