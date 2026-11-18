@@ -111,7 +111,7 @@ No package scanning or Spring annotations on generated classes are required.
 
 Spring MVC uses `HttpMessageConverter` for `@RequestBody` and response bodies. To use SJF4J automatically for these operations, register a **generic MVC message converter**. This is an application-side adapter: the current `sjf4j-spring` / Boot starter does **not** register one automatically. No Controller-specific Binder or annotation processor is required.
 
-Add the JSON and YAML backend adapters and their libraries (Spring Boot's dependency management may already provide the native libraries):
+Use `spring-boot-starter-web` (or Spring MVC) and add the JSON and YAML backend adapters and their libraries. Spring Boot's dependency management may already provide the native libraries:
 
 ```kotlin
 implementation("org.sjf4j:sjf4j-backend-jackson2:{version}")
@@ -153,14 +153,16 @@ public final class Sjf4jHttpMessageConverter
     @Override
     public Object read(Type type, Class<?> contextClass,
                        HttpInputMessage input) throws IOException {
+        Type target = contextClass == null ? type
+                : GenericTypeResolver.resolveType(type, contextClass);
         try {
             if (isYaml(input.getHeaders().getContentType())) {
                 Reader reader = new InputStreamReader(
                         input.getBody(), StandardCharsets.UTF_8);
-                return yaml.readNode(reader, type);
+                return yaml.readNode(reader, target);
             }
-            return json.readNode(input.getBody(), type);
-        } catch (BindingException e) {
+            return json.readNode(input.getBody(), target);
+        } catch (RuntimeException e) {
             throw new HttpMessageNotReadableException(
                     "SJF4J could not read request body", e, input);
         }
@@ -184,7 +186,7 @@ public final class Sjf4jHttpMessageConverter
             } else {
                 json.writeNode(output.getBody(), value);
             }
-        } catch (BindingException e) {
+        } catch (RuntimeException e) {
             throw new HttpMessageNotWritableException(
                     "SJF4J could not write response body", e);
         }
