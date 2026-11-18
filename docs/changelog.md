@@ -11,6 +11,3 @@ The SJF4J source repository owns the release changelog. This website links to th
 
 [Read the current SJF4J CHANGELOG](https://github.com/sjf4j-projects/sjf4j/blob/main/CHANGELOG.md)
 
-## Versioned Documentation
-
-Version-specific docs and release migration notes can be added as the new website evolves.

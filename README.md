@@ -1,48 +1,44 @@
 # SJF4J Website
 
-Next-generation website and documentation for [SJF4J](https://github.com/sjf4j-projects/sjf4j).
-
-This repository is a new VitePress project. It does not import the previous website implementation. The first iteration establishes content architecture and navigation before visual redesign.
+The [SJF4J](https://github.com/sjf4j-projects/sjf4j) documentation website, built with VitePress and published at [sjf4j.org](https://sjf4j.org).
 
 ## Local development
 
-Requires Node.js 20+.
+Use Node.js 22 (the version used by GitHub Actions).
 
 ```bash
-npm install
+npm ci
 npm run docs:dev
 ```
 
-Production build (also checks internal links):
+Build the site and check internal links:
 
 ```bash
 npm run docs:build
 npm run docs:preview
 ```
 
-## Site structure
+## Project structure
 
-- `index.md` — homepage
-- `generator.md` — reserved page for a future Schema-to-Java Generator
-- `docs/getting-started.md`, `installation.md`, `quickstart.md` — onboarding
-- `docs/architecture.md`, `modeling.md`, `backends.md` — core concepts
-- `docs/binding.md`, `navigating.md`, `validating.md`, `mapping.md`, `jdbc-mapping.md`, `patching.md` — features
-- `docs/compiled.md` — cross-cutting compiled API mechanism
-- `docs/benchmarks.md` and `docs/performance/` — benchmarks
-- `docs/faq.md`, `docs/changelog.md` — reference
-- `.vitepress/config.mts` — navigation and site configuration
+- `index.md` and `.vitepress/theme/` — homepage and custom components
+- `docs/` — documentation and feature guides
+- `docs/benchmarks.md` — benchmark overview; detailed reports live in the [SJF4J source repository](https://github.com/sjf4j-projects/sjf4j/tree/main/docs/performance)
+- `generator.md` — current Schema-to-Java Generator landing page
+- `public/` — static assets, `robots.txt`, and AI discovery files
+- `.vitepress/config.mts` — site navigation, metadata, and sitemap
+- `scripts/sync-readme.mjs` — generates `docs/getting-started.md` from the upstream README
+- `.github/workflows/` — CI, README synchronization, and GitHub Pages deployment
 
-## Content conventions
+## Content maintenance
 
-- Write documentation in English.
-- Keep Runtime and Compiled examples together on each relevant feature page.
+- Documentation is written in English. Keep Runtime and Compiled examples together where relevant.
 - Keep JDBC Result Mapping separate from general Object Mapping.
-- Avoid duplicating detailed benchmark results: link to `sjf4j/docs/performance` as the canonical source.
-- Verify Java examples against the current SJF4J release before marking feature guides complete.
-- Preserve existing public documentation routes when deploying this site at `sjf4j.org`.
-- Do not configure production deployment or switch the domain until the new website is approved.
+- The [SJF4J README](https://github.com/sjf4j-projects/sjf4j/blob/main/README.md) is the source for `docs/getting-started.md`. The scheduled sync workflow proposes changes by pull request; fix README content and links upstream rather than patching the generated page.
+- Link to upstream benchmark reports instead of maintaining a second copy.
+- Keep the explicit legacy URL redirect pages for existing inbound links; new documentation should use canonical routes.
 
-## Contribution workflow
+## Deployment
 
-All updates to `main` must go through a pull request. GitHub Actions checks the VitePress build for proposed changes.
+`.github/workflows/deploy.yml` builds and deploys the site from `main` to GitHub Pages. The custom domain and HTTPS configuration are managed in the repository's **Settings → Pages**.
 
+All changes to `main` must be submitted through a pull request.
