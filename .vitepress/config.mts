@@ -22,7 +22,7 @@ export default withMermaid(defineConfig({
     siteTitle: 'S<span class="logo-java-j">J</span>F4J',
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Docs', link: '/docs/getting_started' },
+      { text: 'Docs', link: '/docs/getting-started' },
       { text: 'Benchmarks', link: '/docs/benchmarks' },
       { text: 'Generator', link: '/generator' },
     ],
@@ -31,7 +31,7 @@ export default withMermaid(defineConfig({
         {
           text: 'Introduction',
           items: [
-            { text: 'Getting Started', link: '/docs/getting_started' },
+            { text: 'Getting Started', link: '/docs/getting-started' },
             { text: 'Installation', link: '/docs/installation' },
             { text: 'Modeling (OBNT)', link: '/docs/modeling' },
             { text: 'Compiled APIs', link: '/docs/compiled' },
