@@ -72,7 +72,7 @@ path.put(user, "Chongqing");
 List<String> names = 
         JsonPath.parse("$..friends[?@.scores.math >= 90].name")
         .find(student, String.class);`,
-    compiled: `@CompiledNavigator
+    compiled: `@CompiledNavigator(fallback = true)
 interface UserNavigator {
     @GetByPath("/address/city")
     String getCity(User user);
@@ -115,10 +115,12 @@ boolean valid = validator.isValid(user);`
       'Convert between Maps, POJOs, values, and nested Java structures.'
     ],
     runtime: `public class AnotherUser {
+    public String name;
     public String fullName;
     public int age;
 }
 
+// Runtime conversion maps matching properties
 AnotherUser dto = sjf4j.convert(user, AnotherUser.class);`,
     compiled: `@CompiledMapper
 interface UserMapper {
