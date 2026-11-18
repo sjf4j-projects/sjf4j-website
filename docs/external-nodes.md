@@ -21,12 +21,14 @@ The matching SJF4J backend module already supplies the adapter. See [Backends & 
 ## Example: Gson
 
 ```java
+import com.google.gson.JsonObject;
+
 JsonObject user = new JsonObject();
 user.addProperty("name", "Alice");
 
-JsonType.of(user); // OBJECT
-String name = Nodes.toString(Nodes.getInObject(user, "name")); // "Alice"
+System.out.println(JsonType.of(user)); // OBJECT
 
+String name = Nodes.toString(Nodes.getInObject(user, "name")); // "Alice"
 Nodes.putInObject(user, "active", new JsonPrimitive(true));
 ```
 

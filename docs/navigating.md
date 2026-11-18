@@ -39,8 +39,7 @@ String city3 = path.get(jsonObject, String.class);
 | `hasNonNull(root)` | Check for an existing non-null value | `boolean` |
 
 ```java
-String name = JsonPath.parse("$.name")
-        .get(user, String.class);
+String name = JsonPath.parse("$.name").get(user, String.class);
 
 List<String> names = JsonPath.parse("$.friends[*].name")
         .find(user, String.class);
