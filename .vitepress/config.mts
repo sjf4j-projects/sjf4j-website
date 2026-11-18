@@ -10,7 +10,6 @@ const LEGACY_REDIRECTS = new Set([
   '/docs/jdbc_mapping',
   '/docs/accelerating',
   '/docs/parsing',
-  '/docs/spring',
 ])
 
 function pagePath(relativePath: string): string {
