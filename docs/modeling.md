@@ -219,14 +219,43 @@ Nodes.toInt(value);                   // Error: not a numeric node
 
 Both return `null` for Java `null` input. Incompatible non-null values can still raise an error; lenient conversion is not silent error suppression. The `JsonObject` and `JsonArray` getters follow the same distinction (for example, `getInt` vs. `getAsInt`).
 
-### Traversal, equality, and copying
+### Traversal
 
-Use the structural operations when Java representation details should not determine the result:
+`Nodes.forEachObject(...)` and `Nodes.forEachArray(...)` visit direct members or elements. For recursive traversal, `NodeWalker.walk(...)` works across OBNT representations, including POJOs, Maps, Lists, and JSON containers.
 
 ```java
-Nodes.forEachObject(user, (key, value) ->
-        System.out.println(key + ": " + value));
+JsonObject user = JsonObject.of(
+        "name", "Alice",
+        "roles", JsonArray.of("reader", "writer"));
 
+user.walk((path, node) -> {
+    System.out.println(path.rootedPathExpr());
+    return true;
+});
+// $, $.name, $.roles, $.roles[0], $.roles[1]
+```
+
+The visitor receives a `PathSegment` and the current node. By default, `walk` visits the root and all descendants in **top-down** order.
+
+Use the configurable overload to select which nodes to visit:
+
+```java
+NodeWalker.walk(user, NodeWalker.WalkTarget.VALUE,
+        NodeWalker.WalkOrder.TOP_DOWN, -1, (path, value) -> {
+            System.out.println(path.rootedPathExpr() + " = " + value);
+            return true;
+        });
+```
+
+`WalkTarget` selects the visited nodes (for example, `ANY`, `CONTAINER`, `VALUE`, `OBJECT`, or `ARRAY`). `WalkOrder` chooses `TOP_DOWN` or `BOTTOM_UP`; `maxDepth` limits traversal depth (`-1` means unlimited, `1` visits only the root). During top-down traversal, returning `false` from a **container** callback skips that subtree, not the rest of the tree.
+
+Use `NodeWalker.walk(value, ...)` for arbitrary supported Java values; `JsonObject` and `JsonArray` also expose `walk(...)` as an instance method.
+
+### Equality and copying
+
+Structural equality and copying work independently of the underlying Java representation:
+
+```java
 boolean same = Nodes.equals(
         JsonObject.of("count", 1),
         Collections.singletonMap("count", 1L)); // true
