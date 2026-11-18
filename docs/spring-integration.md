@@ -109,7 +109,7 @@ No package scanning or Spring annotations on generated classes are required.
 
 ## HTTP JSON and YAML (Spring MVC)
 
-Spring MVC uses `HttpMessageConverter` for `@RequestBody` and response bodies. To use **SJF4J Runtime Binding** automatically, provide a converter in your application. No compiled binder or Controller changes are needed. This is an optional application-level integration; neither `sjf4j-spring` nor the Spring Boot starter installs a JSON converter.
+Spring MVC uses `HttpMessageConverter` for `@RequestBody` and response bodies. To use **SJF4J Runtime Binding** automatically, you must implement an `HttpMessageConverter` in your application and register it with Spring. **SJF4J does not currently provide a built-in MVC HTTP converter.** No compiled binder or Controller changes are required.
 
 ### Dependencies
 
@@ -125,48 +125,20 @@ implementation("org.yaml:snakeyaml:2.5")
 
 Spring Boot 3's Web starter already supplies Jackson 2. For plain Spring Framework, use `spring-webmvc` and add the native Jackson dependency if needed. YAML requires both the SJF4J SnakeYAML adapter and SnakeYAML library. JSON can also use SJF4J's built-in Simple backend.
 
-### Register in Spring Boot
+### Implement the converter
 
-**A single converter Bean is enough**: Spring Boot adds custom `HttpMessageConverter` Beans ahead of its default converters.
+Create the following class in your application (not in an SJF4J module):
 
-```java
-@Configuration
-class Sjf4jMvcConfig {
-
-    @Bean
-    Sjf4jHttpMessageConverter sjf4jHttpMessageConverter() {
-        RuntimeContext context = new RuntimeContext(false);
-
-        return new Sjf4jHttpMessageConverter(
-                BinderFactory.jsonProvider().create(context),
-                BinderFactory.yamlProvider().create(context));
-    }
-}
-```
-
-Change `RuntimeContext` or supply a specific `BinderProvider` to choose formats and backends. For example, replace `BinderFactory.jsonProvider()` with `new Jackson2BinderProvider()`. The `Sjf4jHttpMessageConverter` class below belongs to **your application**; it is not a built-in SJF4J class.
-
-For **plain Spring MVC**, register the same converter through `WebMvcConfigurer.extendMessageConverters` instead:
+::: details AppJsonYamlHttpMessageConverter.java
 
 ```java
-@Override
-public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-    converters.add(0, sjf4jHttpMessageConverter);
-}
-```
-
-### Converter implementation
-
-::: details Sjf4jHttpMessageConverter.java
-
-```java
-public final class Sjf4jHttpMessageConverter
+public final class AppJsonYamlHttpMessageConverter
         extends AbstractGenericHttpMessageConverter<Object> {
 
     private final Binder<?, ?> json;
     private final Binder<?, ?> yaml;
 
-    public Sjf4jHttpMessageConverter(
+    public AppJsonYamlHttpMessageConverter(
             Binder<?, ?> json, Binder<?, ?> yaml) {
         super(MediaType.APPLICATION_JSON,
               MediaType.parseMediaType("application/*+json"),
@@ -234,6 +206,39 @@ public final class Sjf4jHttpMessageConverter
 This example uses UTF-8 for YAML and supports `application/yaml`; add additional media types if your API requires them. Imports are omitted.
 
 :::
+
+### Register with Spring Boot
+
+Once the application-local converter above exists, **a single Bean is enough**. Spring Boot adds custom `HttpMessageConverter` Beans ahead of its default converters.
+
+```java
+@Configuration
+class Sjf4jMvcConfig {
+
+    @Bean
+    AppJsonYamlHttpMessageConverter sjf4jHttpMessageConverter() {
+        RuntimeContext context = new RuntimeContext(false);
+
+        return new AppJsonYamlHttpMessageConverter(
+                BinderFactory.jsonProvider().create(context),
+                BinderFactory.yamlProvider().create(context));
+    }
+}
+```
+
+Change `RuntimeContext` or supply a specific `BinderProvider` to choose formats and backends. For example, replace `BinderFactory.jsonProvider()` with `new Jackson2BinderProvider()`. The `AppJsonYamlHttpMessageConverter` class above is application-owned and can use any SJF4J backend.
+
+For **plain Spring MVC**, register the same converter through `WebMvcConfigurer.extendMessageConverters` instead:
+
+```java
+@Override
+public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+    RuntimeContext context = RuntimeContext.EMPTY;
+    converters.add(0, new AppJsonYamlHttpMessageConverter(
+            BinderFactory.jsonProvider().create(context),
+            BinderFactory.yamlProvider().create(context)));
+}
+```
 
 ### Use standard Controllers
 
