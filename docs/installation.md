@@ -75,6 +75,7 @@ dependencies {
 | `sjf4j-core` | Structural APIs, binding, navigation, mapping and patching | — |
 | `sjf4j-schema` | JSON Schema validation | Core |
 | `sjf4j-processor` | Compile-time code generation | Core, Schema |
+| `sjf4j-spring-boot-starter` | Auto-register compiled interfaces as Spring Beans (Java 17+) | Core, Spring Boot |
 | `sjf4j-backend-*` | JSON/YAML backend adapters | Core |
 | `sjf4j` | All-in-one: Core, Schema and six adapters | All above except Processor |
 
@@ -155,3 +156,28 @@ Add `sjf4j-processor` to the annotation processor path (not as a normal runtime 
 `@CompiledValidator` also requires `sjf4j-schema` at runtime. Other compiled APIs do not need the schema module unless they use JSON Schema functionality.
 
 Learn more: [Compiled APIs](/docs/compiled) · [Binding](/docs/binding) · [Validating](/docs/validating)
+
+## Spring Boot
+
+For **Spring Boot 3.x (Java 17+)**, add the optional starter and enable annotation processing. It brings in `sjf4j-core` transitively; add other SJF4J modules only when needed.
+
+::: code-group
+
+```kotlin [Gradle (Kotlin DSL)]
+implementation("org.sjf4j:sjf4j-spring-boot-starter:{version}")
+annotationProcessor("org.sjf4j:sjf4j-processor:{version}")
+```
+
+```xml [Maven]
+<dependency>
+    <groupId>org.sjf4j</groupId>
+    <artifactId>sjf4j-spring-boot-starter</artifactId>
+    <version>{version}</version>
+</dependency>
+```
+
+:::
+
+For Maven, also configure the [annotation processor](#compiled-apis) as described above. No `@Enable...` annotation or manual Bean registration is needed.
+
+See [Spring Boot Integration](/docs/spring-boot) for examples with dependency injection, Spring `Converter`, and `JdbcTemplate`.
