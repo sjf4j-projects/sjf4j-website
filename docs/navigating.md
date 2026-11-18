@@ -149,7 +149,7 @@ A filter selector `[?expression]` selects array elements or object members for w
 | `null`, `true`, `false` | Literal values | `?@.enabled == true` |
 | `'text'`, `"text"` | String literals | `?@.role == 'admin'` |
 | `42`, `-2.5` | Numeric literals | `?@.price < 42` |
-| `match(...)`, `search(...)` | Standard regular-expression functions | `?match(@.name, '^A')` |
+| `match(...)`, `search(...)` | Standard regular-expression functions | `?match(@.name, 'A.*')` |
 
 The `?` appears inside the surrounding brackets; for example:
 
@@ -157,7 +157,7 @@ The `?` appears inside the surrounding brackets; for example:
 JsonPath.parse("$.users[?@.age >= 18]");
 JsonPath.parse("$.users[?(@.vip || @.age >= 18) && @.active]");
 JsonPath.parse("$.users[?@.age >= $.minimumAge]");
-JsonPath.parse("$.users[?match(@.name, '^A')]");
+JsonPath.parse("$.users[?match(@.name, 'A.*')]");
 ```
 
 Logical precedence is `!`, then `&&`, then `||`. Parentheses make grouping explicit. Filter operands may include path references, literals, and function calls.
@@ -170,11 +170,11 @@ Logical precedence is `!`, then `&&`, then `||`. Parentheses make grouping expli
 | --- | --- | --- |
 | `length(value)` | Length of a string, array, or object | `length(@.name)` |
 | `count(nodes)` | Number of matched nodes | `count(@.tags[*])` |
-| `match(text, pattern)` | Whole-string I-Regexp match | `match(@.name, '^A.*')` |
-| `search(text, pattern)` | Substring I-Regexp search | `search(@.name, 'Ann')` |
+| `match(text, pattern)` | Whole-string regex match | `match(@.name, 'A.*')` |
+| `search(text, pattern)` | Substring regex search | `search(@.name, 'Ann')` |
 | `value(nodes)` | Return the evaluated input value in SJF4J | `value(@.age)` |
 
-The standard function style above is used **inside filters**. SJF4J's current `value()` implementation returns its input unchanged rather than enforcing the RFC's singular-nodelist restriction. The `match()` and `search()` implementations use the supported [I-Regexp (RFC 9485)](https://www.rfc-editor.org/rfc/rfc9485.html) subset.
+The standard function style above is used **inside filters**. SJF4J's current `value()` implementation returns its input unchanged rather than enforcing the RFC's singular-nodelist restriction. `match()` and `search()` use Java `Pattern` semantics, **not strict [RFC 9485 I-Regexp](https://www.rfc-editor.org/rfc/rfc9485.html)**. `match()` requires a full-string match; `search()` finds a matching substring.
 
 SJF4J also supports terminal functions in dot notation, with runtime evaluation semantics described below.
 
@@ -192,7 +192,9 @@ The following are SJF4J conveniences or extensions, not portable RFC 9535 JSONPa
 | Root omitted | Parse a relative-looking expression from root | `name` |
 | `.function()` | Terminal function evaluation | `$.prices.sum()` |
 
-The `=~` operator performs a Java regex search; it is separate from the RFC `match()` and `search()` functions. Regex literals accept `i` (case-insensitive), `m` (multiline), `s` (dotall), and `u` (Unicode case) flags. `g` is accepted but has no effect. `in` and `nin` accept array expressions, including array literals.
+The `=~` operator performs a Java regex substring search and compiles its regex literal when the path is parsed. Unlike `=~`, `match()` and `search()` also accept dynamically evaluated pattern arguments, such as `match(@.name, @.pattern)` or `search(@.name, $.pattern)`; these functions compile the regex when evaluated.
+
+Regex literals accept `i` (case-insensitive), `m` (multiline), `s` (dotall), and `u` (Unicode case) flags. `g` is accepted but has no effect. `in` and `nin` accept array expressions, including array literals.
 
 **Built-in terminal functions**
 
@@ -200,8 +202,8 @@ The `=~` operator performs a Java regex search; it is separate from the RFC `mat
 | --- | --- | --- |
 | `length()` | String length or object/array size | `$.name.length()` |
 | `count()` | Size of an array-like result | `$.users[*].count()` |
-| `match(pattern)` | Whole-string I-Regexp match | `$.name.match('^A.*')` |
-| `search(pattern)` | I-Regexp substring search | `$.name.search('Ann')` |
+| `match(pattern)` | Whole-string Java regex match | `$.name.match('A.*')` |
+| `search(pattern)` | Substring Java regex search | `$.name.search('Ann')` |
 | `value()` | Return the input value | `$.name.value()` |
 | `sum()` | Sum numeric array elements | `$.prices.sum()` |
 | `min()` | Minimum numeric array element | `$.prices.min()` |
