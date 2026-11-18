@@ -51,7 +51,28 @@ const FIELD_OVERRIDES = new Set([
   'JsonObject', 'Object',
 ])
 
+// Model names must not shadow types used by generated Java fields, imports or annotations.
+const GENERATED_NAME_RESERVED = new Set([
+  ...FIELD_OVERRIDES, 'List', 'Map', 'Byte', 'Short', 'Float', 'Character', 'Number',
+  'Void', 'Getter', 'Setter', 'NotNull', 'Size', 'Pattern', 'Min', 'Max',
+  'NodeProperty', 'NodeValue', 'ValueToRaw', 'RawToValue',
+])
+
 type Property = { schema: SchemaNode; location: SchemaLocation }
+
+function hasReference(value: unknown): boolean {
+  if (Array.isArray(value)) return value.some(hasReference)
+  if (!isObject(value)) return false
+  if (typeof value.$ref === 'string') return true
+  return Object.values(value).some(hasReference)
+}
+
+function equivalentProperty(left: Property, right: Property): boolean {
+  if (JSON.stringify(left.schema) !== JSON.stringify(right.schema)) return false
+  // The same relative $ref can mean different things in different documents.
+  // Refuse ambiguous intersections instead of silently picking one branch.
+  return left.location.documentId === right.location.documentId || !hasReference(left.schema)
+}
 type Shape = { properties: Map<string, Property>; required: Set<string> }
 
 function typeOfSchema(schema: SchemaObject, at: string): string | undefined {
@@ -99,8 +120,9 @@ export function buildModel(resolver: SchemaResolver, options: GeneratorOptions):
 
   function nameFor(base: string): string {
     const preferred = className(base)
-    let result = preferred
-    for (let number = 2; names.has(result); number++) result = preferred + number
+    const safeName = GENERATED_NAME_RESERVED.has(preferred) ? preferred + 'Model' : preferred
+    let result = safeName
+    for (let number = 2; names.has(result); number++) result = safeName + number
     names.add(result)
     return result
   }
@@ -155,7 +177,7 @@ export function buildModel(resolver: SchemaResolver, options: GeneratorOptions):
         for (const requiredName of merged.required) required.add(requiredName)
         for (const [name, property] of merged.properties) {
           const previous = properties.get(name)
-          if (previous && JSON.stringify(previous.schema) !== JSON.stringify(property.schema)) {
+          if (previous && !equivalentProperty(previous, property)) {
             throw new Error('Conflicting allOf property "' + name + '" at ' + here.pointer)
           }
           if (!previous) properties.set(name, property)

@@ -161,3 +161,86 @@ test('uses explicit supported field overrides', () => {
   expectSuccess(result)
   assert.match(result.files[0].content, /Integer count;/)
 })
+
+
+test('avoids Java type and annotation name shadowing for root and nested models', () => {
+  const root = generate({
+    title: 'String',
+    type: 'object',
+    properties: { label: { type: 'string' }, items: { type: 'array', items: { type: 'string' } } },
+  })
+  expectSuccess(root)
+  assert.match(root.files[0].path, /\/StringModel\.java$/)
+  assert.match(root.files[0].content, /public class StringModel \{/)
+  assert.match(root.files[0].content, /public String label;/)
+  assert.match(root.files[0].content, /public List<String> items;/)
+
+  const nested = generate({
+    title: 'Envelope', type: 'object',
+    properties: {
+      list: { title: 'List', type: 'object', properties: { value: { type: 'string' } } },
+      map: { title: 'Map', type: 'string', enum: ['open', 'closed'] },
+      node: { title: 'JsonObject', type: 'object', properties: { active: { type: 'boolean' } } },
+      status: { title: 'NodeValue', type: 'object', properties: { id: { type: 'string' } } },
+    },
+  }, { model: 'jojo' })
+  expectSuccess(nested)
+  assert.match(nested.files[0].content, /ListModel list;/)
+  assert.match(nested.files[0].content, /MapModel map;/)
+  assert.match(nested.files[0].content, /JsonObjectModel node;/)
+  assert.match(nested.files[0].content, /NodeValueModel status;/)
+  assert.deepEqual(nested.files.map((file) => file.path.split('/').pop()), [
+    'Envelope.java', 'ListModel.java', 'MapModel.java', 'JsonObjectModel.java', 'NodeValueModel.java',
+  ])
+
+  const explicit = generate({ type: 'object', properties: { ok: { type: 'boolean' } } }, { className: 'Object' })
+  expectSuccess(explicit)
+  assert.match(explicit.files[0].content, /public class ObjectModel \{/)
+})
+
+test('allOf preserves ref context when comparing duplicate properties across documents', () => {
+  const schema = {
+    $id: 'https://example.test/main.json',
+    type: 'object',
+    allOf: [
+      { $ref: 'left.json#/$defs/Part' },
+      { $ref: 'right.json#/$defs/Part' },
+    ],
+  }
+  const makeLibrary = (id, value) => ({
+    $id: id,
+    $defs: {
+      X: { type: value },
+      Part: {
+        type: 'object',
+        properties: { value: { $ref: '#/$defs/X' } },
+      },
+    },
+  })
+  const conflict = generate(schema, {}, [
+    makeLibrary('left.json', 'string'),
+    makeLibrary('right.json', 'integer'),
+  ])
+  assert.equal(conflict.files.length, 0)
+  assert.match(conflict.diagnostics[0].message, /Conflicting allOf property "value"/)
+
+  // Identical inline schemas without references are safe across documents.
+  const noRefs = generate(schema, {}, [
+    { $id: 'left.json', $defs: { Part: { properties: { value: { type: 'string' } } } } },
+    { $id: 'right.json', $defs: { Part: { properties: { value: { type: 'string' } } } } },
+  ])
+  expectSuccess(noRefs)
+  assert.match(noRefs.files[0].content, /String value;/)
+
+  // Even a nested ref must not be treated as equal solely by its JSON text.
+  const nestedRefs = generate(schema, {}, [
+    { $id: 'left.json', $defs: { X: { type: 'string' }, Part: { properties: {
+      value: { type: 'object', properties: { child: { $ref: '#/$defs/X' } } },
+    } } } },
+    { $id: 'right.json', $defs: { X: { type: 'integer' }, Part: { properties: {
+      value: { type: 'object', properties: { child: { $ref: '#/$defs/X' } } },
+    } } } },
+  ])
+  assert.equal(nestedRefs.files.length, 0)
+  assert.match(nestedRefs.diagnostics[0].message, /Conflicting allOf property "value"/)
+})
