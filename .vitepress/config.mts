@@ -27,20 +27,6 @@ export default withMermaid(defineConfig({
       { text: 'Generator', link: '/generator' },
     ],
     sidebar: {
-      '/docs/performance/': [
-        {
-          text: 'Benchmarks',
-          items: [
-            { text: 'Overview', link: '/docs/benchmarks' },
-            { text: 'JSON Binding', link: '/docs/performance/binding' },
-            { text: 'Native Image Binding', link: '/docs/performance/binding-native' },
-            { text: 'JSONPath Navigation', link: '/docs/performance/path' },
-            { text: 'JSON Schema Validation', link: '/docs/performance/schema' },
-            { text: 'Object Mapping', link: '/docs/performance/mapping' },
-            { text: 'JDBC Result Mapping', link: '/docs/performance/jdbc-mapping' },
-          ],
-        },
-      ],
       '/docs/': [
         {
           text: 'Introduction',
