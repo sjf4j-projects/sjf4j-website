@@ -59,7 +59,7 @@ implementation("com.fasterxml.jackson.core:jackson-databind:2.22.3")
 
 Learn more → [Installation (Modular)](/docs/installation)
 
-Using Spring Framework or Spring Boot? The optional integration modules register compiled APIs for `@Autowired` injection. See [Spring Integration](/docs/spring).
+Using Spring Framework or Spring Boot? The optional integration modules register compiled APIs for `@Autowired` injection. See [Spring Integration](/docs/spring-integration).
 
 
 ## Quickstart
