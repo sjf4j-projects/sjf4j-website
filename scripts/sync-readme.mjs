@@ -11,7 +11,6 @@ if (readme.length < 1000 || !readme.includes('SJF4J') || !readme.includes('## In
   throw new Error('Upstream README is missing expected content; refusing to overwrite the page.');
 }
 
-// Relative documentation links belong to the upstream repository, not this website.
 const body = readme
   // Relative docs links refer to the upstream GitHub repository, not to website pages.
   .replace(
@@ -22,13 +21,8 @@ const body = readme
   // An absolute link to this website is an internal VitePress link after import.
   .replace(
     /\]\(https:\/\/(?:www\.)?sjf4j\.org((?:\/|[?#])[^\s)]*)?\)/g,
-    (_match, location = '') => {
-      const path = location.startsWith('/') ? location : '/' + location;
-      const canonical = path
-        .replace(/^\/docs\/jdbc_mapping(?=\/|[?#]|$)/, '/docs/jdbc-mapping')
-        .replace(/^\/docs\/getting_started(?=\/|[?#]|$)/, '/docs/getting-started');
-      return '](' + canonical + ')';
-    },
+    (_match, location = '') => '](' +
+      (location.startsWith('/') ? location : '/' + location) + ')',
   );
 
 const output = [
