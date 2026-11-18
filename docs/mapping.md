@@ -119,10 +119,12 @@ By default, null source properties overwrite target values. `NullValuePolicy.IGN
 
 Compiled mapping supports type-safe enum conversions and selected `@NodeValue`/`ValueCodec` conversions. It follows declared source/target types and has compile-time restrictions; it is not a drop-in replacement for every Runtime conversion.
 
-See the [CompiledMapper API](https://javadoc.io/doc/org.sjf4j/sjf4j-core) for advanced signatures and constraints.
+For exact signatures and constraints, consult the API reference below.
 
 ## Performance
 
 `@CompiledMapper` is generally competitive with MapStruct for regular POJO mapping, while also supporting mixed Java/JSON-oriented structures. Results depend on the workload.
 
 See [Object Mapping benchmarks](/docs/benchmarks#object-mapping) and the [full benchmark report](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/mapping.md). These tests measure mapping, not JSON binding or JDBC.
+
+**API Reference (latest release):** [Sjf4j](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/Sjf4j.html) · [@CompiledMapper](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/annotation/mapping/CompiledMapper.html) · [@Mapping](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/annotation/mapping/Mapping.html) · [@MappingOptions](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/annotation/mapping/MappingOptions.html)
