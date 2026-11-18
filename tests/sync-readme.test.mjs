@@ -34,8 +34,8 @@ test('sync converts website URLs to local links and preserves external links', (
     '[Home](https://sjf4j.org/)',
     '[Home fragment](https://sjf4j.org#performance-at-a-glance)',
     '[Javadoc](https://javadoc.io/doc/org.sjf4j/sjf4j-core)',
-    '[Source benchmark](docs/performance/binding.md)',
-    '[Source benchmark 2](./docs/performance/schema.md)',
+    '[Source benchmark](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/binding.md)',
+    '[Source benchmark 2](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/schema.md)',
   ].join('\n');
   const output = generate(readme);
   assert.match(output, /\[Binding\]\(\/docs\/binding\)/);
