@@ -106,7 +106,7 @@ test('generates JOJO and optional validation annotations without treating requir
   expectSuccess(result)
   const code = result.files[0].content
   assert.match(code, /extends JsonObject/)
-  assert.match(code, /@NotNull\s+public String name;/)
+  assert.match(code, /@NotNull\s+@Size\(min = 2\)\s+@Pattern\(regexp = "\^A"\)\s+public String name;/)
   assert.doesNotMatch(code, /@NotNull\s+public String nullable;/)
   assert.match(code, /@Size\(min = 2\)/)
   assert.match(code, /@Pattern\(regexp = "\^A"\)/)
