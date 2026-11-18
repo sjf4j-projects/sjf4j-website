@@ -115,7 +115,7 @@ List<User> users = jdbcTemplate.query(
         });
 ```
 
-Spring handles query execution and resource management; SJF4J maps the rows. Plain JDBC requires no Spring dependency.
+Spring handles query execution and resource management; SJF4J maps the rows. With the optional starter, `UserJdbcMapper` is also available through `@Autowired` — no manual `CompiledInstances.create()` needed. See [Spring Boot Integration](/docs/spring-boot#spring-jdbc). Plain JDBC requires no Spring dependency.
 
 To enable code generation, see [Installation](/docs/installation).
 

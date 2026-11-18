@@ -80,9 +80,17 @@ html:has(.VPHome) {
   }
 }
 
+/* Give the third and fourth homepage sections consistent, spacious heights. */
+.VPHome .vp-doc .home-performance-section,
+.VPHome .vp-doc .home-spring-section {
+  box-sizing: border-box;
+  min-height: 780px;
+  padding: 110px 0 80px;
+}
+
 /* Third homepage section: the same benchmark metrics shown in the detailed overview. */
 .VPHome .vp-doc #performance-at-a-glance {
-  margin: 110px 0 18px;
+  margin: 0 0 18px;
   padding: 0;
   border: 0;
   text-align: center;
@@ -111,7 +119,7 @@ html:has(.VPHome) {
 }
 
 .VPHome .vp-doc .home-benchmark-more {
-  margin: 24px auto 110px;
+  margin: 24px auto 0;
   text-align: center;
 }
 
@@ -128,8 +136,10 @@ html:has(.VPHome) {
 }
 
 @media (max-width: 700px) {
-  .VPHome .vp-doc #performance-at-a-glance {
-    margin-top: 80px;
+  .VPHome .vp-doc .home-performance-section,
+  .VPHome .vp-doc .home-spring-section {
+    min-height: 0;
+    padding: 80px 0 40px;
   }
 
   .VPHome .vp-doc .benchmark-highlights {
@@ -139,8 +149,34 @@ html:has(.VPHome) {
   .VPHome .vp-doc .benchmark-highlight {
     padding: 18px 20px;
   }
+}
 
-  .VPHome .vp-doc .home-benchmark-more {
-    margin-bottom: 70px;
+/* Fourth homepage section: Spring Boot integration. */
+.VPHome .vp-doc #use-sjf4j-with-spring-boot {
+  margin: 0 0 18px;
+  padding: 0;
+  border: 0;
+  text-align: center;
+  font-size: clamp(28px, 3vw, 36px);
+  line-height: 1.25;
+}
+
+.VPHome .vp-doc #use-sjf4j-with-spring-boot .header-anchor {
+  display: none;
+}
+
+.VPHome .vp-doc .home-spring-lead {
+  max-width: 1200px;
+  margin: 0 auto 20px;
+  color: var(--vp-c-text-2);
+  font-size: 17px;
+  line-height: 1.7;
+  text-align: center;
+}
+
+/* Keep the introduction on one line on wide desktops. */
+@media (min-width: 1280px) {
+  .VPHome .vp-doc .home-spring-lead {
+    white-space: nowrap;
   }
 }
