@@ -37,12 +37,12 @@ jobs:
             -o "$RUNNER_TEMP/sjf4j-readme.md"
 
       - name: Generate Getting Started page
-        run: node scripts/sync-readme.mjs "$RUNNER_TEMP/sjf4j-readme.md" docs/getting_started.md
+        run: node scripts/sync-readme.mjs "$RUNNER_TEMP/sjf4j-readme.md" docs/getting-started.md
 
       - name: Detect changes
         id: changes
         run: |
-          if git diff --quiet -- docs/getting_started.md; then
+          if git diff --quiet -- docs/getting-started.md; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
@@ -64,7 +64,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           base: main
           branch: automation/sync-getting-started
-          add-paths: docs/getting_started.md
+          add-paths: docs/getting-started.md
           commit-message: "docs: sync Getting Started from sjf4j README"
           title: "docs: sync Getting Started from sjf4j README"
           body: |
