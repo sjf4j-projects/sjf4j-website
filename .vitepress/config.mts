@@ -10,6 +10,7 @@ const LEGACY_REDIRECTS = new Set([
   '/docs/jdbc_mapping',
   '/docs/accelerating',
   '/docs/parsing',
+  '/docs/spring',
 ])
 
 function pagePath(relativePath: string): string {
@@ -136,7 +137,7 @@ export default withMermaid(defineConfig({
           items: [
             { text: 'Backends & Formats', link: '/docs/backends' },
             { text: 'External Nodes', link: '/docs/external-nodes' },
-            { text: 'Spring', link: '/docs/spring' },
+            { text: 'Spring Integration', link: '/docs/spring-integration' },
           ],
         },
         {

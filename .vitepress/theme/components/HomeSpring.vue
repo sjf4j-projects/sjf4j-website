@@ -30,7 +30,7 @@ public class UserService {
       Standard Spring dependency injection
     </p>
     <p class="home-spring-more">
-      <a href="/docs/spring">Spring Integration</a>
+      <a href="/docs/spring-integration">Spring Integration</a>
     </p>
   </section>
 </template>

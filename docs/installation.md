@@ -213,4 +213,4 @@ annotationProcessor("org.sjf4j:sjf4j-processor:{version}")
 
 Both options bring in `sjf4j-core` transitively. For Maven, configure the [annotation processor](#compiled-apis) separately. Other optional SJF4J modules are added as needed.
 
-See [Spring Integration](/docs/spring) for dependency injection, Spring `Converter`, and `JdbcTemplate` examples.
+See [Spring Integration](/docs/spring-integration) for dependency injection, Spring `Converter`, and `JdbcTemplate` examples.
