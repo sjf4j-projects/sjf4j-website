@@ -18,6 +18,8 @@ jobs:
           node-version: '22'
       - name: Install dependencies
         run: npm install --no-audit --no-fund
+      - name: Test README synchronization
+        run: node --test tests/sync-readme.test.mjs
       - name: Test Schema-to-Java generator
         run: npm run test:generator
       - uses: actions/setup-java@v4

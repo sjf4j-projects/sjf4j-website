@@ -66,6 +66,8 @@ String city = UserNavigator.INSTANCE.getCity(user);
 
 The factory also supports supplying a `RuntimeContext`; compiled binders may accept a preconfigured matching backend binder. See the corresponding feature guide for configuration details.
 
+In **Spring Boot 3.x**, the optional starter automatically registers generated interfaces as Spring Beans, so you can inject them with `@Autowired` instead of calling `CompiledInstances.create()`. See [Spring Boot Integration](/docs/spring-boot).
+
 ### Inspect generated source
 
 Generated Java uses the interface name with an `_Impl` suffix and appears in the normal annotation-processing output directory:

@@ -369,6 +369,7 @@ onUnmounted(() => {
 /* Browser-style tabs share the content panel's top edge. */
 .feature-tabs {
   display: flex;
+  justify-content: safe center;
   gap: 2px;
   overflow-x: auto;
   max-width: 100%;

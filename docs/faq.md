@@ -156,7 +156,7 @@ The [Benchmarks](/docs/benchmarks) page separates project-run JMH measurements f
 
 Compiled binding has been benchmarked in **GraalVM Native Image** as well as on the JVM. Native Image compatibility and performance still depend on your selected backend, reachable code, and build-time configuration.
 
-See [GraalVM Native Image benchmarks](/docs/benchmarks#graalvm-native-image-binding).
+See [GraalVM Native Image benchmarks](/docs/benchmarks#binding-on-graalvm-native-image).
 
 ### What changed in recent releases, and where can I ask questions?
 
