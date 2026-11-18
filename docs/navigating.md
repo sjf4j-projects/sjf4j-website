@@ -193,7 +193,9 @@ The following are SJF4J conveniences or extensions, not portable RFC 9535 JSONPa
 | Root omitted | Parse a relative-looking expression from root | `name` |
 | `.function()` | Terminal function evaluation | `$.prices.sum()` |
 
-The `=~` operator performs a Java regex substring search and compiles its regex literal when the path is parsed. Unlike `=~`, `match()` and `search()` also accept dynamically evaluated pattern arguments, such as `match(@.name, @.pattern)` or `search(@.name, $.pattern)`; these functions compile the regex when evaluated. Regex literals accept `i` (case-insensitive), `m` (multiline), `s` (dotall), and `u` (Unicode case) flags. `g` is accepted but has no effect. `in` and `nin` accept array expressions, including array literals.
+The `=~` operator performs a Java regex substring search and compiles its regex literal when the path is parsed. Unlike `=~`, `match()` and `search()` also accept dynamically evaluated pattern arguments, such as `match(@.name, @.pattern)` or `search(@.name, $.pattern)`; these functions compile the regex when evaluated.
+
+Regex literals accept `i` (case-insensitive), `m` (multiline), `s` (dotall), and `u` (Unicode case) flags. `g` is accepted but has no effect. `in` and `nin` accept array expressions, including array literals.
 
 **Built-in terminal functions**
 
