@@ -239,6 +239,8 @@ JsonObject deep = user.deepCopy(); // Recursively copies supported nodes
 
 `Nodes.copy(...)` and container `copy()` methods are **shallow**: they duplicate the outer structure but share nested references. Deep copying is a separate operation, available on `JsonObject` / `JsonArray` and through SJF4J's deep-node conversion facilities. The exact behavior of external node types depends on their adapters.
 
+For advanced OBNT operations, explore [`NodeWalker`](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-core/src/main/java/org/sjf4j/node/NodeWalker.java) for structural access and recursive traversal, [`NodeMapper`](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-core/src/main/java/org/sjf4j/node/NodeMapper.java) for runtime conversion between Java node representations, and [`NodeStream`](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-core/src/main/java/org/sjf4j/node/NodeStream.java) for stream-style processing with JSONPath helpers.
+
 For complete method signatures, see the [Javadocs](https://javadoc.io/doc/org.sjf4j/sjf4j-core).
 
 ## Customizing the Model
