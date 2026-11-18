@@ -260,13 +260,13 @@ export function buildModel(resolver: SchemaResolver, options: GeneratorOptions):
     }
   }
 
-  function objectType(location: SchemaLocation, preferred: string): string {
+  function objectType(location: SchemaLocation, preferred: string, forceName = false): string {
     const here = resolve(location)
     const key = resolver.identity(here)
     const existing = known.get(key)
     if (existing) return existing
     const schema = asObject(here.schema)
-    const name = nameFor(optionalString(schema, 'title') || preferred)
+    const name = nameFor(forceName ? preferred : optionalString(schema, 'title') || preferred)
     known.set(key, name)
     const model: JavaModel = {
       kind: 'class', name, fields: [], constants: [],
@@ -290,7 +290,9 @@ export function buildModel(resolver: SchemaResolver, options: GeneratorOptions):
       }
       model.fields.push({
         name: memberName, jsonName,
-        type: override || javaType(property.location, name + className(jsonName)),
+        type: override || javaType(property.location,
+          (isObject(property.schema) && (property.schema.type === 'array' || property.schema.items !== undefined)
+            ? name + className(jsonName) : className(jsonName))),
         required: shape.required.has(jsonName),
         nullable: nullable(propertySchema),
         schema: propertySchema,
@@ -313,6 +315,6 @@ export function buildModel(resolver: SchemaResolver, options: GeneratorOptions):
   const kind = typeOfSchema(rootSchema, root.pointer)
   if (kind !== 'object') throw new Error('Root schema must describe an object.')
   const desiredName = options.className.trim() || optionalString(rootSchema, 'title') || 'GeneratedType'
-  objectType(root, desiredName)
+  objectType(root, desiredName, Boolean(options.className.trim()))
   return { models, diagnostics: warnings }
 }
