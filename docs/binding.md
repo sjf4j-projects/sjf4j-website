@@ -235,3 +235,5 @@ For backend dependencies and selection rules, see [Installation](/docs/installat
 Compiled Binding generates specialized Java code to reduce runtime metadata lookup and generic dispatch. Performance depends on the backend, object model, and workload.
 
 See the measurements and methodology in [Binding on the JVM](/docs/benchmarks#data-binding-on-the-jvm) and [Binding on GraalVM Native Image](/docs/benchmarks#binding-on-graalvm-native-image).
+
+**API Reference (latest release):** [Sjf4j](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/Sjf4j.html) · [@CompiledBinder](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/annotation/binding/CompiledBinder.html) · [ValueCodec](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/value/ValueCodec.html)
