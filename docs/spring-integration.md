@@ -106,6 +106,116 @@ At compilation, the annotation processor generates `_Impl` classes and `META-INF
 
 No package scanning or Spring annotations on generated classes are required.
 
+## JSON and YAML Binding
+
+Use SJF4J's JSON and YAML binding APIs directly in Spring services. **Runtime Binding** needs no annotation processing; **Compiled Binding** uses the same automatic Bean registration described above. Neither changes Spring MVC's `@RequestBody` / `@ResponseBody` JSON converter.
+
+### Runtime Binding
+
+Register a shared `Sjf4j` instance as an ordinary Spring Bean:
+
+```java
+@Configuration
+public class BindingConfig {
+
+    @Bean
+    Sjf4j sjf4j() {
+        return new Sjf4j();
+    }
+}
+```
+
+Inject it wherever JSON or YAML conversion is needed:
+
+```java
+@Service
+public class UserCodec {
+
+    private final Sjf4j sjf4j;
+
+    public UserCodec(Sjf4j sjf4j) {
+        this.sjf4j = sjf4j;
+    }
+
+    public User fromJson(String json) {
+        return sjf4j.fromJson(json, User.class);
+    }
+
+    public User fromYaml(String yaml) {
+        return sjf4j.fromYaml(yaml, User.class);
+    }
+
+    public String toJson(User user) {
+        return sjf4j.toJsonString(user);
+    }
+
+    public String toYaml(User user) {
+        return sjf4j.toYamlString(user);
+    }
+}
+```
+
+JSON works with the built-in Simple backend; other JSON backends are optional. YAML requires the SnakeYAML adapter and library:
+
+```kotlin
+implementation("org.sjf4j:sjf4j-backend-snake:{version}")
+implementation("org.yaml:snakeyaml:2.5")
+```
+
+`Sjf4j` automatically selects available runtime backends. You can also configure a `Sjf4j` Bean with `Sjf4j.builder()` to select a backend or customize value formats. See [Binding](/docs/binding#runtime-binding) and [Backends](/docs/backends).
+
+### Compiled Binding
+
+Declare separate JSON and YAML binders; Spring registers their generated implementations as injectable Beans:
+
+```java
+@CompiledBinder
+public interface UserJson {
+    @Read User read(String json);
+    @Write String write(User user);
+}
+
+@CompiledBinder(format = Format.YAML, backend = Backend.SNAKE)
+public interface UserYaml {
+    @Read User read(String yaml);
+    @Write String write(User user);
+}
+```
+
+```java
+@Service
+public class UserCodec {
+
+    private final UserJson json;
+    private final UserYaml yaml;
+
+    public UserCodec(UserJson json, UserYaml yaml) {
+        this.json = json;
+        this.yaml = yaml;
+    }
+
+    public User fromJson(String input) {
+        return json.read(input);
+    }
+
+    public User fromYaml(String input) {
+        return yaml.read(input);
+    }
+
+    public String toJson(User user) {
+        return json.write(user);
+    }
+
+    public String toYaml(User user) {
+        return yaml.write(user);
+    }
+}
+```
+
+This requires `sjf4j-processor` on the annotation processor path and the SnakeYAML dependencies above. The JSON binder uses `Backend.AUTO` by default, selecting a backend at compile time; for a specific backend, set `@CompiledBinder(backend = Backend.JACKSON2)`, for example, and include that backend's dependencies.
+
+For generic types and stream-based methods, see [Compiled Binding](/docs/binding#compiled-binding).
+
 ## Spring Converter
 
 A compiled mapper can implement Spring's standard `Converter<S, T>` interface:
