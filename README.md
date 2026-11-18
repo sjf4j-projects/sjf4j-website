@@ -35,7 +35,7 @@ npm run docs:preview
 - Keep JDBC Result Mapping separate from general Object Mapping.
 - The [SJF4J README](https://github.com/sjf4j-projects/sjf4j/blob/main/README.md) is the source for `docs/getting-started.md`. The scheduled sync workflow proposes changes by pull request; fix README content and links upstream rather than patching the generated page.
 - Link to upstream benchmark reports instead of maintaining a second copy.
-- Keep the explicit legacy URL redirect pages for existing inbound links; new documentation should use canonical routes.
+- When renaming or retiring pages, update internal links and remove obsolete files, routes, and unused components; do not retain compatibility stubs.
 
 ## Deployment
 
