@@ -22,4 +22,4 @@ Transparent PNG wordmarks matching the homepage's **SJF4J** branding: Inter Extr
 - `sjf4j-square-256x256.png` — medium avatars
 - `sjf4j-square-512x512.png` — high-resolution avatars/app icon dimensions
 
-The square assets retain the full wordmark, centered with transparent padding. At very small sizes, prefer the horizontal version or the site's text heading for legibility. These are **source assets only**; no homepage or favicon replacement is implied.
+The square assets retain the full wordmark, centered with transparent padding. At very small sizes, prefer the horizontal version or the site's text heading for legibility. The images are published from `public/brand`. The 64×64 square serves as the browser favicon, the 180×180 square as the Apple touch icon, and the 512×512 square as the social preview image.

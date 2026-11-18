@@ -1,0 +1,34 @@
+# SJF4J — Overview for LLMs
+
+SJF4J (Simple JSON Facade for Java) is a Java 8+ library offering a unified structural processing layer built on JSON semantics. It supports working directly with POJOs, Maps, Lists, JSON nodes, and extensible object models.
+
+## Core model
+
+OBNT (Object-Based Node Tree) models native Java values as object, array, or value nodes. APIs can work across different Java object representations without requiring an intermediate JSON tree.
+
+## Capabilities
+
+- **Binding:** JSON and other supported formats with pluggable backend adapters, using Runtime or generated CompiledBinder APIs.
+- **Navigation:** JSONPath (RFC 9535) and JSON Pointer (RFC 6901), including read and update operations.
+- **Validation:** JSON Schema validation using Runtime or @CompiledValidator APIs.
+- **Mapping:** Runtime object conversion, @CompiledMapper for generated mapping, and @CompiledJdbcMapper for JDBC results.
+- **Patching:** JSON Patch (RFC 6902), JSON Merge Patch (RFC 7386), and indexed deep merge.
+- **Extension:** Custom node representations and value codecs.
+
+Runtime APIs prioritize flexibility. Compile-time APIs generate specialized Java implementations where supported.
+
+## Official resources
+
+- Overview and installation: https://sjf4j.org/docs/getting-started
+- Architecture and modeling: https://sjf4j.org/docs/modeling
+- All compiled APIs: https://sjf4j.org/docs/compiled
+- Binding: https://sjf4j.org/docs/binding
+- Navigating: https://sjf4j.org/docs/navigating
+- Validating: https://sjf4j.org/docs/validating
+- Object mapping: https://sjf4j.org/docs/mapping
+- JDBC result mapping: https://sjf4j.org/docs/jdbc-mapping
+- Patching: https://sjf4j.org/docs/patching
+- Benchmarks and methodology: https://sjf4j.org/docs/benchmarks
+- Source code and release notes: https://github.com/sjf4j-projects/sjf4j
+
+Use the documentation for API-specific behavior and version details.
