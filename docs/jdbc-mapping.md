@@ -17,6 +17,8 @@ Start with an ordinary Java class:
 class User {
     public String userName;
     public int age;
+
+    public User() {}
 }
 ```
 
