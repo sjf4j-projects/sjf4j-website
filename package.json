@@ -7,8 +7,7 @@
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
     "docs:preview": "vitepress preview",
-    "test:generator": "node --experimental-strip-types --test tests/generator/*.test.mjs",
-    "test:generator:java": "node --experimental-strip-types scripts/test-generator-java.mjs"
+    "test:generator": "node --experimental-strip-types --test tests/generator/*.test.mjs"
   },
   "devDependencies": {
     "prismjs": "1.30.0",
