@@ -57,7 +57,7 @@ implementation("org.sjf4j:sjf4j-backend-jackson2:{version}")
 implementation("com.fasterxml.jackson.core:jackson-databind:2.22.3")
 ```
 
-Learn more → [Installation (Modular)](https://sjf4j.org/docs/installation)
+Learn more → [Installation (Modular)](/docs/installation)
 
 Using Spring Boot? The optional starter auto-registers compiled APIs for `@Autowired` injection. See [Spring Boot Integration](/docs/spring-boot).
 
@@ -137,7 +137,7 @@ SJF4J's open streaming architecture supports custom data formats and backends.
 Its rich binding capabilities include `@OneOf` polymorphism, multi-format `ValueCodec` support,
 and fully managed `ExternalNode` integration.
 
-Learn more → [Binding (Formats)](https://sjf4j.org/docs/binding)
+Learn more → [Binding (Formats)](/docs/binding)
 
 
 ### Navigating
@@ -167,7 +167,7 @@ interface UserNavigator {
 
 SJF4J combines standards-compliant JSONPath querying with powerful structural navigation and mutation, operating directly on Java objects without intermediate JSON trees.
 
-Learn more → [Navigating (JSONPath)](https://sjf4j.org/docs/navigating)
+Learn more → [Navigating (JSONPath)](/docs/navigating)
 
 
 ### Validating
@@ -205,9 +205,9 @@ Supports JSON Schema Draft **2020-12**, **2019-09**, and **7**,
 including full validation and annotation collection.
 
 *Experimental: JSON Schema can also be used to generate Java models
-through the online [Schema-to-Java Generator](https://sjf4j.org/generator).*
+through the online [Schema-to-Java Generator](/generator).*
 
-Learn more → [Validating (JSON Schema)](https://sjf4j.org/docs/validating)
+Learn more → [Validating (JSON Schema)](/docs/validating)
 
 
 ### Mapping
@@ -236,7 +236,7 @@ interface UserMapper {
 }
 ```
 
-Learn more → [Mapping (Object-to-object)](https://sjf4j.org/docs/mapping)
+Learn more → [Mapping (Object-to-object)](/docs/mapping)
 
 `@CompiledJdbcMapper` generates direct mappings from JDBC `ResultSet` to Java objects:
 ```java
@@ -246,7 +246,7 @@ interface UserJdbcMapper {
 }
 ```
 
-Learn more → [JDBC ResultSet Mapping](https://sjf4j.org/docs/jdbc_mapping)
+Learn more → [JDBC ResultSet Mapping](/docs/jdbc-mapping)
 
 
 ### Patching
@@ -261,7 +261,7 @@ JsonPatch patch = JsonPatch.fromJson("""
 patch.apply(user);  // Update in place
 ```
 
-Learn more → [Patching (JSON Patch)](https://sjf4j.org/docs/patching)
+Learn more → [Patching (JSON Patch)](/docs/patching)
 
 
 ### Modeling
@@ -301,7 +301,7 @@ OBNT also supports extensible object models:
 - Use `@OneOf` to model polymorphic node types.
 - Register an `ExternalNode` to integrate your own structural types into OBNT.
 
-Learn more → [Modeling (OBNT)](https://sjf4j.org/docs/modeling)
+Learn more → [Modeling (OBNT)](/docs/modeling)
 
 
 ## Enjoy Compiled APIs
@@ -408,7 +408,7 @@ SJF4J's performance and standards compliance are evaluated through independent c
 - [JDBC Mapping Full Benchmarks](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/jdbc-mapping.md) — Spring JDBC and MyBatis vs. CompiledJdbcMapper.
 
 
-Learn more → [Benchmarks](https://sjf4j.org/docs/benchmarks)
+Learn more → [Benchmarks](/docs/benchmarks)
 
 ## Contributing
 SJF4J is an open-source project built for the Java community.
