@@ -64,7 +64,7 @@ interface UserNavigator {
 String city = UserNavigator.INSTANCE.getCity(user);
 ```
 
-The factory also supports supplying a `RuntimeContext`; compiled binders may accept a preconfigured matching backend binder. See the corresponding feature guide for configuration details.
+The factory also supports supplying a `NodeConfig`; compiled binders may accept a preconfigured matching backend binder. See the corresponding feature guide for configuration details.
 
 In **Spring Framework 6.2+**, `sjf4j-spring` registers generated interfaces via `@EnableSjf4j`. **Spring Boot 3.x** can use the Starter for the same behavior without extra configuration. Both support `@Autowired` instead of calling `CompiledInstances.create()`. See [Spring Integration](/docs/spring-integration).
 
