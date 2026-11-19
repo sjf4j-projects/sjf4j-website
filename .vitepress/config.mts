@@ -120,6 +120,7 @@ export default withMermaid(defineConfig({
           items: [
             { text: 'Backends & Formats', link: '/docs/backends' },
             { text: 'External Nodes', link: '/docs/external-nodes' },
+            { text: 'Value Codecs', link: '/docs/value-codecs' },
             { text: 'Spring Integration', link: '/docs/spring-integration' },
           ],
         },
