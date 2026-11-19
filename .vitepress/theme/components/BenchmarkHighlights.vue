@@ -1,49 +1,17 @@
 <script setup lang="ts">
-const highlights = [
-  {
-    category: 'Data Binding',
-    speedup: '1.21×',
-    comparison: 'vs. direct Jackson 2 · 100KB Users POJO read'
-  },
-  {
-    category: 'GraalVM Native Image',
-    speedup: '1.35×',
-    comparison: 'vs. direct Jackson 2 · 100KB Users POJO read'
-  },
-  {
-    category: 'JSONPath Navigation',
-    speedup: '55.31×',
-    comparison: 'vs. SJF4J Runtime · direct POJO lookup, 100KB'
-  },
-  {
-    category: 'JSON Schema Validation',
-    speedup: '53.6×',
-    comparison: 'vs. SJF4J Runtime · Creek POJO validation'
-  },
-  {
-    category: 'Object Mapping',
-    speedup: '1.31×',
-    comparison: 'vs. MapStruct · extended Order, 100KB'
-  },
-  {
-    category: 'JDBC Result Mapping',
-    speedup: '16.03×',
-    comparison: 'vs. Spring JDBC · 1,000 POJO rows'
-  }
-]
+import { highlights } from '../data/benchmarks'
+import { useSiteMessages } from '../i18n'
+
+const t = useSiteMessages()
 </script>
 
 <template>
   <div class="benchmark-highlights">
-    <div v-for="item in highlights" :key="item.category" class="benchmark-highlight">
-      <span class="benchmark-highlight-category">{{ item.category }}</span>
+    <div v-for="item in highlights" :key="item.id" class="benchmark-highlight">
+      <span class="benchmark-highlight-category">{{ t.home.benchmarks.items[item.id].label }}</span>
       <strong>{{ item.speedup }}</strong>
-      <small>{{ item.comparison }}</small>
+      <small>{{ t.home.benchmarks.items[item.id].comparison }}</small>
     </div>
   </div>
-
-  <p class="benchmark-caption">
-    Selected, workload-specific speedups, not a cross-category ranking. The comparison
-    baseline is different in each case; see the charts and linked reports for details.
-  </p>
+  <p class="benchmark-caption">{{ t.home.benchmarks.caption }}</p>
 </template>
