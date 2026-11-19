@@ -315,7 +315,7 @@ For paths known at build time, `@CompiledNavigator` generates specialized Java i
 Define an interface (with `User`, `Friend`, and `Settings` as ordinary Java classes):
 
 ```java
-@CompiledNavigator(fallback = true)
+@CompiledNavigator
 interface UserNavigator {
 
     @GetByPath("$.name")

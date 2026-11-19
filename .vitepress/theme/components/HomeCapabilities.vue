@@ -72,7 +72,7 @@ path.put(user, "Chongqing");
 List<String> names = 
         JsonPath.parse("$..friends[?@.scores.math >= 90].name")
         .find(student, String.class);`,
-    compiled: `@CompiledNavigator(fallback = true)
+    compiled: `@CompiledNavigator
 interface UserNavigator {
     @GetByPath("/address/city")
     String getCity(User user);
