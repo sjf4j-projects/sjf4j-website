@@ -160,7 +160,7 @@ boolean isValid(User user);
 
 The mapping file associates **absolute retrieval URIs** with JSON Schema documents. It lets you resolve external references locally; SJF4J does not automatically fetch remote schemas over HTTP.
 
-For larger schema sets, `@CompiledValidator` also offers `registryDir` and `registryBaseUri`. When schema files change, make sure annotation processing runs again; incremental Java compilation does not always track external resources.
+For larger offline schema sets, use `externalSchemasRef` to provide a URI-to-schema mapping file. Track schema resources as build inputs so changes trigger annotation processing. If runtime fallback is enabled, keep the mapping file available at runtime.
 
 ## Annotation-Based Validation
 
