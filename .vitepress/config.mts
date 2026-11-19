@@ -7,6 +7,7 @@ const SOCIAL_IMAGE = SITE_URL + '/brand/sjf4j-square-512x512.png'
 const DEFAULT_DESCRIPTION = 'A unified structural processing layer built on JSON semantics.'
 function pagePath(relativePath: string): string {
   if (relativePath === 'index.md') return '/'
+  if (relativePath.endsWith('/index.md')) return '/' + relativePath.slice(0, -'index.md'.length)
   return '/' + relativePath.replace(/\.md$/, '')
 }
 
@@ -14,6 +15,37 @@ export default withMermaid(defineConfig({
   title: 'SJF4J',
   description: DEFAULT_DESCRIPTION,
   lang: 'en-US',
+  // Keep the existing English URLs; translate pages incrementally under /zh/.
+  locales: {
+    root: { label: 'English', lang: 'en-US' },
+    zh: {
+      label: '简体中文',
+      lang: 'zh-CN',
+      description: '基于 JSON 语义的统一结构化数据处理层。',
+      markdown: {
+        codeCopyButton: {
+          tooltipText: '复制代码',
+          copiedText: '已复制',
+        },
+      },
+      themeConfig: {
+        nav: [
+          { text: '首页', link: '/zh/' },
+          { text: '文档', link: '/docs/getting-started' },
+          { text: '性能测试', link: '/docs/benchmarks' },
+          { text: '代码生成器', link: '/generator' },
+        ],
+        langMenuLabel: '选择语言',
+        darkModeSwitchLabel: '外观',
+        lightModeSwitchTitle: '切换到浅色模式',
+        darkModeSwitchTitle: '切换到深色模式',
+        footer: {
+          message: '基于 MIT 许可证发布。',
+          copyright: 'SJF4J contributors',
+        },
+      },
+    },
+  },
   cleanUrls: true,
   ignoreDeadLinks: false,
 
@@ -59,9 +91,15 @@ export default withMermaid(defineConfig({
 
     return [
       ['link', { rel: 'canonical', href: canonical }],
+      ...(path === '/' || path === '/zh/' ? [
+        ['link', { rel: 'alternate', hreflang: 'en', href: SITE_URL + '/' }],
+        ['link', { rel: 'alternate', hreflang: 'zh-CN', href: SITE_URL + '/zh/' }],
+        ['link', { rel: 'alternate', hreflang: 'x-default', href: SITE_URL + '/' }],
+      ] as [string, Record<string, string>][] : []),
       ['meta', { name: 'robots', content: 'index, follow' }],
       ['meta', { property: 'og:type', content: path === '/' ? 'website' : 'article' }],
       ['meta', { property: 'og:url', content: canonical }],
+      ['meta', { property: 'og:locale', content: path.startsWith('/zh/') ? 'zh_CN' : 'en_US' }],
       ['meta', { property: 'og:title', content: title }],
       ['meta', { property: 'og:description', content: summary }],
       ['meta', { property: 'og:image', content: SOCIAL_IMAGE }],
@@ -85,6 +123,9 @@ export default withMermaid(defineConfig({
   },
 
   themeConfig: {
+    // Only /zh/ exists so far. Switch to the available locale homepage,
+    // rather than navigating to untranslated /zh/docs/... URLs.
+    i18nRouting: false,
     siteTitle: 'S<span class="logo-java-j">J</span>F4J',
     nav: [
       { text: 'Home', link: '/' },
