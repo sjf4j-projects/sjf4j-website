@@ -92,7 +92,7 @@ implementation("org.sjf4j:sjf4j:{version}")
 
 :::
 
-The aggregate includes all six **SJF4J adapters** and their native libraries transitively, but not the annotation processor.
+The aggregate includes all six **SJF4J adapters** and their native libraries except Jackson 3, which requires Java 17. Add `sjf4j-backend-jackson3` explicitly to enable Jackson 3 on Java 17+. The annotation processor is not included.
 
 ## Backends
 
