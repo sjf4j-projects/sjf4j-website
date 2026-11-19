@@ -107,7 +107,7 @@ To integrate another streaming library or format:
 
 1. **Adapt the stream.** Extend `StreamingParser` and `StreamingGenerator` to translate the native reader/writer into SJF4J's object, array, member-name, scalar, and null operations. Preserve the token-consumption contracts documented by those classes.
 2. **Create a binder.** Extend `Binder<Parser, Generator>` and implement `createParser(Reader)` and `createGenerator(Writer)`. Add native byte-stream implementations if needed; the base class provides default stream and string helpers.
-3. **Expose a provider.** Implement `BinderProvider` with a `Format`, selection `priority()`, and `create(RuntimeContext)`. Pass the supplied context into the binder.
+3. **Expose a provider.** Implement `BinderProvider` with a `Format`, selection `priority()`, and `create(NodeConfig)`. Pass the supplied config into the binder.
 4. **Register and test.** Add the provider to `META-INF/services/org.sjf4j.binding.BinderProvider`. Test round trips, nulls, nested values, error handling, and stream ownership.
 
 For example, a JSON provider for a `MyJsonBinder` implementation:
@@ -116,8 +116,8 @@ For example, a JSON provider for a `MyJsonBinder` implementation:
 public final class MyJsonProvider implements BinderProvider {
     @Override public Format format() { return Format.JSON; }
     @Override public int priority() { return 350; }
-    @Override public Binder<?, ?> create(RuntimeContext context) {
-        return new MyJsonBinder(context);
+    @Override public Binder<?, ?> create(NodeConfig config) {
+        return new MyJsonBinder(config);
     }
 }
 ```

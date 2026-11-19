@@ -180,15 +180,15 @@ See [MyHttpMessageConverter](https://github.com/sjf4j-projects/sjf4j/blob/main/s
 
 ## Configuration & Limitations
 
-A Spring-managed `RuntimeContext` Bean is used by generated instances when available; otherwise they use `RuntimeContext.EMPTY`.
+A Spring-managed `NodeConfig` Bean is used by generated instances when available; otherwise they use `NodeConfig.DEFAULT`.
 
 ```java
 @Configuration
 class Sjf4jConfig {
 
     @Bean
-    RuntimeContext runtimeContext() {
-        return new RuntimeContext(false); // Exclude null-valued members
+    NodeConfig nodeConfig() {
+        return new NodeConfig(false); // Exclude null-valued members
     }
 }
 ```
