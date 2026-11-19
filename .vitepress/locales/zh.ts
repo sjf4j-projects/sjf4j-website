@@ -1,3 +1,5 @@
+import { localizedLink } from '../i18n/routes'
+
 // Until Chinese docs exist, navigation links intentionally target English pages.
 export const zhLocale = {
   label: '简体中文',
@@ -12,9 +14,9 @@ export const zhLocale = {
   themeConfig: {
     nav: [
       { text: '首页', link: '/zh/' },
-      { text: '文档', link: '/docs/getting-started' },
-      { text: '性能测试', link: '/docs/benchmarks' },
-      { text: '代码生成器', link: '/generator' },
+      { text: '文档', link: localizedLink('/docs/getting-started', 'zh-CN') },
+      { text: '性能测试', link: localizedLink('/docs/benchmarks', 'zh-CN') },
+      { text: '代码生成器', link: localizedLink('/generator', 'zh-CN') },
     ],
     langMenuLabel: '选择语言',
     darkModeSwitchLabel: '外观',
