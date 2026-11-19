@@ -22,5 +22,7 @@ jobs:
         run: node --test tests/sync-readme.test.mjs
       - name: Test Schema-to-Java generator
         run: npm run test:generator
+      - name: Test internationalization routing
+        run: npm run test:i18n
       - name: Build website and check internal links
         run: npm run docs:build

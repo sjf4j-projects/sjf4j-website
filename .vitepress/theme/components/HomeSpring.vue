@@ -1,5 +1,11 @@
 <script setup lang="ts">
 import CodePanel from './CodePanel.vue'
+import { useSiteMessages } from '../i18n'
+import { useData } from 'vitepress'
+import { localizedLink } from '../../i18n/routes'
+
+const t = useSiteMessages()
+const { lang } = useData()
 
 const mapperExample = `@CompiledMapper
 public interface UserMapper {
@@ -18,18 +24,18 @@ public class UserService {
 </script>
 
 <template>
-  <section class="home-spring" aria-label="Spring Boot integration example">
+  <section class="home-spring" :aria-label="t.home.spring.label">
     <div class="home-spring-code">
-      <CodePanel title="Define Interface" :code="mapperExample" />
-      <CodePanel title="Use in Spring" :code="serviceExample" />
+      <CodePanel :title="t.home.spring.define" :code="mapperExample" />
+      <CodePanel :title="t.home.spring.use" :code="serviceExample" />
     </div>
     <p class="home-spring-note">
-      Automatic bean registration <span aria-hidden="true">·</span>
-      Compile-time generated implementations <span aria-hidden="true">·</span>
-      Standard Spring dependency injection
+      {{ t.home.spring.notes[0] }} <span aria-hidden="true">·</span>
+      {{ t.home.spring.notes[1] }} <span aria-hidden="true">·</span>
+      {{ t.home.spring.notes[2] }}
     </p>
     <p class="home-spring-more">
-      <a href="/docs/spring-integration">Spring Integration</a>
+      <a :href="localizedLink('/docs/spring-integration', lang)">{{ t.home.spring.link }}</a>
     </p>
   </section>
 </template>

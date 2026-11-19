@@ -1,202 +1,17 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
 import CodePanel from './CodePanel.vue'
+import { capabilities } from '../data/capabilities'
+import { useSiteMessages } from '../i18n'
+import { useData } from 'vitepress'
+import { localizedLink } from '../../i18n/routes'
 
-type DescriptionPart = string | { text: string; href: string }
-
-interface Capability {
-  id: string
-  name: string
-  path: string
-  description: DescriptionPart[]
-  runtime?: string
-  compiled?: string
-}
-
-const capabilities: Capability[] = [
-  {
-    id: 'binding',
-    name: 'Binding',
-    path: '/docs/binding',
-    description: [
-      'Unified data binding across ',
-      { text: 'JSON', href: 'https://www.rfc-editor.org/info/rfc8259' },
-      ', ',
-      { text: 'YAML', href: 'https://yaml.org/spec/1.2.2/' },
-      ', and ',
-      { text: 'Java Properties', href: 'https://docs.oracle.com/javase/8/docs/api/java/util/Properties.html' },
-      ', supporting POJOs, Maps, Lists, generic types, and custom value types.'
-    ],
-    runtime: `public class User {
-    public String name;
-    public int age;
-    public Address address;
-}
-public class Address {
-    public String city;
-}
-Sjf4j sjf4j = Sjf4j.builder().build();
-
-User user = sjf4j.fromJson(json, User.class);
-String json2 = sjf4j.toJsonString(user);`,
-    compiled: `@CompiledBinder
-interface UserBinder {
-    @Read User fromJson(String json);
-    @Write String toJson(User user);
-}
-UserBinder binder = CompiledInstances.create(UserBinder.class);
-
-User user = binder.fromJson(json);
-String json2 = binder.toJson(user);`
-  },
-  {
-    id: 'navigating',
-    name: 'Navigating',
-    path: '/docs/navigating',
-    description: [
-      'Query and modify Java object graphs with ',
-      { text: 'JSONPath (RFC 9535)', href: 'https://www.rfc-editor.org/info/rfc9535' },
-      ' or ',
-      { text: 'JSON Pointer (RFC 6901)', href: 'https://www.rfc-editor.org/info/rfc6901' },
-      ', without intermediate JSON trees.'
-    ],
-    runtime: `JsonPath path = JsonPath.parse("$.address.city");
-
-// Read a property
-String city = path.getString(user); 
-
-// Update a property
-path.put(user, "Chongqing");
-
-// Find to a List
-List<String> names = 
-        JsonPath.parse("$..friends[?@.scores.math >= 90].name")
-        .find(student, String.class);`,
-    compiled: `@CompiledNavigator(fallback = true)
-interface UserNavigator {
-    @GetByPath("/address/city")
-    String getCity(User user);
-
-    @PutByPath("$.address.city")
-    String putCity(User user, String city);
-
-    @FindByPath("$..friends[?@.scores.math >= 90].name")
-    List<String> find(Student student);
-}`
-  },
-  {
-    id: 'validating',
-    name: 'Validating',
-    path: '/docs/validating',
-    description: [
-      'Validate Java objects directly against ',
-      { text: 'JSON Schema', href: 'https://json-schema.org/' },
-      ' (drafts 2020-12, 2019-09, and 7), without constructing intermediate JSON trees.'
-    ],
-    runtime: `// schemaJson contains a JSON Schema document
-JsonSchema schema = JsonSchema.fromJson(schemaJson);
-SchemaPlan plan = schema.createPlan();
-
-boolean valid = plan.isValid(user);`,
-    compiled: `@CompiledValidator
-interface UserValidator {
-    @ValidJsonSchema(ref = "classpath:/schemas/user.json")
-    boolean isValid(User user);
-}
-
-UserValidator validator = CompiledInstances.create(UserValidator.class);
-boolean valid = validator.isValid(user);`
-  },
-  {
-    id: 'object-mapping',
-    name: 'Object Mapping',
-    path: '/docs/mapping',
-    description: [
-      'Convert between Maps, POJOs, values, and nested Java structures.'
-    ],
-    runtime: `public class AnotherUser {
-    public String name;
-    public String fullName;
-    public int age;
-}
-
-// Runtime conversion maps matching properties
-AnotherUser dto = sjf4j.convert(user, AnotherUser.class);`,
-    compiled: `@CompiledMapper
-interface UserMapper {
-    @Mapping(target = "fullName", source = "name")
-    AnotherUser toAnother(User user);
-}
-
-UserMapper mapper = CompiledInstances.create(UserMapper.class);
-AnotherUser dto = mapper.toAnother(user);`
-  },
-  {
-    id: 'jdbc-result-mapping',
-    name: 'JDBC Result Mapping',
-    path: '/docs/jdbc-mapping',
-    description: [
-      'Generate direct mappings from JDBC ResultSet rows to Java objects with @CompiledJdbcMapper.'
-    ],
-    compiled: `@CompiledJdbcMapper
-interface UserJdbcMapper {
-    List<User> users(ResultSet rs);
-    JdbcRowMapper<User> prepare(ResultSetMetaData metadata);
-}
-
-UserJdbcMapper mapper = CompiledInstances.create(UserJdbcMapper.class);
-
-// Cursor-consuming mapping: before the first row
-List<User> users = mapper.users(rs);
-
-// Or map current rows on a separate ResultSet
-JdbcRowMapper<User> rowMapper = mapper.prepare(otherRs.getMetaData());
-while (otherRs.next()) {
-    User user = rowMapper.map(otherRs);
-}`
-  },
-  {
-    id: 'patching',
-    name: 'Patching',
-    path: '/docs/patching',
-    description: [
-      'Apply ',
-      { text: 'JSON Patch (RFC 6902)', href: 'https://www.rfc-editor.org/info/rfc6902' },
-      ', ',
-      { text: 'JSON Merge Patch (RFC 7386)', href: 'https://www.rfc-editor.org/info/rfc7386' },
-      ', and indexed merge operations directly to Java object graphs.'
-    ],
-    runtime: `JsonPatch patch = JsonPatch.fromJson(
-        \"[{\\\"op\\\":\\\"replace\\\",\\\"path\\\":\\\"/name\\\",\\\"value\\\":\\\"Alice Zhang\\\"}]\");
-
-patch.apply(user);  // Update in place`,
-  },
-  {
-    id: 'modeling',
-    name: 'Modeling',
-    path: '/docs/modeling',
-    description: [
-      'Access, traverse, and compare Java objects through a consistent API that follows JSON semantics.'
-    ],
-    runtime: `// Access and convert property values
-Object raw = Nodes.getInObject(user, "name");
-String name = Nodes.toString(raw);
-
-// Iterate over object properties
-Nodes.forEachObject(user, (key, value) ->
-        System.out.println(key + ": " + value));
-
-// Compare objects by JSON semantics
-if (!Nodes.equals(user, userMap)) {
-    // Inspect object structure
-    System.out.println("user: " + Nodes.inspect(user));
-}`,
-  }
-]
-
+const t = useSiteMessages()
+const { lang } = useData()
 const activeId = ref(capabilities[0].id)
 const container = ref<HTMLElement | null>(null)
 const activeCapability = computed(() => capabilities.find((item) => item.id === activeId.value) ?? capabilities[0])
+const activeText = computed(() => t.value.home.capabilities.items[activeCapability.value.id])
 
 function syncFromHash() {
   const id = window.location.hash.slice(1)
@@ -204,7 +19,6 @@ function syncFromHash() {
   activeId.value = match?.id ?? capabilities[0].id
 
   if (match) {
-    // The requested tab might not exist in the server-rendered initial HTML.
     void nextTick(() => {
       container.value?.scrollIntoView({ block: 'start' })
       document.getElementById(`home-feature-tab-${match.id}`)?.scrollIntoView({
@@ -215,7 +29,7 @@ function syncFromHash() {
   }
 }
 
-function selectTab(id: string) {
+function selectTab(id: typeof activeId.value) {
   if (activeId.value === id) return
   activeId.value = id
   window.history.pushState(window.history.state, '', `#${id}`)
@@ -261,7 +75,7 @@ onUnmounted(() => {
 
 <template>
   <div ref="container" class="home-capabilities">
-    <div class="feature-tabs" role="tablist" aria-label="SJF4J capabilities">
+    <div class="feature-tabs" role="tablist" :aria-label="t.home.capabilities.tabsLabel">
       <button
         v-for="(item, index) in capabilities"
         :id="`home-feature-tab-${item.id}`"
@@ -274,7 +88,7 @@ onUnmounted(() => {
         @click="selectTab(item.id)"
         @keydown="onTabKeydown($event, index)"
       >
-        {{ item.name }}
+        {{ t.home.capabilities.items[item.id].name }}
       </button>
     </div>
 
@@ -286,11 +100,16 @@ onUnmounted(() => {
       tabindex="0"
     >
       <div class="capability-heading">
-        <h3 :id="activeCapability.id">{{ activeCapability.name }}</h3>
+        <h3 :id="activeCapability.id">{{ activeText.name }}</h3>
         <p>
-          <template v-for="(part, index) in activeCapability.description" :key="index">
+          <template v-for="(part, index) in activeText.description" :key="index">
             <template v-if="typeof part === 'string'">{{ part }}</template>
-            <a v-else :href="part.href" target="_blank" rel="noopener noreferrer">{{ part.text }}</a>
+            <a
+              v-else-if="'href' in part"
+              :href="part.href"
+              target="_blank"
+              rel="noopener noreferrer"
+            >{{ part.text }}</a>
           </template>
         </p>
       </div>
@@ -299,62 +118,58 @@ onUnmounted(() => {
         <CodePanel
           v-if="activeCapability.runtime"
           :key="`${activeCapability.id}-runtime`"
-          title="Runtime API"
+          :title="t.home.capabilities.runtime"
           :code="activeCapability.runtime"
         />
         <CodePanel
           v-if="activeCapability.compiled"
           :key="`${activeCapability.id}-compiled`"
-          title="Compiled API"
+          :title="t.home.capabilities.compiled"
           :code="activeCapability.compiled"
         />
-        <aside v-if="activeCapability.id === 'modeling'" class="modeling-info" aria-label="OBNT model overview">
+        <aside v-if="activeCapability.id === 'modeling'" class="modeling-info" :aria-label="t.home.capabilities.modeling.label">
           <p>
-            <strong>OBNT (Object-Based Node Tree)</strong> is the unified structural model behind SJF4J's APIs.
-            It defines three kinds of nodes:
+            <strong>OBNT (Object-Based Node Tree)</strong> {{ t.home.capabilities.modeling.introduction }}
           </p>
           <table class="modeling-node-table">
             <thead>
-              <tr><th>Node kind</th><th>Java representations</th></tr>
+              <tr>
+                <th>{{ t.home.capabilities.modeling.nodeType }}</th>
+                <th>{{ t.home.capabilities.modeling.javaRepresentation }}</th>
+              </tr>
             </thead>
             <tbody>
-              <tr><td>Object Node</td><td><code>Map</code>, POJOs, <code>JsonObject</code>, JOJOs</td></tr>
-              <tr><td>Array Node</td><td><code>List</code>, Java arrays, <code>JsonArray</code>, JAJOs</td></tr>
-              <tr><td>Value Node</td><td>Strings, numbers, booleans, custom value types</td></tr>
+              <tr><td>{{ t.home.capabilities.modeling.objectNode }}</td><td><code>Map</code>, POJOs, <code>JsonObject</code>, JOJOs</td></tr>
+              <tr><td>{{ t.home.capabilities.modeling.arrayNode }}</td><td><code>List</code>, Java arrays, <code>JsonArray</code>, JAJOs</td></tr>
+              <tr><td>{{ t.home.capabilities.modeling.valueNode }}</td><td>{{ t.home.capabilities.modeling.valueTypes }}</td></tr>
             </tbody>
           </table>
-          <p>OBNT also supports extensible object models:</p>
+          <p>{{ t.home.capabilities.modeling.extensions }}</p>
           <ul>
-            <li><strong>JOJO</strong> extends <code>JsonObject</code> with typed properties and dynamic members.</li>
-            <li><strong>JAJO</strong> extends <code>JsonArray</code> for typed, extensible arrays.</li>
-            <li><code>@NodeValue</code> defines logical value nodes.</li>
-            <li><code>@OneOf</code> models polymorphic node types.</li>
-            <li><code>ExternalNode</code> integrates custom structural types.</li>
+            <li><strong>JOJO</strong> {{ t.home.capabilities.modeling.jojo }}</li>
+            <li><strong>JAJO</strong> {{ t.home.capabilities.modeling.jajo }}</li>
+            <li><code>@NodeValue</code> {{ t.home.capabilities.modeling.nodeValue }}</li>
+            <li><code>@OneOf</code> {{ t.home.capabilities.modeling.oneOf }}</li>
+            <li><code>ExternalNode</code> {{ t.home.capabilities.modeling.externalNode }}</li>
           </ul>
         </aside>
       </div>
 
-      <p v-if="activeCapability.id === 'binding'" class="capability-detail">
-        SJF4J's open streaming architecture supports custom data formats and backends.
-        Its rich binding capabilities include <code>@OneOf</code> polymorphism,
-        multi-format <code>ValueCodec</code> support, and fully managed
-        <code>ExternalNode</code> integration.
-      </p>
-      <p v-else-if="activeCapability.id === 'object-mapping'" class="capability-detail">
-        The Runtime API, <code>Sjf4j.convert()</code>, performs direct object conversion.<br/>
-        <code>@CompiledMapper</code> supports custom mapping rules for property renaming,
-        nested mappings, expressions, and object creation.
-      </p>
-      <p v-else-if="activeCapability.id === 'patching'" class="capability-detail">
-        Patching is available through the Runtime API only; there is no Compiled API.
+      <p v-if="activeText.detail" class="capability-detail">
+        <template v-for="(part, index) in activeText.detail" :key="index">
+          <template v-if="typeof part === 'string'">{{ part }}</template>
+          <code v-else-if="'code' in part">{{ part.code }}</code>
+          <br v-else-if="'break' in part"/>
+          <a v-else-if="'href' in part" :href="part.href">{{ part.text }}</a>
+        </template>
       </p>
 
       <a
         class="home-learn-more capability-learn-more"
-        :href="activeCapability.path"
-        :aria-label="`Learn more about ${activeCapability.name}`"
+        :href="localizedLink(activeCapability.path, lang)"
+        :aria-label="t.home.capabilities.learnMoreLabel(activeText.name)"
       >
-        Learn more about {{ activeCapability.name }}
+        {{ t.home.capabilities.learnMore(activeText.name) }}
       </a>
     </section>
   </div>

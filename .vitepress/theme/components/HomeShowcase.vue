@@ -1,16 +1,25 @@
+<script setup lang="ts">
+import { useSiteMessages } from '../i18n'
+import { useData } from 'vitepress'
+import { localizedLink } from '../../i18n/routes'
+
+const t = useSiteMessages()
+const { lang } = useData()
+</script>
+
 <template>
   <section class="home-showcase" aria-labelledby="home-headline">
     <div class="hero-intro">
-      <p class="eyebrow">Java 8+ <span aria-hidden="true">·</span> Open Source</p>
+      <p class="eyebrow">Java 8+ <span aria-hidden="true">·</span> {{ t.home.hero.openSource }}</p>
       <h1 id="home-headline">S<span class="logo-java-j">J</span>F4J</h1>
       <p class="project-name">Simple JSON Facade for Java</p>
       <p class="tagline">
-        A unified structural processing layer
-        <span class="accent tagline-end">built on JSON semantics.</span>
+        {{ t.home.hero.tagline }}
+        <span class="accent tagline-end">{{ t.home.hero.taglineAccent }}</span>
       </p>
       <div class="actions">
-        <a class="primary" href="/docs/getting-started">Get Started</a>
-        <a class="secondary" href="/docs/benchmarks"><span aria-hidden="true">⚡️</span> Benchmarks</a>
+        <a class="primary" :href="localizedLink('/docs/getting-started', lang)">{{ t.home.hero.getStarted }}</a>
+        <a class="secondary" :href="localizedLink('/docs/benchmarks', lang)"><span aria-hidden="true">⚡️</span> {{ t.home.hero.benchmarks }}</a>
         <a
           class="secondary"
           href="https://github.com/sjf4j-projects/sjf4j"
@@ -23,63 +32,49 @@
           GitHub
         </a>
       </div>
-      <div class="project-badges" aria-label="Project status and compliance badges">
+      <div class="project-badges" :aria-label="t.home.hero.badgeLabel">
         <div class="badge-row">
-        <a href="https://github.com/sjf4j-projects/sjf4j/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">
-          <img src="https://img.shields.io/github/license/sjf4j-projects/sjf4j" alt="License" loading="lazy" />
-        </a>
-        <a href="https://central.sonatype.com/search?q=sjf4j" target="_blank" rel="noopener noreferrer">
-          <img src="https://img.shields.io/maven-central/v/org.sjf4j/sjf4j" alt="Maven Central" loading="lazy" />
-        </a>
-        <a href="https://javadoc.io/doc/org.sjf4j/sjf4j-core" target="_blank" rel="noopener noreferrer">
-          <img src="https://javadoc.io/badge2/org.sjf4j/sjf4j-core/javadoc.svg" alt="Javadoc" loading="lazy" />
-        </a>
-        <a href="https://bowtie.report/" target="_blank" rel="noopener noreferrer">
-          <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fjava-org.sjf4j-sjf4j%2Fsupported_versions.json" alt="Supported JSON Schema dialects" loading="lazy" />
-        </a>
+          <a href="https://github.com/sjf4j-projects/sjf4j/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">
+            <img src="https://img.shields.io/github/license/sjf4j-projects/sjf4j" alt="License" loading="lazy" />
+          </a>
+          <a href="https://central.sonatype.com/search?q=sjf4j" target="_blank" rel="noopener noreferrer">
+            <img src="https://img.shields.io/maven-central/v/org.sjf4j/sjf4j" alt="Maven Central" loading="lazy" />
+          </a>
+          <a href="https://javadoc.io/doc/org.sjf4j/sjf4j-core" target="_blank" rel="noopener noreferrer">
+            <img src="https://javadoc.io/badge2/org.sjf4j/sjf4j-core/javadoc.svg" alt="Javadoc" loading="lazy" />
+          </a>
+          <a href="https://bowtie.report/" target="_blank" rel="noopener noreferrer">
+            <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fjava-org.sjf4j-sjf4j%2Fsupported_versions.json" alt="Supported JSON Schema dialects" loading="lazy" />
+          </a>
         </div>
         <div class="badge-row">
-        <a href="https://bowtie.report/" target="_blank" rel="noopener noreferrer">
-          <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fjava-org.sjf4j-sjf4j%2Fcompliance%2Fdraft2020-12.json" alt="JSON Schema Draft 2020-12 compliance" loading="lazy" />
-        </a>
-        <a href="https://bowtie.report/" target="_blank" rel="noopener noreferrer">
-          <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fjava-org.sjf4j-sjf4j%2Fcompliance%2Fdraft2019-09.json" alt="JSON Schema Draft 2019-09 compliance" loading="lazy" />
-        </a>
-        <a href="https://bowtie.report/" target="_blank" rel="noopener noreferrer">
-          <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fjava-org.sjf4j-sjf4j%2Fcompliance%2Fdraft7.json" alt="JSON Schema Draft 7 compliance" loading="lazy" />
-        </a>
+          <a href="https://bowtie.report/" target="_blank" rel="noopener noreferrer">
+            <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fjava-org.sjf4j-sjf4j%2Fcompliance%2Fdraft2020-12.json" alt="JSON Schema Draft 2020-12 compliance" loading="lazy" />
+          </a>
+          <a href="https://bowtie.report/" target="_blank" rel="noopener noreferrer">
+            <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fjava-org.sjf4j-sjf4j%2Fcompliance%2Fdraft2019-09.json" alt="JSON Schema Draft 2019-09 compliance" loading="lazy" />
+          </a>
+          <a href="https://bowtie.report/" target="_blank" rel="noopener noreferrer">
+            <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fjava-org.sjf4j-sjf4j%2Fcompliance%2Fdraft7.json" alt="JSON Schema Draft 7 compliance" loading="lazy" />
+          </a>
         </div>
       </div>
     </div>
 
-    <div class="feature-panels" aria-label="Key advantages">
-      <article class="feature-panel">
-        <h2>JSON Semantics, Java Objects</h2>
+    <div class="feature-panels" :aria-label="t.home.hero.featuresLabel">
+      <article v-for="panel in t.home.hero.panels" :key="panel.id" class="feature-panel">
+        <h2>{{ panel.title }}</h2>
         <p>
-          Apply <a href="https://www.rfc-editor.org/info/rfc9535/" target="_blank" rel="noopener noreferrer">JSONPath</a>,
-          <a href="https://www.rfc-editor.org/info/rfc6901/" target="_blank" rel="noopener noreferrer">JSON Pointer</a>,
-          <a href="https://www.rfc-editor.org/info/rfc6902/" target="_blank" rel="noopener noreferrer">JSON Patch</a>,
-          and <a href="https://json-schema.org/" target="_blank" rel="noopener noreferrer">JSON Schema</a>
-          directly to POJOs, Maps, Lists, and domain models — no intermediate JSON trees required.
+          <template v-for="(part, index) in panel.description" :key="index">
+            <template v-if="typeof part === 'string'">{{ part }}</template>
+            <a
+              v-else-if="'href' in part"
+              :href="localizedLink(part.href, lang)"
+              :target="part.href.startsWith('http') ? '_blank' : undefined"
+              :rel="part.href.startsWith('http') ? 'noopener noreferrer' : undefined"
+            >{{ part.text }}</a>
+          </template>
         </p>
-      </article>
-
-      <article class="feature-panel">
-        <h2>Multiple Backends, One API</h2>
-        <p>
-          Work seamlessly across JSON backends
-          (<a href="https://github.com/FasterXML/jackson-databind" target="_blank" rel="noopener noreferrer">Jackson 2.x/3.x</a>,
-          <a href="https://github.com/google/gson" target="_blank" rel="noopener noreferrer">Gson</a>,
-          <a href="https://github.com/alibaba/fastjson2" target="_blank" rel="noopener noreferrer">Fastjson2</a>,
-          <a href="https://github.com/jakartaee/jsonp-api" target="_blank" rel="noopener noreferrer">JSON-P</a>),
-          YAML (<a href="https://github.com/snakeyaml/snakeyaml" target="_blank" rel="noopener noreferrer">SnakeYAML</a>),
-          and other formats — all through a unified API.
-        </p>
-      </article>
-
-      <article class="feature-panel">
-        <h2>Runtime Flexibility, Compiled Speed</h2>
-        <p>Enjoy flexible runtime APIs and highly optimized compile-time code generation — explore <a href="/#explore-features">features</a> and <a href="/#performance-at-a-glance">performance</a>.</p>
       </article>
     </div>
   </section>

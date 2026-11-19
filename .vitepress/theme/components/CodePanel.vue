@@ -5,6 +5,9 @@ import 'prismjs/components/prism-clike'
 import 'prismjs/components/prism-markup'
 import 'prismjs/components/prism-java'
 import 'prismjs/components/prism-kotlin'
+import { useSiteMessages } from '../i18n'
+
+const t = useSiteMessages()
 
 const props = withDefaults(defineProps<{
   title: string
@@ -48,8 +51,8 @@ async function copyCode() {
       <strong>{{ title }}</strong>
       <span class="panel-meta">
         <span v-if="code" class="language">{{ language }}</span>
-        <button v-if="code" type="button" @click="copyCode" :aria-label="`Copy ${title} example`">
-          {{ copied ? 'Copied' : 'Copy' }}
+        <button v-if="code" type="button" @click="copyCode" :aria-label="t.code.copyLabel(title)">
+          {{ copied ? t.code.copied : t.code.copy }}
         </button>
       </span>
     </div>
