@@ -9,6 +9,24 @@ description: "Define, register, and discover SJF4J value codecs for domain-speci
 
 A codec converts a Java value `V` to and from a JSON-compatible raw value `R`. In OBNT, it remains a **logical value node**, even when its raw representation is a Map or List. SJF4J includes codecs for common types such as `UUID`, `URI`, `Instant`, and `LocalDate`.
 
+## ValueCodec Interface
+
+`ValueCodec<V, R>` defines how a Java value `V` maps to a raw representation `R`. Its core contract is:
+
+```java
+public interface ValueCodec<V, R> {
+    Class<V> valueClazz();
+    Class<R> rawClazz();
+
+    R valueToRaw(V value);
+    V rawToValue(R raw);
+
+    default V valueCopy(V value) { return value; }
+}
+```
+
+`valueClazz()` identifies the domain type; `rawClazz()` identifies its JSON-compatible shape (`String`, `Number`, `Boolean`, `Map`, or `List`). The two conversion methods handle writing and reading; `null` represents JSON null. Override `valueCopy()` for mutable values. For simple conversions, `ValueCodec.SimpleValueCodec` accepts encoder and decoder functions, as shown below.
+
 ## Declare a Codec Registry
 
 Declare codecs as **public static no-argument factory methods** in a `@ValueCodecRegistry` class. The return type identifies the domain and raw types; **individual methods need no annotation**. Factory methods must be static because SJF4J discovers them from the holder type, without creating a holder instance.
@@ -86,7 +104,7 @@ Sjf4j sjf4j = Sjf4j.builder()
 
 One codec without a format name serves as the default. For named-only codecs, use `@NodeValue(format = "...", defaultCodec = true)` to select a default explicitly. Duplicate formats and multiple defaults within one holder are rejected.
 
-## Automatic Registration with ServiceLoader
+## SPI
 
 For reusable extension modules, implement the **empty marker interface** `ValueCodecProvider` on a concrete registry class. This is optional for explicit registration, but required for automatic `ServiceLoader` discovery:
 
