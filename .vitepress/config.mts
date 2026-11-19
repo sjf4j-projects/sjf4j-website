@@ -68,7 +68,14 @@ export default withMermaid(defineConfig({
     const path = pagePath(pageData.relativePath)
     const canonical = new URL(path, SITE_URL).toString()
     const summary = description || DEFAULT_DESCRIPTION
-    const schema = path === '/'
+    const isHomepage = path === '/' || path === '/zh/'
+    const language = path.startsWith('/zh/') ? 'zh-CN' : 'en-US'
+    const alternateLinks: Array<['link', Record<string, string>]> = isHomepage ? [
+      ['link', { rel: 'alternate', hreflang: 'en', href: SITE_URL + '/' }],
+      ['link', { rel: 'alternate', hreflang: 'zh-CN', href: SITE_URL + '/zh/' }],
+      ['link', { rel: 'alternate', hreflang: 'x-default', href: SITE_URL + '/' }],
+    ] : []
+    const schema = isHomepage
       ? {
           '@context': 'https://schema.org',
           '@type': 'SoftwareApplication',
@@ -76,6 +83,7 @@ export default withMermaid(defineConfig({
           applicationCategory: 'DeveloperApplication',
           operatingSystem: 'Cross-platform',
           description: summary,
+          inLanguage: language,
           url: canonical,
           image: SOCIAL_IMAGE,
           codeRepository: repo,
@@ -85,19 +93,16 @@ export default withMermaid(defineConfig({
           '@type': 'TechArticle',
           headline: title,
           description: summary,
+          inLanguage: language,
           url: canonical,
           publisher: { '@type': 'Organization', name: 'SJF4J', url: SITE_URL },
         }
 
     return [
       ['link', { rel: 'canonical', href: canonical }],
-      ...(path === '/' || path === '/zh/' ? [
-        ['link', { rel: 'alternate', hreflang: 'en', href: SITE_URL + '/' }],
-        ['link', { rel: 'alternate', hreflang: 'zh-CN', href: SITE_URL + '/zh/' }],
-        ['link', { rel: 'alternate', hreflang: 'x-default', href: SITE_URL + '/' }],
-      ] as [string, Record<string, string>][] : []),
+      ...alternateLinks,
       ['meta', { name: 'robots', content: 'index, follow' }],
-      ['meta', { property: 'og:type', content: path === '/' ? 'website' : 'article' }],
+      ['meta', { property: 'og:type', content: isHomepage ? 'website' : 'article' }],
       ['meta', { property: 'og:url', content: canonical }],
       ['meta', { property: 'og:locale', content: path.startsWith('/zh/') ? 'zh_CN' : 'en_US' }],
       ['meta', { property: 'og:title', content: title }],
