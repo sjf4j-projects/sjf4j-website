@@ -10,6 +10,18 @@ export type BenchmarkId =
 
 export interface SiteMessages {
   home: {
+    sections: {
+      exploreTitle: string
+      leadBefore: string
+      runtimeLabel: string
+      leadBetween: string
+      compiledLabel: string
+      leadAfter: string
+      performanceTitle: string
+      benchmarkLink: string
+      springTitle: string
+      springDescription: string
+    }
     hero: {
       openSource: string
       tagline: string
