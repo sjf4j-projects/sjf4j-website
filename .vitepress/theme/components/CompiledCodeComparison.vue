@@ -7,9 +7,7 @@ interface UserNavigator {
     String getCity(User user);
 }`
 
-const generatedCode = `public final class UserNavigator_Impl
-        implements UserNavigator {
-
+const generatedCode = `public final class UserNavigator_Impl implements UserNavigator {
     @Override
     public String getCity(User user) {
         if (user == null) return null;

@@ -29,7 +29,7 @@ graph BT
     value --> string("*String")
     value ---> number("*Number")
     value --> boolean("*Boolean")
-    value ---> nodeValue("&lt;NodeValue&gt;")
+    value ---> nodeValue("&lt;Value&gt;")
 ```
 
 *The starred types are the default raw representations for JSON values when no target Java type is supplied.*

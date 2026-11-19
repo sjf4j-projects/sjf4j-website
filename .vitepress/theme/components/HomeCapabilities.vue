@@ -318,9 +318,9 @@ onUnmounted(() => {
               <tr><th>Node kind</th><th>Java representations</th></tr>
             </thead>
             <tbody>
-              <tr><td>Object</td><td><code>Map</code>, POJOs, <code>JsonObject</code>, JOJOs</td></tr>
-              <tr><td>Array</td><td><code>List</code>, Java arrays, <code>JsonArray</code>, JAJOs</td></tr>
-              <tr><td>Value</td><td>Strings, numbers, booleans, custom value types</td></tr>
+              <tr><td>Object Node</td><td><code>Map</code>, POJOs, <code>JsonObject</code>, JOJOs</td></tr>
+              <tr><td>Array Node</td><td><code>List</code>, Java arrays, <code>JsonArray</code>, JAJOs</td></tr>
+              <tr><td>Value Node</td><td>Strings, numbers, booleans, custom value types</td></tr>
             </tbody>
           </table>
           <p>OBNT also supports extensible object models:</p>
