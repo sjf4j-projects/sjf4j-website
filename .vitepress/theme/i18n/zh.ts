@@ -2,6 +2,18 @@ import type { SiteMessages } from './types'
 
 export const zh: SiteMessages = {
   home: {
+    sections: {
+      exploreTitle: '探索功能',
+      leadBefore: '通过灵活的 ',
+      runtimeLabel: '运行时 API',
+      leadBetween: ' 和高性能的 ',
+      compiledLabel: '编译式 API',
+      leadAfter: '，直接操作 Java 对象。',
+      performanceTitle: '性能一览',
+      benchmarkLink: '查看性能测试',
+      springTitle: '在 Spring 中使用 SJF4J',
+      springDescription: '将编译式 SJF4J API 直接注入 Spring Bean，无需手动创建实例或添加组件注解。'
+    },
     hero: {
       openSource: '开源',
       tagline: '统一的结构化数据处理层',
@@ -48,9 +60,9 @@ export const zh: SiteMessages = {
           title: '运行时灵活，编译式高效',
           description: [
             '兼具灵活的运行时 API 与高度优化的编译期代码生成。了解',
-            { text: '功能', href: '/zh/#explore-features' },
+            { text: '功能', href: '/#explore-features' },
             '和',
-            { text: '性能', href: '/zh/#performance-at-a-glance' },
+            { text: '性能', href: '/#performance-at-a-glance' },
             '。'
           ]
         }
