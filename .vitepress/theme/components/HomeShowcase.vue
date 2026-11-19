@@ -1,16 +1,26 @@
+<script setup lang="ts">
+import { useChineseHome } from '../useHomeLanguage'
+
+const zh = useChineseHome()
+</script>
+
 <template>
   <section class="home-showcase" aria-labelledby="home-headline">
     <div class="hero-intro">
-      <p class="eyebrow">Java 8+ <span aria-hidden="true">·</span> Open Source</p>
+      <p class="eyebrow">Java 8+ <span aria-hidden="true">·</span> {{ zh ? '开源' : 'Open Source' }}</p>
       <h1 id="home-headline">S<span class="logo-java-j">J</span>F4J</h1>
       <p class="project-name">Simple JSON Facade for Java</p>
-      <p class="tagline">
+      <p class="tagline" v-if="zh">
+        统一的结构化数据处理层
+        <span class="accent tagline-end">基于 JSON 语义构建。</span>
+      </p>
+      <p class="tagline" v-else>
         A unified structural processing layer
         <span class="accent tagline-end">built on JSON semantics.</span>
       </p>
       <div class="actions">
-        <a class="primary" href="/docs/getting-started">Get Started</a>
-        <a class="secondary" href="/docs/benchmarks"><span aria-hidden="true">⚡️</span> Benchmarks</a>
+        <a class="primary" href="/docs/getting-started">{{ zh ? '快速开始' : 'Get Started' }}</a>
+        <a class="secondary" href="/docs/benchmarks"><span aria-hidden="true">⚡️</span> {{ zh ? '性能测试' : 'Benchmarks' }}</a>
         <a
           class="secondary"
           href="https://github.com/sjf4j-projects/sjf4j"
@@ -23,7 +33,7 @@
           GitHub
         </a>
       </div>
-      <div class="project-badges" aria-label="Project status and compliance badges">
+      <div class="project-badges" :aria-label="zh ? '项目状态与规范符合性徽章' : 'Project status and compliance badges'">
         <div class="badge-row">
         <a href="https://github.com/sjf4j-projects/sjf4j/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">
           <img src="https://img.shields.io/github/license/sjf4j-projects/sjf4j" alt="License" loading="lazy" />
@@ -52,10 +62,17 @@
       </div>
     </div>
 
-    <div class="feature-panels" aria-label="Key advantages">
+    <div class="feature-panels" :aria-label="zh ? '核心优势' : 'Key advantages'">
       <article class="feature-panel">
-        <h2>JSON Semantics, Java Objects</h2>
-        <p>
+        <h2>{{ zh ? 'JSON 语义，Java 对象' : 'JSON Semantics, Java Objects' }}</h2>
+        <p v-if="zh">
+          将 <a href="https://www.rfc-editor.org/info/rfc9535/" target="_blank" rel="noopener noreferrer">JSONPath</a>、
+          <a href="https://www.rfc-editor.org/info/rfc6901/" target="_blank" rel="noopener noreferrer">JSON Pointer</a>、
+          <a href="https://www.rfc-editor.org/info/rfc6902/" target="_blank" rel="noopener noreferrer">JSON Patch</a>
+          和 <a href="https://json-schema.org/" target="_blank" rel="noopener noreferrer">JSON Schema</a>
+          直接用于 POJO、Map、List 和领域模型，无需构造中间 JSON 树。
+        </p>
+        <p v-else>
           Apply <a href="https://www.rfc-editor.org/info/rfc9535/" target="_blank" rel="noopener noreferrer">JSONPath</a>,
           <a href="https://www.rfc-editor.org/info/rfc6901/" target="_blank" rel="noopener noreferrer">JSON Pointer</a>,
           <a href="https://www.rfc-editor.org/info/rfc6902/" target="_blank" rel="noopener noreferrer">JSON Patch</a>,
@@ -65,8 +82,17 @@
       </article>
 
       <article class="feature-panel">
-        <h2>Multiple Backends, One API</h2>
-        <p>
+        <h2>{{ zh ? '多种后端，统一 API' : 'Multiple Backends, One API' }}</h2>
+        <p v-if="zh">
+          通过统一 API 使用多种 JSON 后端：
+          <a href="https://github.com/FasterXML/jackson-databind" target="_blank" rel="noopener noreferrer">Jackson 2.x/3.x</a>、
+          <a href="https://github.com/google/gson" target="_blank" rel="noopener noreferrer">Gson</a>、
+          <a href="https://github.com/alibaba/fastjson2" target="_blank" rel="noopener noreferrer">Fastjson2</a>、
+          <a href="https://github.com/jakartaee/jsonp-api" target="_blank" rel="noopener noreferrer">JSON-P</a>，
+          以及 <a href="https://github.com/snakeyaml/snakeyaml" target="_blank" rel="noopener noreferrer">SnakeYAML</a>
+          等 YAML 和其他格式实现。
+        </p>
+        <p v-else>
           Work seamlessly across JSON backends
           (<a href="https://github.com/FasterXML/jackson-databind" target="_blank" rel="noopener noreferrer">Jackson 2.x/3.x</a>,
           <a href="https://github.com/google/gson" target="_blank" rel="noopener noreferrer">Gson</a>,
@@ -78,8 +104,9 @@
       </article>
 
       <article class="feature-panel">
-        <h2>Runtime Flexibility, Compiled Speed</h2>
-        <p>Enjoy flexible runtime APIs and highly optimized compile-time code generation — explore <a href="/#explore-features">features</a> and <a href="/#performance-at-a-glance">performance</a>.</p>
+        <h2>{{ zh ? '运行时灵活，编译式高效' : 'Runtime Flexibility, Compiled Speed' }}</h2>
+        <p v-if="zh">兼具灵活的运行时 API 与高度优化的编译期代码生成。了解<a href="/zh/#explore-features">功能</a>和<a href="/zh/#performance-at-a-glance">性能</a>。</p>
+        <p v-else>Enjoy flexible runtime APIs and highly optimized compile-time code generation — explore <a href="/#explore-features">features</a> and <a href="/#performance-at-a-glance">performance</a>.</p>
       </article>
     </div>
   </section>
