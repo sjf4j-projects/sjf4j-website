@@ -238,7 +238,13 @@ Sjf4j sjf4j = Sjf4j.builder()
     .build();
 ```
 
-`JsonFactory` controls Jackson's streaming parser and generator settings; SJF4J handles Java object binding. Jackson `ObjectMapper` modules, serializers, and property naming settings are **not** applied to SJF4J. The supplied factory is reused and adjusted in place by the binder (including charset detection and auto-close settings), so configure it before building the `Sjf4j` instance. This configuration does not change `Sjf4j.global()`.
+`JsonFactory` controls Jackson's streaming parser and generator settings. The supplied factory is reused and adjusted in place by the binder (including charset detection and auto-close settings), so configure it before building the `Sjf4j` instance. This configuration does not change `Sjf4j.global()`.
+
+### Binding compatibility
+
+**SJF4J has its own object-binding contract.** A native backend supplies JSON parsing and generation, not its library's object-mapping behavior. For example, using Jackson 2 does **not** make SJF4J's `fromJson` / `toJson` equivalent to Jackson Databind's `ObjectMapper.readValue` / `writeValueAsString`. Jackson annotations, Databind modules, custom serializers/deserializers, and `ObjectMapper` naming rules are not applied. Use SJF4J's own modeling annotations and value codecs to control binding.
+
+**SJF4J is not a drop-in replacement for a native library's object binding.** Before migrating, review existing model annotations, property naming, scalar formats, null handling, polymorphism, and custom conversions; test representative payloads and round trips. The same JSON input may map differently even when both implementations use Jackson's streaming engine.
 
 For **Compiled Binding**, explicitly pass the configured backend binder when creating an implementation whose `@CompiledBinder` backend is `Backend.JACKSON2`:
 
