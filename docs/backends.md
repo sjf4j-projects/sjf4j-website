@@ -22,15 +22,14 @@ This is the detailed guide to **streaming backends and custom formats**. For Jav
 | YAML | SnakeYAML | `sjf4j-backend-snake` |
 | Properties | Built-in | `sjf4j-core` |
 
-Add the SJF4J adapter **and** its native library. For example, with Jackson 2.x:
+Add the SJF4J backend module; its native library is included transitively. For example, with Jackson 2.x:
 
 ```kotlin
 implementation("org.sjf4j:sjf4j-core:{version}")
 implementation("org.sjf4j:sjf4j-backend-jackson2:{version}")
-implementation("com.fasterxml.jackson.core:jackson-databind:2.22.3")
 ```
 
-See [Installation](/docs/installation) for Maven, other backend dependencies, and supported versions.
+See [Installation](/docs/installation) for Maven, backend library versions, and other modules.
 
 ## Backend Selection
 

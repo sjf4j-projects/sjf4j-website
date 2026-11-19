@@ -7,7 +7,7 @@ if (!sourcePath || !targetPath) {
 }
 
 const readme = readFileSync(sourcePath, 'utf8').replace(/\r\n?/g, '\n').trim();
-if (readme.length < 1000 || !readme.includes('SJF4J') || !readme.includes('## Installation')) {
+if (readme.length < 1000 || !readme.includes('SJF4J') || !readme.includes('## Quickstart')) {
   throw new Error('Upstream README is missing expected content; refusing to overwrite the page.');
 }
 
