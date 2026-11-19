@@ -2,6 +2,18 @@ import type { SiteMessages } from './types'
 
 export const en: SiteMessages = {
   home: {
+    sections: {
+      exploreTitle: 'Explore Features',
+      leadBefore: 'Work directly with Java objects using flexible ',
+      runtimeLabel: 'Runtime APIs',
+      leadBetween: ' and optimized ',
+      compiledLabel: 'Compiled APIs',
+      leadAfter: '.',
+      performanceTitle: 'Performance at a Glance',
+      benchmarkLink: 'Explore Benchmarks',
+      springTitle: 'Use SJF4J with Spring',
+      springDescription: 'Use compiled SJF4J APIs as Spring-managed beans — no manual instantiation or component annotations required.'
+    },
     hero: {
       openSource: 'Open Source',
       tagline: 'A unified structural processing layer',
