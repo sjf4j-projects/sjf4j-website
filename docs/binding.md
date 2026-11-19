@@ -122,7 +122,11 @@ Learn more in [Modeling (OBNT)](/docs/modeling).
 
 ## Polymorphic Binding
 
-`@OneOf` selects a concrete subtype using a discriminator or, for distinct shapes, the input's JSON structure. It works with Runtime and Compiled Binding.
+`@OneOf` selects a concrete subtype when reading polymorphic values. It supports three selection strategies in Runtime and Compiled Binding.
+
+### Discriminator key
+
+Choose a subtype by a property in the current JSON object:
 
 ```java
 @OneOf(discriminatorKey = "type", cases = {
@@ -141,13 +145,43 @@ class Logout extends Event {
     public String reason;
 }
 
-Event event = sjf4j.fromJson(
-    "{\"type\":\"login\",\"user\":\"Alice\"}",
-    Event.class
-); // Login
+// {"type":"login","user":"Alice"} → Login
 ```
 
-Discriminators can be read from the current object; selected property-level mappings can also use a parent discriminator. Nested polymorphism and creator parameters have additional restrictions. See the `@OneOf` API documentation for those cases.
+### Discriminator path
+
+Use `discriminatorPath` when the discriminator is nested. The JSONPath is evaluated against the value being selected:
+
+```java
+class Envelope {
+    @OneOf(discriminatorPath = "$.meta.kind", cases = {
+        @OneOfCase(type = Login.class, when = "login"),
+        @OneOfCase(type = Logout.class, when = "logout")
+    })
+    public Event payload;
+}
+
+// {"payload":{"meta":{"kind":"login"},"user":"Alice"}} → Login
+```
+
+### JSON type
+
+Omit the discriminator to select by `JsonType` (JSON shape). Each subtype must have a distinct shape:
+
+```java
+class ValueHolder {
+    @OneOf(cases = {
+        @OneOfCase(type = String.class),
+        @OneOfCase(type = Integer.class)
+    })
+    public Object value;
+}
+
+// {"value":"hello"} → String
+// {"value":42}      → Integer
+```
+
+For fields, `scope = OneOf.Scope.PARENT` reads a `discriminatorKey` from the containing object instead of the value; it does not support `discriminatorPath`. Key and path discriminators are mutually exclusive, and path selection requires `CURRENT` scope. Unmatched values fail by default; use `onNoMatch = OneOf.OnNoMatch.RETURN_NULL` to return null instead. See [`@OneOf`](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-core/src/main/java/org/sjf4j/annotation/node/OneOf.java) for nesting and creator-parameter restrictions.
 
 ## Value Codecs
 
@@ -242,21 +276,18 @@ Sjf4j sjf4j = Sjf4j.builder()
 
 ### Binding compatibility
 
-**SJF4J has its own object-binding contract.** Backends provide streaming parsers and generators, not their libraries' object-mapping behavior. For example, using Jackson 2 does not make SJF4J's `fromJson` / `toJson` equivalent to Jackson Databind's `ObjectMapper.readValue` / `writeValueAsString`.
+**SJF4J has its own binding contract**, even when using a native library's streaming backend. It is **not a drop-in replacement** for Jackson Databind or other object mappers.
 
-SJF4J recognizes a **limited subset** of third-party annotations to ease migration:
+SJF4J recognizes a limited set of third-party annotations:
 
-| Library | Supported annotations | Recognized behavior |
-| --- | --- | --- |
-| Jackson 2 | `@JsonProperty`, `@JsonAlias`, `@JsonCreator` | Property name, input aliases, constructor/factory selection |
-| Jackson 3 | `@JsonProperty`, `@JsonAlias`, `@JsonCreator` | Property name, input aliases, constructor/factory selection |
-| Fastjson2 | `@JSONField`, `@JSONCreator` | `name` / `alternateNames`, constructor/factory selection |
+| Library | Runtime Binding support |
+| --- | --- |
+| Jackson 2/3 | `@JsonProperty` (name), `@JsonAlias` (aliases), `@JsonCreator` (constructor/factory) |
+| Fastjson2 | `@JSONField` (`name`, `alternateNames`), `@JSONCreator` (constructor/factory) |
 
-These are **Runtime Binding** capabilities. **Compiled Binding** currently recognizes Jackson 2 `@JsonProperty`, `@JsonAlias`, and `@JsonCreator`; Jackson 3 `@JsonProperty`; and Fastjson2 `@JSONField(name = ...)`. Other annotation attributes and third-party annotations are not automatically supported. Where multiple naming annotations are present, SJF4J's `@NodeProperty` takes precedence.
+**Compiled Binding** recognizes Jackson 2 `@JsonProperty`, `@JsonAlias`, `@JsonCreator`; Jackson 3 `@JsonProperty`; and Fastjson2 `@JSONField(name)`. SJF4J's `@NodeProperty` takes precedence.
 
-In particular, Jackson `@JsonIgnore`, `@JsonInclude`, `@JsonTypeInfo`, Databind modules, custom serializers/deserializers, and `ObjectMapper` naming rules are **not applied**. Use SJF4J's own modeling annotations and value codecs for these needs.
-
-**SJF4J is not a drop-in replacement for a native library's object binding.** Before migrating, review annotations, naming, scalar formats, null handling, polymorphism, and custom conversions; test representative payloads and round trips. The same JSON input may bind differently even when using the same streaming engine.
+Other annotations (such as `@JsonIgnore`, `@JsonInclude`, `@JsonTypeInfo`), `ObjectMapper` modules, and custom Jackson serializers are not applied. Before replacing an existing mapper, check property names, null handling, polymorphism, value formats, and round-trip results.
 
 For **Compiled Binding**, explicitly pass the configured backend binder when creating an implementation whose `@CompiledBinder` backend is `Backend.JACKSON2`:
 
