@@ -5,15 +5,34 @@ description: "Define, register, and discover SJF4J value codecs for domain-speci
 
 # Value Codecs
 
-A `ValueCodec<V, R>` converts a domain value `V` to and from a JSON-compatible raw representation `R`. In OBNT, the domain object remains a **logical value node**, even when its raw representation is a Map or List.
+**For a type you own, prefer `@NodeValue`** with `@ValueToRaw` and `@RawToValue` methods. Use a `ValueCodec<V, R>` when the type comes from an external library or you want to keep its definition unchanged. See [Modeling (OBNT)](/docs/modeling#custom-value-types) for the annotation-based approach.
 
-SJF4J includes codecs for types such as `UUID`, `URI`, `Instant`, and `LocalDate`. Use custom codecs when you cannot annotate the Java value class or need more than one representation.
+A codec converts a Java value `V` to and from a JSON-compatible raw value `R`. In OBNT, it remains a **logical value node**, even when its raw representation is a Map or List. SJF4J includes codecs for common types such as `UUID`, `URI`, `Instant`, and `LocalDate`.
+
+## ValueCodec Interface
+
+`ValueCodec<V, R>` defines how a Java value `V` maps to a raw representation `R`. Its core contract is:
+
+```java
+public interface ValueCodec<V, R> {
+    Class<V> valueClazz();
+    Class<R> rawClazz();
+
+    R valueToRaw(V value);
+    V rawToValue(R raw);
+
+    default V valueCopy(V value) { return value; }
+}
+```
+
+`valueClazz()` identifies the domain type; `rawClazz()` identifies its JSON-compatible shape (`String`, `Number`, `Boolean`, `Map`, or `List`). The two conversion methods handle writing and reading; `null` represents JSON null. Override `valueCopy()` for mutable values. For simple conversions, `ValueCodec.SimpleValueCodec` accepts encoder and decoder functions, as shown below.
 
 ## Declare a Codec Registry
 
 Declare codecs as **public static no-argument factory methods** in a `@ValueCodecRegistry` class. The return type identifies the domain and raw types; **individual methods need no annotation**. Factory methods must be static because SJF4J discovers them from the holder type, without creating a holder instance.
 
 ```java
+// Example of an existing type whose definition must remain unchanged.
 final class OrderId {
     public final String value;
 
@@ -46,8 +65,6 @@ String json = sjf4j.toJsonString(id); // "A-42"
 The registration is idempotent for the same holder. `public static final ValueCodec<V, R>` fields are also supported; factory methods are generally simpler.
 
 The holder may alternatively be an **interface** with static codec factory methods. Both `ValueRegistry.registerAnnotated(SomeCodecs.class)` and APT support interface holders. **ServiceLoader does not**: use a concrete class for automatic discovery.
-
-For a type you own, the alternative is to annotate the value class itself with `@NodeValue`, `@ValueToRaw`, and `@RawToValue`. See [Modeling (OBNT)](/docs/modeling#custom-value-types).
 
 ## Named Formats
 
@@ -87,7 +104,7 @@ Sjf4j sjf4j = Sjf4j.builder()
 
 One codec without a format name serves as the default. For named-only codecs, use `@NodeValue(format = "...", defaultCodec = true)` to select a default explicitly. Duplicate formats and multiple defaults within one holder are rejected.
 
-## Automatic Registration with ServiceLoader
+## SPI
 
 For reusable extension modules, implement the **empty marker interface** `ValueCodecProvider` on a concrete registry class. This is optional for explicit registration, but required for automatic `ServiceLoader` discovery:
 

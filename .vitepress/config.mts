@@ -119,8 +119,8 @@ export default withMermaid(defineConfig({
           text: 'Integrations',
           items: [
             { text: 'Backends & Formats', link: '/docs/backends' },
-            { text: 'External Nodes', link: '/docs/external-nodes' },
             { text: 'Value Codecs', link: '/docs/value-codecs' },
+            { text: 'External Nodes', link: '/docs/external-nodes' },
             { text: 'Spring Integration', link: '/docs/spring-integration' },
           ],
         },
