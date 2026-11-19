@@ -107,161 +107,6 @@ At compilation, the annotation processor generates `_Impl` classes and `META-INF
 No package scanning or Spring annotations on generated classes are required.
 
 
-## HTTP JSON and YAML (Spring MVC)
-
-Spring MVC uses `HttpMessageConverter` for `@RequestBody` and response bodies. To use **SJF4J Runtime Binding** automatically, you must implement an `HttpMessageConverter` in your application and register it with Spring. **SJF4J does not currently provide a built-in MVC HTTP converter.** No compiled binder or Controller changes are required.
-
-### Dependencies
-
-For Spring Boot 3.x, add Spring Web and the SJF4J backends you want:
-
-```kotlin
-implementation("org.springframework.boot:spring-boot-starter-web")
-implementation("org.sjf4j:sjf4j-core:{version}")
-implementation("org.sjf4j:sjf4j-backend-jackson2:{version}")
-implementation("org.sjf4j:sjf4j-backend-snake:{version}")
-implementation("org.yaml:snakeyaml:2.5")
-```
-
-Spring Boot 3's Web starter already supplies Jackson 2. For plain Spring Framework, use `spring-webmvc` and add the native Jackson dependency if needed. YAML requires both the SJF4J SnakeYAML adapter and SnakeYAML library. JSON can also use SJF4J's built-in Simple backend.
-
-### Implement the converter
-
-Create the following class in your application (not in an SJF4J module):
-
-::: details MyHttpMessageConverter.java
-
-```java
-public final class MyHttpMessageConverter
-        extends AbstractGenericHttpMessageConverter<Object> {
-
-    private final Binder<?, ?> json;
-    private final Binder<?, ?> yaml;
-
-    public MyHttpMessageConverter(
-            Binder<?, ?> json, Binder<?, ?> yaml) {
-        super(MediaType.APPLICATION_JSON,
-              MediaType.parseMediaType("application/*+json"),
-              MediaType.parseMediaType("application/yaml"));
-        this.json = json;
-        this.yaml = yaml;
-    }
-
-    @Override
-    protected boolean supports(Class<?> type) {
-        return type != String.class
-                && type != byte[].class
-                && !Resource.class.isAssignableFrom(type)
-                && !ProblemDetail.class.isAssignableFrom(type);
-    }
-
-    @Override
-    public Object read(Type type, Class<?> contextClass,
-                       HttpInputMessage input) throws IOException {
-        Type resolved = contextClass == null ? type
-                : GenericTypeResolver.resolveType(type, contextClass);
-        try {
-            if (isYaml(input.getHeaders().getContentType())) {
-                return yaml.readNode(new InputStreamReader(
-                        input.getBody(), StandardCharsets.UTF_8), resolved);
-            }
-            return json.readNode(input.getBody(), resolved);
-        } catch (BindingException e) {
-            throw new HttpMessageNotReadableException(
-                    "Cannot read request body", e, input);
-        }
-    }
-
-    @Override
-    protected Object readInternal(Class<?> type,
-                                  HttpInputMessage input) throws IOException {
-        return read(type, null, input);
-    }
-
-    @Override
-    protected void writeInternal(Object value, Type type,
-                                 HttpOutputMessage output) throws IOException {
-        try {
-            if (isYaml(output.getHeaders().getContentType())) {
-                Writer writer = new OutputStreamWriter(
-                        output.getBody(), StandardCharsets.UTF_8);
-                yaml.writeNode(writer, value);
-                writer.flush();
-            } else {
-                json.writeNode(output.getBody(), value);
-            }
-        } catch (BindingException e) {
-            throw new HttpMessageNotWritableException(
-                    "Cannot write response body", e);
-        }
-    }
-
-    private static boolean isYaml(MediaType type) {
-        return type != null && "application".equals(type.getType())
-                && "yaml".equals(type.getSubtype());
-    }
-}
-```
-
-This example uses UTF-8 for YAML and supports `application/yaml`; add additional media types if your API requires them. Imports are omitted.
-
-:::
-
-### Register with Spring Boot
-
-Once the application-local converter above exists, **a single Bean is enough**. Spring Boot adds custom `HttpMessageConverter` Beans ahead of its default converters.
-
-```java
-@Configuration
-class Sjf4jMvcConfig {
-
-    @Bean
-    MyHttpMessageConverter sjf4jHttpMessageConverter() {
-        RuntimeContext context = new RuntimeContext(false);
-
-        return new MyHttpMessageConverter(
-                BinderFactory.jsonProvider().create(context),
-                BinderFactory.yamlProvider().create(context));
-    }
-}
-```
-
-Change `RuntimeContext` or supply a specific `BinderProvider` to choose formats and backends. For example, replace `BinderFactory.jsonProvider()` with `new Jackson2BinderProvider()`. The `MyHttpMessageConverter` class above is application-owned and can use any SJF4J backend.
-
-For **plain Spring MVC**, register the same converter through `WebMvcConfigurer.extendMessageConverters` instead:
-
-```java
-@Override
-public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-    RuntimeContext context = RuntimeContext.EMPTY;
-    converters.add(0, new MyHttpMessageConverter(
-            BinderFactory.jsonProvider().create(context),
-            BinderFactory.yamlProvider().create(context)));
-}
-```
-
-### Use standard Controllers
-
-```java
-@RestController
-@RequestMapping("/users")
-public class UserController {
-
-    @PostMapping(
-        consumes = {"application/json", "application/yaml"},
-        produces = {"application/json", "application/yaml"})
-    public User save(@RequestBody User user) {
-        return user;
-    }
-}
-```
-
-Spring selects the format using `Content-Type` and `Accept`. The converter handles `application/json` and `application/*+json` separately (the latter **does not** include `application/json`) and preserves generic types such as `List<User>` when reading.
-
-This replaces **HTTP body binding only**, not Spring Boot's `application.yml` loader or Spring's validation mechanisms. SJF4J uses its own object-binding rules rather than Jackson's annotations and modules. If a read fails after SJF4J is selected, Spring does not retry with Jackson.
-
-See [Binding](/docs/binding) and [Backends](/docs/backends) for supported types and backend selection.
-
 ## Spring Converter
 
 A compiled mapper can implement Spring's standard `Converter<S, T>` interface:
@@ -324,6 +169,25 @@ public class UserRepository {
 This uses the generated mapper directly as a `ResultSetExtractor`. Spring manages connections and SQL execution; SJF4J consumes and maps the `ResultSet`. Applications using this example also need Spring JDBC (for example, `spring-boot-starter-jdbc`).
 
 For prepared row mapping with reusable column indexes, see [JDBC Result Mapping](/docs/jdbc-mapping#prepared-row-mapping).
+
+## HTTP JSON and YAML (Spring MVC)
+
+Spring MVC uses `HttpMessageConverter` for `@RequestBody` and `@ResponseBody`. You can use **SJF4J Runtime Binding** for JSON and YAML by registering your own converter; no `@CompiledBinder` or Controller changes are needed. The SJF4J Spring modules do not install an HTTP converter automatically.
+
+See the complete [MyHttpMessageConverter example](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-spring/src/test/java/org/sjf4j/spring/example/MyHttpMessageConverter.java) and its [Spring MVC tests](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-spring/src/test/java/org/sjf4j/spring/example/MyHttpMessageConverterTest.java). The example uses SJF4J's JSON and YAML streaming binders; YAML requires the [SnakeYAML backend](/docs/installation#backends).
+
+In **Spring Boot**, simply declare the converter as a Bean:
+
+```java
+@Bean
+MyHttpMessageConverter myHttpMessageConverter() {
+    return new MyHttpMessageConverter(RuntimeContext.EMPTY);
+}
+```
+
+Spring Boot adds the Bean to its MVC message converters. For **plain Spring Framework**, register it using `WebMvcConfigurer.extendMessageConverters()`. You can customize SJF4J's `RuntimeContext` or `BinderProvider` when constructing the converter.
+
+**Compatibility:** SJF4J has its own JSON/YAML binding semantics and may not be fully compatible with Jackson or other existing converters. See [Binding](/docs/binding) before replacing an application's HTTP binding behavior.
 
 ## Configuration & Limitations
 
