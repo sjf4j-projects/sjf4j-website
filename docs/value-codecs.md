@@ -104,7 +104,7 @@ Sjf4j sjf4j = Sjf4j.builder()
 
 One codec without a format name serves as the default. For named-only codecs, use `@NodeValue(format = "...", defaultCodec = true)` to select a default explicitly. Duplicate formats and multiple defaults within one holder are rejected.
 
-## SPI
+## Registration via SPI
 
 For reusable extension modules, implement the **empty marker interface** `ValueCodecProvider` on a concrete registry class. This is optional for explicit registration, but required for automatic `ServiceLoader` discovery:
 

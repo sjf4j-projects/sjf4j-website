@@ -124,7 +124,7 @@ public final class ExampleGsonProvider implements ExternalProvider {
 
 If the native library is optional, check whether it is available before constructing the adapter; return `null` only when the library is absent. Keep the provider class itself loadable without that optional dependency.
 
-### 3. SPI
+### 3. Registration via SPI
 
 Create `src/main/resources/META-INF/services/org.sjf4j.external.ExternalProvider` containing the provider's fully qualified class name:
 
