@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import CodePanel from './CodePanel.vue'
-import { useChineseHome } from '../useHomeLanguage'
+import { useSiteMessages } from '../i18n'
 
-const zh = useChineseHome()
+const t = useSiteMessages()
 
 const mapperExample = `@CompiledMapper
 public interface UserMapper {
@@ -21,18 +21,18 @@ public class UserService {
 </script>
 
 <template>
-  <section class="home-spring" :aria-label="zh ? 'Spring 集成示例' : 'Spring Boot integration example'">
+  <section class="home-spring" :aria-label="t.home.spring.label">
     <div class="home-spring-code">
-      <CodePanel :title="zh ? '定义接口' : 'Define Interface'" :code="mapperExample" />
-      <CodePanel :title="zh ? '在 Spring 中使用' : 'Use in Spring'" :code="serviceExample" />
+      <CodePanel :title="t.home.spring.define" :code="mapperExample" />
+      <CodePanel :title="t.home.spring.use" :code="serviceExample" />
     </div>
     <p class="home-spring-note">
-      {{ zh ? '自动注册 Bean' : 'Automatic bean registration' }} <span aria-hidden="true">·</span>
-      {{ zh ? '编译期生成实现类' : 'Compile-time generated implementations' }} <span aria-hidden="true">·</span>
-      {{ zh ? '标准 Spring 依赖注入' : 'Standard Spring dependency injection' }}
+      {{ t.home.spring.notes[0] }} <span aria-hidden="true">·</span>
+      {{ t.home.spring.notes[1] }} <span aria-hidden="true">·</span>
+      {{ t.home.spring.notes[2] }}
     </p>
     <p class="home-spring-more">
-      <a href="/docs/spring-integration">{{ zh ? 'Spring 集成文档' : 'Spring Integration' }}</a>
+      <a href="/docs/spring-integration">{{ t.home.spring.link }}</a>
     </p>
   </section>
 </template>
