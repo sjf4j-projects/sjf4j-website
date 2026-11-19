@@ -25,3 +25,12 @@ Do not add inline `lang === 'zh-CN'` ternaries or duplicate shared Vue component
 Translation files may contain different prose but must match the typed message structure.
 
 Language switching currently uses `i18nRouting: false`, intentionally returning to locale homepages until page coverage makes per-page switching safe. Revisit this only when adding translated documentation routes.
+
+## Add another language
+
+1. Create the locale site entry (`locales/<locale>.ts`) and register it in `config.mts`.
+2. Add a message dictionary satisfying `SiteMessages` in `theme/i18n/` and register its `lang` in `theme/i18n/index.ts`.
+3. Create the localized homepage Markdown entry and register its published routes/prefix in `i18n/routes.ts`.
+4. Confirm language switching, metadata, sidebar, and links with build/tests before publishing.
+
+Prefer a new translated Markdown page over embedding language branches in a shared documentation page.
