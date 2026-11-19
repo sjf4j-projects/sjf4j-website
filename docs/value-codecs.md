@@ -11,7 +11,7 @@ SJF4J includes codecs for types such as `UUID`, `URI`, `Instant`, and `LocalDate
 
 ## Declare a Codec Registry
 
-Declare codecs as public static no-argument factory methods in a `@ValueCodecRegistry` class. The return type identifies the domain and raw types; **individual methods need no annotation**.
+Declare codecs as **public static no-argument factory methods** in a `@ValueCodecRegistry` class. The return type identifies the domain and raw types; **individual methods need no annotation**. Factory methods must be static because SJF4J discovers them from the holder type, without creating a holder instance.
 
 ```java
 final class OrderId {
@@ -43,7 +43,9 @@ OrderId id = sjf4j.fromJson("\"A-42\"", OrderId.class);
 String json = sjf4j.toJsonString(id); // "A-42"
 ```
 
-The registration is idempotent for the same holder. Public static final `ValueCodec<V, R>` fields are also supported; factory methods are generally simpler.
+The registration is idempotent for the same holder. `public static final ValueCodec<V, R>` fields are also supported; factory methods are generally simpler.
+
+The holder may alternatively be an **interface** with static codec factory methods. Both `ValueRegistry.registerAnnotated(SomeCodecs.class)` and APT support interface holders. **ServiceLoader does not**: use a concrete class for automatic discovery.
 
 For a type you own, the alternative is to annotate the value class itself with `@NodeValue`, `@ValueToRaw`, and `@RawToValue`. See [Modeling (OBNT)](/docs/modeling#custom-value-types).
 
@@ -87,7 +89,7 @@ One codec without a format name serves as the default. For named-only codecs, us
 
 ## Automatic Registration with ServiceLoader
 
-For reusable extension modules, implement the marker interface `ValueCodecProvider` on the registry class:
+For reusable extension modules, implement the **empty marker interface** `ValueCodecProvider` on a concrete registry class. This is optional for explicit registration, but required for automatic `ServiceLoader` discovery:
 
 ```java
 @ValueCodecRegistry
@@ -109,7 +111,7 @@ Then provide this service descriptor:
 com.example.AppCodecs
 ```
 
-SJF4J discovers provider classes through Java `ServiceLoader` and registers their codec declarations using the same `ValueRegistry.registerAnnotated()` validation path. With SPI registration, no explicit startup call is necessary. Providers need an accessible no-argument constructor.
+SJF4J discovers provider classes through Java `ServiceLoader` and registers their codec declarations using the same `ValueRegistry.registerAnnotated()` validation path. With SPI registration, no explicit startup call is necessary. Providers need a **public no-argument constructor**; Java 8 `ServiceLoader` cannot instantiate an interface. Codec factory methods remain static even when the holder implements `ValueCodecProvider`.
 
 Both manual and automatic registration share one global registry. A holder discovered through SPI can also be registered explicitly without duplication. Conflicting formats declared by different holders still fail.
 
