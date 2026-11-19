@@ -7,6 +7,8 @@ description: "Connect SJF4J to JSON and YAML libraries, choose a backend, and ex
 
 SJF4J provides a unified API for JSON, YAML, and Java Properties while letting you choose the underlying parser and writer.
 
+This is the detailed guide to **streaming backends and custom formats**. For Java object binding and value codecs, see [Binding](/docs/binding); for OBNT representation rules, see [Modeling (OBNT)](/docs/modeling).
+
 ## Supported Backends
 
 | Format | Backend | SJF4J module |
@@ -53,6 +55,15 @@ The selected backend is fixed for the generated implementation. See [Binding](/d
 
 SJF4J separates **structural binding** from the underlying parser and writer. A backend implements the `StreamingParser` and `StreamingGenerator` contracts; SJF4J handles binding to POJOs, Maps, Lists, and other supported Java types.
 
+```mermaid
+flowchart TD
+    A["JSON / YAML"] --> B["Streaming backends"]
+    B --> C["Runtime Binding"]
+    B --> D["Compiled Binding"]
+    C --> E["Java object models"]
+    D --> E
+```
+
 ### Example: Gson
 
 Gson exposes a small streaming API through `JsonReader` and `JsonWriter`. SJF4J's adapter translates those operations into its own streaming contract. For example, these methods come directly from the Gson adapter (other required methods omitted):
@@ -94,11 +105,31 @@ public void writeStringValue(String value) throws IOException {
 
 To integrate another streaming library or format:
 
-1. Extend `StreamingParser` and `StreamingGenerator`, translating native events to SJF4J's object, array, name, and scalar operations.
-2. Extend `Binder` to create those adapters for readers and writers.
-3. Implement `BinderProvider` and register it via Java `ServiceLoader` (`META-INF/services/org.sjf4j.binding.BinderProvider`).
+1. **Adapt the stream.** Extend `StreamingParser` and `StreamingGenerator` to translate the native reader/writer into SJF4J's object, array, member-name, scalar, and null operations. Preserve the token-consumption contracts documented by those classes.
+2. **Create a binder.** Extend `Binder<Parser, Generator>` and implement `createParser(Reader)` and `createGenerator(Writer)`. Add native byte-stream implementations if needed; the base class provides default stream and string helpers.
+3. **Expose a provider.** Implement `BinderProvider` with a `Format`, selection `priority()`, and `create(RuntimeContext)`. Pass the supplied context into the binder.
+4. **Register and test.** Add the provider to `META-INF/services/org.sjf4j.binding.BinderProvider`. Test round trips, nulls, nested values, error handling, and stream ownership.
 
-A provider identifies its format with `Format.JSON`, `Format.YAML`, or a custom identifier such as `Format.of("com.example:toml")`. Custom formats can be resolved through `BinderFactory`; the `Sjf4j` facade exposes built-in JSON, YAML, and Properties entry points.
+For example, a JSON provider for a `MyJsonBinder` implementation:
+
+```java
+public final class MyJsonProvider implements BinderProvider {
+    @Override public Format format() { return Format.JSON; }
+    @Override public int priority() { return 350; }
+    @Override public Binder<?, ?> create(RuntimeContext context) {
+        return new MyJsonBinder(context);
+    }
+}
+```
+
+Its service file contains the provider's fully qualified class name:
+
+```text
+# src/main/resources/META-INF/services/org.sjf4j.binding.BinderProvider
+com.example.MyJsonProvider
+```
+
+`ServiceLoader` discovers providers automatically. Higher priorities win; equal priorities for the same available format are rejected. Use `Format.JSON`, `Format.YAML`, or a custom identifier such as `Format.of("com.example:toml")`. Custom formats can be resolved through `BinderFactory`; the `Sjf4j` facade exposes built-in JSON, YAML, and Properties entry points.
 
 ### Compiled Backend Support
 
@@ -109,5 +140,16 @@ To contribute support for a new compiled backend, start with [`Backend`](https:/
 **Contributions are welcome.** Open a [GitHub issue](https://github.com/sjf4j-projects/sjf4j/issues) to discuss an integration or submit a pull request.
 
 For working directly with a library's *existing in-memory node tree*, use [External Nodes](/docs/external-nodes) instead. For a complete reference implementation, see [GsonBinder](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-backend-gson/src/main/java/org/sjf4j/backend/gson/binding/GsonBinder.java) and [GsonParser](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-backend-gson/src/main/java/org/sjf4j/backend/gson/binding/GsonParser.java).
+
+## Extension Guide
+
+Use the following pages as the primary references for each extension mechanism:
+
+| Extension | Detailed guide |
+| --- | --- |
+| Streaming parsers, generators, binders, and formats | **This page:** [Adding a Backend](#adding-a-backend) |
+| POJO/JOJO/JAJO representation and model semantics | [Modeling (OBNT)](/docs/modeling#customizing-the-model) |
+| Custom values, `ValueCodec`, and binding formats | [Binding: Value Codecs](/docs/binding#value-codecs) |
+| Existing third-party in-memory JSON trees | [External Nodes: Adding a Custom ExternalNode](/docs/external-nodes#adding-a-custom-externalnode) |
 
 **API Reference (latest release):** [BinderFactory](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/binding/BinderFactory.html) · [BinderProvider](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/binding/BinderProvider.html) · [StreamingParser](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/binding/StreamingParser.html) · [StreamingGenerator](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/binding/StreamingGenerator.html)
