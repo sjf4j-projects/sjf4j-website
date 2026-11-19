@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import CodePanel from './CodePanel.vue'
 import { useSiteMessages } from '../i18n'
+import { useData } from 'vitepress'
+import { localizedLink } from '../../i18n/routes'
 
 const t = useSiteMessages()
+const { lang } = useData()
 
 const mapperExample = `@CompiledMapper
 public interface UserMapper {
@@ -32,7 +35,7 @@ public class UserService {
       {{ t.home.spring.notes[2] }}
     </p>
     <p class="home-spring-more">
-      <a href="/docs/spring-integration">{{ t.home.spring.link }}</a>
+      <a :href="localizedLink('/docs/spring-integration', lang)">{{ t.home.spring.link }}</a>
     </p>
   </section>
 </template>
