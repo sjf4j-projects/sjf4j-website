@@ -5,6 +5,9 @@ import 'prismjs/components/prism-clike'
 import 'prismjs/components/prism-markup'
 import 'prismjs/components/prism-java'
 import 'prismjs/components/prism-kotlin'
+import { useChineseHome } from '../useHomeLanguage'
+
+const zh = useChineseHome()
 
 const props = withDefaults(defineProps<{
   title: string
@@ -48,8 +51,8 @@ async function copyCode() {
       <strong>{{ title }}</strong>
       <span class="panel-meta">
         <span v-if="code" class="language">{{ language }}</span>
-        <button v-if="code" type="button" @click="copyCode" :aria-label="`Copy ${title} example`">
-          {{ copied ? 'Copied' : 'Copy' }}
+        <button v-if="code" type="button" @click="copyCode" :aria-label="zh ? `复制${title}示例` : `Copy ${title} example`">
+          {{ copied ? (zh ? '已复制' : 'Copied') : (zh ? '复制' : 'Copy') }}
         </button>
       </span>
     </div>
