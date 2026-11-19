@@ -318,7 +318,7 @@ public final class UserId {
 
 This makes `UserId` a logical value node, serialized here as a JSON string rather than as an object with a `value` property.
 
-For reusable or multi-format conversions, SJF4J also supports `ValueCodec` registrations. A codec's raw Map/List representation is an **encoding choice**, not a change to the logical node category. For registration, named formats, and working examples, see [Binding: Value Codecs](/docs/binding#value-codecs).
+For reusable or multi-format conversions, SJF4J also supports `ValueCodec` registrations. A codec's raw Map/List representation is an **encoding choice**, not a change to the logical node category. See [Value Codecs](/docs/value-codecs) for registration, named formats, and extension examples.
 
 ### External node integration
 
