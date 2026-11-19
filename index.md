@@ -25,7 +25,7 @@ import HomeSpring from './.vitepress/theme/components/HomeSpring.vue'
 </section>
 
 <section class="home-section home-spring-section" aria-labelledby="use-sjf4j-with-spring-boot">
-  <h2 id="use-sjf4j-with-spring-boot">Use SJF4J with Spring Boot</h2>
+  <h2 id="use-sjf4j-with-spring-boot">Use SJF4J with Spring</h2>
   <p class="home-spring-lead">Use compiled SJF4J APIs as Spring-managed beans — no manual instantiation or component annotations required.</p>
   <HomeSpring />
 </section>

@@ -8,7 +8,6 @@ public interface UserMapper {
 
 const serviceExample = `@Service
 public class UserService {
-
     @Autowired
     private UserMapper mapper;
 
