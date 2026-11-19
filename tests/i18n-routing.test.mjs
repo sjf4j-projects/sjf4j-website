@@ -3,6 +3,8 @@ import assert from 'node:assert/strict'
 import { localizedLink } from '../.vitepress/i18n/routes.ts'
 import { en } from '../.vitepress/theme/i18n/en.ts'
 import { zh } from '../.vitepress/theme/i18n/zh.ts'
+import { capabilities } from '../.vitepress/theme/data/capabilities.ts'
+import { highlights } from '../.vitepress/theme/data/benchmarks.ts'
 
 test('locale links only switch for published translations', () => {
   assert.equal(localizedLink('/', 'zh-CN'), '/zh/')
@@ -34,4 +36,22 @@ test('homepage translation keys and feature identifiers remain in sync', () => {
   assert.deepEqual(keys(en.home.benchmarks.items), keys(zh.home.benchmarks.items))
   assert.deepEqual(keys(en.home.spring), keys(zh.home.spring))
   assert.deepEqual(keys(en.code), keys(zh.code))
+})
+
+test('all shared homepage data is represented in every locale', () => {
+  assert.deepEqual(
+    capabilities.map(item => item.id).sort(),
+    Object.keys(en.home.capabilities.items).sort()
+  )
+  assert.deepEqual(
+    highlights.map(item => item.id).sort(),
+    Object.keys(en.home.benchmarks.items).sort()
+  )
+  for (const item of capabilities) {
+    assert.ok(item.path.startsWith('/docs/'))
+    assert.ok(zh.home.capabilities.items[item.id].name)
+  }
+  for (const item of highlights) {
+    assert.ok(zh.home.benchmarks.items[item.id].label)
+  }
 })
