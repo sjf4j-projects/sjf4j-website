@@ -172,22 +172,11 @@ For prepared row mapping with reusable column indexes, see [JDBC Result Mapping]
 
 ## HTTP JSON and YAML (Spring MVC)
 
-Spring MVC uses `HttpMessageConverter` for `@RequestBody` and `@ResponseBody`. You can use **SJF4J Runtime Binding** for JSON and YAML by registering your own converter; no `@CompiledBinder` or Controller changes are needed. The SJF4J Spring modules do not install an HTTP converter automatically.
+Use SJF4J for Spring MVC JSON/YAML request and response bodies with a custom `HttpMessageConverter`. Spring Boot registers it as a Bean; plain Spring MVC uses `WebMvcConfigurer.extendMessageConverters()`.
 
-See the complete [MyHttpMessageConverter example](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-spring/src/test/java/org/sjf4j/spring/example/MyHttpMessageConverter.java) and its [Spring MVC tests](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-spring/src/test/java/org/sjf4j/spring/example/MyHttpMessageConverterTest.java). The example uses SJF4J's JSON and YAML streaming binders; YAML requires the [SnakeYAML backend](/docs/installation#backends).
+See [MyHttpMessageConverter](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-spring/src/test/java/org/sjf4j/spring/example/MyHttpMessageConverter.java) and its [tests](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-spring/src/test/java/org/sjf4j/spring/example/MyHttpMessageConverterTest.java). YAML requires the [SnakeYAML backend](/docs/installation#backends).
 
-In **Spring Boot**, simply declare the converter as a Bean:
-
-```java
-@Bean
-MyHttpMessageConverter myHttpMessageConverter() {
-    return new MyHttpMessageConverter(RuntimeContext.EMPTY);
-}
-```
-
-Spring Boot adds the Bean to its MVC message converters. For **plain Spring Framework**, register it using `WebMvcConfigurer.extendMessageConverters()`. You can customize SJF4J's `RuntimeContext` or `BinderProvider` when constructing the converter.
-
-**Compatibility:** SJF4J has its own JSON/YAML binding semantics and may not be fully compatible with Jackson or other existing converters. See [Binding](/docs/binding) before replacing an application's HTTP binding behavior.
+**Note:** SJF4J has its own binding semantics and may not be fully compatible with Jackson. See [Binding](/docs/binding).
 
 ## Configuration & Limitations
 
