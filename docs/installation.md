@@ -21,9 +21,8 @@ Install `sjf4j-core` and add only the modules you need. These examples use **Jac
 dependencies {
     implementation("org.sjf4j:sjf4j-core:{version}")
 
-    // Optional: Jackson 2.x backend and its library
+    // Optional: Jackson 2.x backend (includes its library)
     implementation("org.sjf4j:sjf4j-backend-jackson2:{version}")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.22.3")
 
     // Optional: JSON Schema validation
     implementation("org.sjf4j:sjf4j-schema:{version}")
@@ -41,16 +40,11 @@ dependencies {
         <version>{version}</version>
     </dependency>
 
-    <!-- Optional: Jackson 2.x backend and its library -->
+    <!-- Optional: Jackson 2.x backend (includes its library) -->
     <dependency>
         <groupId>org.sjf4j</groupId>
         <artifactId>sjf4j-backend-jackson2</artifactId>
         <version>{version}</version>
-    </dependency>
-    <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-databind</artifactId>
-        <version>2.22.3</version>
     </dependency>
 
     <!-- Optional: JSON Schema validation -->
@@ -98,13 +92,13 @@ implementation("org.sjf4j:sjf4j:{version}")
 
 :::
 
-The aggregate includes all six **SJF4J adapters**, but **not their third-party libraries** or the annotation processor.
+The aggregate includes all six **SJF4J adapters** and their native libraries transitively, but not the annotation processor.
 
 ## Backends
 
 The complete set of built-in and optional backends:
 
-| Format | Backend | SJF4J module | Required third-party library |
+| Format | Backend | SJF4J module | Included third-party library |
 | --- | --- | --- | --- |
 | JSON | Jackson 3.x | `sjf4j-backend-jackson3` | `tools.jackson.core:jackson-databind:3.2.3` |
 | JSON | Jackson 2.x | `sjf4j-backend-jackson2` | `com.fasterxml.jackson.core:jackson-databind:2.22.3` |
@@ -115,7 +109,7 @@ The complete set of built-in and optional backends:
 | YAML | SnakeYAML | `sjf4j-backend-snake` | `org.yaml:snakeyaml:2.5` |
 | Properties | Built-in | `sjf4j-core` | None |
 
-The versions shown are those used by the SJF4J project; compatible library versions may also work. For each external backend, add **both its SJF4J module and third-party library**. The libraries are not transitively included.
+The versions shown are those used by the SJF4J project; compatible library versions may also work. Each backend module provides its third-party library transitively. The JSON-P module also includes Parsson as its default runtime provider.
 
 **Automatic JSON selection (highest priority first):**
 

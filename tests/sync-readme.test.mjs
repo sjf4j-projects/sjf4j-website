@@ -24,7 +24,7 @@ function generate(readme) {
 test('sync converts website URLs to local links and preserves external links', () => {
   const readme = [
     '# SJF4J',
-    '## Installation',
+    '## Quickstart',
     'Context for import. '.repeat(85),
     '[Binding](https://sjf4j.org/docs/binding)',
     '[JDBC](https://sjf4j.org/docs/jdbc-mapping)',
