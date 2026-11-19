@@ -3,8 +3,11 @@ import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
 import CodePanel from './CodePanel.vue'
 import { capabilities } from '../data/capabilities'
 import { useSiteMessages } from '../i18n'
+import { useData } from 'vitepress'
+import { localizedLink } from '../../i18n/routes'
 
 const t = useSiteMessages()
+const { lang } = useData()
 const activeId = ref(capabilities[0].id)
 const container = ref<HTMLElement | null>(null)
 const activeCapability = computed(() => capabilities.find((item) => item.id === activeId.value) ?? capabilities[0])
@@ -163,7 +166,7 @@ onUnmounted(() => {
 
       <a
         class="home-learn-more capability-learn-more"
-        :href="activeCapability.path"
+        :href="localizedLink(activeCapability.path, lang)"
         :aria-label="t.home.capabilities.learnMoreLabel(activeText.name)"
       >
         {{ t.home.capabilities.learnMore(activeText.name) }}
