@@ -242,9 +242,21 @@ Sjf4j sjf4j = Sjf4j.builder()
 
 ### Binding compatibility
 
-**SJF4J has its own object-binding contract.** A native backend supplies JSON parsing and generation, not its library's object-mapping behavior. For example, using Jackson 2 does **not** make SJF4J's `fromJson` / `toJson` equivalent to Jackson Databind's `ObjectMapper.readValue` / `writeValueAsString`. Jackson annotations, Databind modules, custom serializers/deserializers, and `ObjectMapper` naming rules are not applied. Use SJF4J's own modeling annotations and value codecs to control binding.
+**SJF4J has its own object-binding contract.** Backends provide streaming parsers and generators, not their libraries' object-mapping behavior. For example, using Jackson 2 does not make SJF4J's `fromJson` / `toJson` equivalent to Jackson Databind's `ObjectMapper.readValue` / `writeValueAsString`.
 
-**SJF4J is not a drop-in replacement for a native library's object binding.** Before migrating, review existing model annotations, property naming, scalar formats, null handling, polymorphism, and custom conversions; test representative payloads and round trips. The same JSON input may map differently even when both implementations use Jackson's streaming engine.
+SJF4J recognizes a **limited subset** of third-party annotations to ease migration:
+
+| Library | Supported annotations | Recognized behavior |
+| --- | --- | --- |
+| Jackson 2 | `@JsonProperty`, `@JsonAlias`, `@JsonCreator` | Property name, input aliases, constructor/factory selection |
+| Jackson 3 | `@JsonProperty`, `@JsonAlias`, `@JsonCreator` | Property name, input aliases, constructor/factory selection |
+| Fastjson2 | `@JSONField`, `@JSONCreator` | `name` / `alternateNames`, constructor/factory selection |
+
+These are **Runtime Binding** capabilities. **Compiled Binding** currently recognizes Jackson 2 `@JsonProperty`, `@JsonAlias`, and `@JsonCreator`; Jackson 3 `@JsonProperty`; and Fastjson2 `@JSONField(name = ...)`. Other annotation attributes and third-party annotations are not automatically supported. Where multiple naming annotations are present, SJF4J's `@NodeProperty` takes precedence.
+
+In particular, Jackson `@JsonIgnore`, `@JsonInclude`, `@JsonTypeInfo`, Databind modules, custom serializers/deserializers, and `ObjectMapper` naming rules are **not applied**. Use SJF4J's own modeling annotations and value codecs for these needs.
+
+**SJF4J is not a drop-in replacement for a native library's object binding.** Before migrating, review annotations, naming, scalar formats, null handling, polymorphism, and custom conversions; test representative payloads and round trips. The same JSON input may bind differently even when using the same streaming engine.
 
 For **Compiled Binding**, explicitly pass the configured backend binder when creating an implementation whose `@CompiledBinder` backend is `Backend.JACKSON2`:
 
