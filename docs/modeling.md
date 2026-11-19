@@ -318,7 +318,7 @@ public final class UserId {
 
 This makes `UserId` a logical value node, serialized here as a JSON string rather than as an object with a `value` property.
 
-For reusable or multi-format conversions, SJF4J also supports `ValueCodec` registrations, including named formats selected by `@NodeProperty(valueFormat = ...)` or runtime configuration. The distinction is important: a codec's raw Map/List representation is an **encoding choice**, not a change to the logical node category.
+For reusable or multi-format conversions, SJF4J also supports `ValueCodec` registrations. A codec's raw Map/List representation is an **encoding choice**, not a change to the logical node category. For registration, named formats, and working examples, see [Binding: Value Codecs](/docs/binding#value-codecs).
 
 ### External node integration
 
@@ -326,7 +326,7 @@ For reusable or multi-format conversions, SJF4J also supports `ValueCodec` regis
 
 An adapter identifies its node type and JSON shape, then implements the access, iteration, mutation, conversion, and copying operations it supports. This keeps existing native trees available instead of forcing an eager conversion into `Map` / `List`. Not every operation is automatically supported: unimplemented adapter operations can fail explicitly.
 
-SJF4J already provides integrations for supported native node models. Build a custom adapter only when you need another representation or operation set. See [External Nodes](/docs/external-nodes) for supported models and a Gson-based integration example.
+SJF4J already provides integrations for supported native node models. Build a custom adapter only when you need another representation or operation set. See [External Nodes](/docs/external-nodes#adding-a-custom-externalnode) for the complete adapter and registration guide. To add a new parser or generator backend instead, see [Backends & Formats](/docs/backends#adding-a-backend).
 
 ## Beyond Modeling
 
