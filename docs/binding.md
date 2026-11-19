@@ -278,24 +278,10 @@ Raw codec values may be strings, numbers, booleans, Maps, or Lists, but remain *
 
 ## Backends and Streaming
 
-SJF4J separates format handling from Java object binding. Its streaming architecture supports multiple backends through a common set of parser and generator operations.
+SJF4J's binding semantics are independent of the underlying JSON/YAML library. Backends supply streaming parsers and generators; SJF4J handles Java object binding.
 
-```mermaid
-flowchart TD
-    A["JSON / YAML"] --> B["Streaming backends"]
-    B --> C["Runtime Binding"]
-    B --> D["Compiled Binding"]
-    C --> E["Java object models"]
-    D --> E
-```
+See [Backends & Formats](/docs/backends) for supported libraries, selection rules, and the [complete backend integration guide](/docs/backends#adding-a-backend). For third-party in-memory JSON trees, see [External Nodes](/docs/external-nodes).
 
-Supported backends include **Jackson 2/3, Gson, Fastjson2, JSON-P, SnakeYAML**, and the built-in **Simple JSON** implementation. Java Properties uses a separate runtime binder.
-
-Runtime binding discovers available backend providers automatically. You can also select and configure one explicitly, as shown below.
-
-Custom providers can integrate additional streaming parsers and generators. `ExternalNode` adapters also make supported third-party native object models available to SJF4J's structural APIs without eagerly converting them to Maps or Lists.
-
-For backend dependencies and selection rules, see [Installation](/docs/installation#backends).
 
 ## Configuration
 
