@@ -217,18 +217,55 @@ flowchart TD
 
 Supported backends include **Jackson 2/3, Gson, Fastjson2, JSON-P, SnakeYAML**, and the built-in **Simple JSON** implementation. Java Properties uses a separate runtime binder.
 
-Runtime binding discovers available backend providers automatically, or you can choose one explicitly:
-
-```java
-Sjf4j sjf4j = Sjf4j.builder()
-    .jsonProvider(new Jackson2BinderProvider())
-    .includeNulls(false)
-    .build();
-```
+Runtime binding discovers available backend providers automatically. You can also select and configure one explicitly, as shown below.
 
 Custom providers can integrate additional streaming parsers and generators. `ExternalNode` adapters also make supported third-party native object models available to SJF4J's structural APIs without eagerly converting them to Maps or Lists.
 
 For backend dependencies and selection rules, see [Installation](/docs/installation#backends).
+
+## Configuration
+
+Use `Sjf4j.builder()` to configure an instance and inject a native backend. For example, enable comments in Jackson 2's streaming parser:
+
+```java
+JsonFactory factory = new JsonFactory()
+    .enable(JsonParser.Feature.ALLOW_COMMENTS);
+
+Sjf4j sjf4j = Sjf4j.builder()
+    .jsonProvider(Jackson2BinderProvider.of(factory))
+    .includeNulls(false)
+    .valueFormat(Instant.class, "epochMillis")
+    .build();
+```
+
+`JsonFactory` controls Jackson's streaming parser and generator settings. The supplied factory is reused and adjusted in place by the binder (including charset detection and auto-close settings), so configure it before building the `Sjf4j` instance. This configuration does not change `Sjf4j.global()`.
+
+### Binding compatibility
+
+**SJF4J has its own object-binding contract.** Backends provide streaming parsers and generators, not their libraries' object-mapping behavior. For example, using Jackson 2 does not make SJF4J's `fromJson` / `toJson` equivalent to Jackson Databind's `ObjectMapper.readValue` / `writeValueAsString`.
+
+SJF4J recognizes a **limited subset** of third-party annotations to ease migration:
+
+| Library | Supported annotations | Recognized behavior |
+| --- | --- | --- |
+| Jackson 2 | `@JsonProperty`, `@JsonAlias`, `@JsonCreator` | Property name, input aliases, constructor/factory selection |
+| Jackson 3 | `@JsonProperty`, `@JsonAlias`, `@JsonCreator` | Property name, input aliases, constructor/factory selection |
+| Fastjson2 | `@JSONField`, `@JSONCreator` | `name` / `alternateNames`, constructor/factory selection |
+
+These are **Runtime Binding** capabilities. **Compiled Binding** currently recognizes Jackson 2 `@JsonProperty`, `@JsonAlias`, and `@JsonCreator`; Jackson 3 `@JsonProperty`; and Fastjson2 `@JSONField(name = ...)`. Other annotation attributes and third-party annotations are not automatically supported. Where multiple naming annotations are present, SJF4J's `@NodeProperty` takes precedence.
+
+In particular, Jackson `@JsonIgnore`, `@JsonInclude`, `@JsonTypeInfo`, Databind modules, custom serializers/deserializers, and `ObjectMapper` naming rules are **not applied**. Use SJF4J's own modeling annotations and value codecs for these needs.
+
+**SJF4J is not a drop-in replacement for a native library's object binding.** Before migrating, review annotations, naming, scalar formats, null handling, polymorphism, and custom conversions; test representative payloads and round trips. The same JSON input may bind differently even when using the same streaming engine.
+
+For **Compiled Binding**, explicitly pass the configured backend binder when creating an implementation whose `@CompiledBinder` backend is `Backend.JACKSON2`:
+
+```java
+UserBinder binder = CompiledInstances.create(
+    UserBinder.class, sjf4j.jsonBinder());
+```
+
+The generated binder's backend must match the supplied binder; creating it with `CompiledInstances.create(UserBinder.class)` does not inherit the `Sjf4j` instance's configuration.
 
 ## Performance
 
