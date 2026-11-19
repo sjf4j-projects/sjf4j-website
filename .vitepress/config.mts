@@ -1,5 +1,7 @@
 import { defineConfig } from 'vitepress'
 import { withMermaid } from 'vitepress-plugin-mermaid'
+import { enLocale } from './locales/en'
+import { zhLocale, zhSearchTranslations } from './locales/zh'
 
 const repo = 'https://github.com/sjf4j-projects/sjf4j'
 const SITE_URL = 'https://sjf4j.org'
@@ -16,36 +18,7 @@ export default withMermaid(defineConfig({
   description: DEFAULT_DESCRIPTION,
   lang: 'en-US',
   // Keep the existing English URLs; translate pages incrementally under /zh/.
-  locales: {
-    root: { label: 'English', lang: 'en-US' },
-    zh: {
-      label: '简体中文',
-      lang: 'zh-CN',
-      description: '基于 JSON 语义的统一结构化数据处理层。',
-      markdown: {
-        codeCopyButton: {
-          tooltipText: '复制代码',
-          copiedText: '已复制',
-        },
-      },
-      themeConfig: {
-        nav: [
-          { text: '首页', link: '/zh/' },
-          { text: '文档', link: '/docs/getting-started' },
-          { text: '性能测试', link: '/docs/benchmarks' },
-          { text: '代码生成器', link: '/generator' },
-        ],
-        langMenuLabel: '选择语言',
-        darkModeSwitchLabel: '外观',
-        lightModeSwitchTitle: '切换到浅色模式',
-        darkModeSwitchTitle: '切换到深色模式',
-        footer: {
-          message: '基于 MIT 许可证发布。',
-          copyright: 'SJF4J contributors',
-        },
-      },
-    },
-  },
+  locales: { root: enLocale, zh: zhLocale },
   cleanUrls: true,
   ignoreDeadLinks: false,
 
@@ -132,86 +105,11 @@ export default withMermaid(defineConfig({
     // rather than navigating to untranslated /zh/docs/... URLs.
     i18nRouting: false,
     siteTitle: 'S<span class="logo-java-j">J</span>F4J',
-    nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Docs', link: '/docs/getting-started' },
-      { text: 'Benchmarks', link: '/docs/benchmarks' },
-      { text: 'Generator', link: '/generator' },
-    ],
-    sidebar: {
-      '/docs/': [
-        {
-          text: 'Introduction',
-          items: [
-            { text: 'Getting Started', link: '/docs/getting-started' },
-            { text: 'Installation', link: '/docs/installation' },
-            { text: 'Modeling (OBNT)', link: '/docs/modeling' },
-            { text: 'Compiled APIs', link: '/docs/compiled' },
-            { text: 'Benchmarks', link: '/docs/benchmarks' },
-          ],
-        },
-        {
-          text: 'Features',
-          items: [
-            { text: 'Binding', link: '/docs/binding' },
-            { text: 'Navigating', link: '/docs/navigating' },
-            { text: 'Validating', link: '/docs/validating' },
-            { text: 'Object Mapping', link: '/docs/mapping' },
-            { text: 'JDBC Result Mapping', link: '/docs/jdbc-mapping' },
-            { text: 'Patching', link: '/docs/patching' },
-          ],
-        },
-        {
-          text: 'Integrations',
-          items: [
-            { text: 'Backends & Formats', link: '/docs/backends' },
-            { text: 'Value Codecs', link: '/docs/value-codecs' },
-            { text: 'External Nodes', link: '/docs/external-nodes' },
-            { text: 'Spring Integration', link: '/docs/spring-integration' },
-          ],
-        },
-        {
-          text: 'Reference',
-          items: [
-            { text: 'FAQ', link: '/docs/faq' },
-            { text: 'Javadocs', link: 'https://javadoc.io/doc/org.sjf4j/sjf4j-core' },
-            { text: 'Changelog', link: 'https://github.com/sjf4j-projects/sjf4j/blob/main/CHANGELOG.md' },
-          ],
-        },
-      ],
-    },
     socialLinks: [{ icon: 'github', link: repo }],
     search: {
       provider: 'local',
-      options: {
-        locales: {
-          zh: {
-            translations: {
-              button: { buttonText: '搜索', buttonAriaLabel: '搜索' },
-              modal: {
-                displayDetails: '显示详细列表',
-                resetButtonTitle: '重置搜索',
-                backButtonTitle: '关闭搜索',
-                noResultsText: '没有结果',
-                footer: {
-                  selectText: '选择',
-                  selectKeyAriaLabel: '回车',
-                  navigateText: '导航',
-                  navigateUpKeyAriaLabel: '上箭头',
-                  navigateDownKeyAriaLabel: '下箭头',
-                  closeText: '关闭',
-                  closeKeyAriaLabel: 'Esc',
-                },
-              },
-            },
-          },
-        },
-      },
+      options: { locales: { zh: { translations: zhSearchTranslations } } },
     },
     outline: { level: [2, 3] },
-    footer: {
-      message: 'Released under the MIT License.',
-      copyright: 'SJF4J contributors',
-    },
   },
 }))
