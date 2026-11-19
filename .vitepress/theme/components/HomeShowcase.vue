@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { useSiteMessages } from '../i18n'
+import { useData } from 'vitepress'
+import { localizedLink } from '../../i18n/routes'
 
 const t = useSiteMessages()
+const { lang } = useData()
 </script>
 
 <template>
@@ -15,8 +18,8 @@ const t = useSiteMessages()
         <span class="accent tagline-end">{{ t.home.hero.taglineAccent }}</span>
       </p>
       <div class="actions">
-        <a class="primary" href="/docs/getting-started">{{ t.home.hero.getStarted }}</a>
-        <a class="secondary" href="/docs/benchmarks"><span aria-hidden="true">⚡️</span> {{ t.home.hero.benchmarks }}</a>
+        <a class="primary" :href="localizedLink(/docs/getting-started', lang)">{{ t.home.hero.getStarted }}</a>
+        <a class="secondary" :href="localizedLink(/docs/benchmarks', lang)"><span aria-hidden="true">⚡️</span> {{ t.home.hero.benchmarks }}</a>
         <a
           class="secondary"
           href="https://github.com/sjf4j-projects/sjf4j"
@@ -66,7 +69,7 @@ const t = useSiteMessages()
             <template v-if="typeof part === 'string'">{{ part }}</template>
             <a
               v-else-if="'href' in part"
-              :href="part.href"
+              :href="localizedLink(part.href, lang)"
               :target="part.href.startsWith('http') ? '_blank' : undefined"
               :rel="part.href.startsWith('http') ? 'noopener noreferrer' : undefined"
             >{{ part.text }}</a>
