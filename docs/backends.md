@@ -7,7 +7,7 @@ description: "Connect SJF4J to JSON and YAML libraries, choose a backend, and ex
 
 SJF4J provides a unified API for JSON, YAML, and Java Properties while letting you choose the underlying parser and writer.
 
-This is the detailed guide to **streaming backends and custom formats**. For Java object binding and value codecs, see [Binding](/docs/binding); for OBNT representation rules, see [Modeling (OBNT)](/docs/modeling).
+This is the detailed guide to **streaming backends and custom formats**. For Java object binding, see [Binding](/docs/binding); for custom value formats and registration, see [Value Codecs](/docs/value-codecs); for OBNT representation rules, see [Modeling (OBNT)](/docs/modeling).
 
 ## Supported Backends
 

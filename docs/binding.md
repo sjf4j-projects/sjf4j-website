@@ -185,11 +185,7 @@ For fields, `scope = OneOf.Scope.PARENT` reads a `discriminatorKey` from the con
 
 ## Value Codecs
 
-A `ValueCodec<V, R>` converts a Java value `V` to and from a JSON-compatible raw value `R`. Built-in codecs handle `UUID`, `URI`, `Instant`, `LocalDate`, and other common types.
-
-### Select a value format
-
-Choose a registered format or a date/time pattern per property:
+SJF4J includes codecs for `UUID`, `URI`, `Instant`, `LocalDate`, and other common values. Customize a value's representation with `@NodeProperty`:
 
 ```java
 class EventRecord {
@@ -199,82 +195,9 @@ class EventRecord {
     @NodeProperty(valuePattern = "dd/MM/yyyy")
     public LocalDate date;
 }
-
-EventRecord event = new EventRecord();
-event.timestamp = Instant.parse("2024-01-01T00:00:00Z");
-event.date = LocalDate.of(2024, 1, 1);
-
-String json = new Sjf4j().toJsonString(event);
-// {"timestamp":1704067200000,"date":"01/01/2024"}
 ```
 
-Or set an instance-wide default (property-level settings take precedence):
-
-```java
-Sjf4j sjf4j = Sjf4j.builder()
-    .valueFormat(Instant.class, "epochMillis")
-    .build();
-```
-
-### Define a custom value type
-
-`@NodeValue` treats a domain type as one logical value rather than a POJO:
-
-```java
-@NodeValue
-public final class UserId {
-    private final String value;
-
-    public UserId(String value) {
-        this.value = value;
-    }
-
-    @ValueToRaw
-    public String toRaw() {
-        return value;
-    }
-
-    @RawToValue
-    public static UserId fromRaw(String raw) {
-        return raw == null ? null : new UserId(raw);
-    }
-}
-```
-
-A `UserId` now binds as a JSON string, not `{"value":"..."}`.
-
-### Register a ValueCodec
-
-For types you cannot annotate, define an external codec:
-
-```java
-public final class OrderId {
-    public final String value;
-    public OrderId(String value) { this.value = value; }
-}
-
-public final class AppCodecs {
-    @NodeValue
-    public static final ValueCodec<OrderId, String> ORDER_ID =
-        new ValueCodec.SimpleValueCodec<>(
-            OrderId.class, String.class,
-            id -> id.value, OrderId::new);
-}
-```
-
-Register it **once at application startup**, before binding that type:
-
-```java
-ValueRegistry.registerAnnotated(AppCodecs.class);
-
-Sjf4j sjf4j = new Sjf4j();
-OrderId id = sjf4j.fromJson("\"A-42\"", OrderId.class);
-String json = sjf4j.toJsonString(id); // "A-42" (JSON string)
-```
-
-Annotated codec fields also support **Compiled Binding** discovery; for registries in a dependency, use `@BindingOptions(registries = AppCodecs.class)` on the compiled interface. To register programmatically instead, use `ValueRegistry.registerByCodec(...)`. Named variants use `@NodeValue(format = "...")`; `ValueCodec.StreamingValueCodec` adds optional direct parser/generator conversions.
-
-Raw codec values may be strings, numbers, booleans, Maps, or Lists, but remain **logical value nodes** in OBNT. See [Modeling (OBNT)](/docs/modeling#custom-value-types) for the model contract.
+To define domain-specific values, use `@NodeValue` on a value class or declare a `ValueCodec<V, R>` in a `@ValueCodecRegistry` class. See [Value Codecs](/docs/value-codecs) for custom factories, named formats, registration, `ServiceLoader`, and Compiled Binding support.
 
 ## Backends and Streaming
 
