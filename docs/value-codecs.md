@@ -14,7 +14,7 @@ SJF4J includes codecs for types such as `UUID`, `URI`, `Instant`, and `LocalDate
 Declare codecs as public static no-argument factory methods in a `@ValueCodecRegistry` class. The return type identifies the domain and raw types; **individual methods need no annotation**.
 
 ```java
-public final class OrderId {
+final class OrderId {
     public final String value;
 
     public OrderId(String value) {
