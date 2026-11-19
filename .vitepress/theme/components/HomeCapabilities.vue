@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
 import CodePanel from './CodePanel.vue'
+import { useChineseHome } from '../useHomeLanguage'
 
 type DescriptionPart = string | { text: string; href: string }
 
@@ -194,9 +195,64 @@ if (!Nodes.equals(user, userMap)) {
   }
 ]
 
+
+const zh = useChineseHome()
+
+// The Java examples and feature IDs are shared by both homepages.
+const zhCapabilities: Record<string, { name: string; description: DescriptionPart[] }> = {
+  binding: {
+    name: '数据绑定',
+    description: [
+      '通过统一 API 处理 JSON、YAML 和 Java Properties，支持 POJO、Map、List、泛型及自定义值类型。'
+    ]
+  },
+  navigating: {
+    name: '对象导航',
+    description: [
+      '使用 ',
+      { text: 'JSONPath (RFC 9535)', href: 'https://www.rfc-editor.org/info/rfc9535' },
+      ' 或 ',
+      { text: 'JSON Pointer (RFC 6901)', href: 'https://www.rfc-editor.org/info/rfc6901' },
+      ' 直接查询和修改 Java 对象，无需构造中间 JSON 树。'
+    ]
+  },
+  validating: {
+    name: '数据校验',
+    description: [
+      '使用 ',
+      { text: 'JSON Schema', href: 'https://json-schema.org/' },
+      ' 直接校验 Java 对象，支持 2020-12、2019-09 和 draft-07。'
+    ]
+  },
+  'object-mapping': {
+    name: '对象映射',
+    description: ['在 Map、POJO、普通值及嵌套 Java 对象之间进行转换。']
+  },
+  'jdbc-result-mapping': {
+    name: 'JDBC 结果映射',
+    description: ['通过 @CompiledJdbcMapper 生成从 JDBC ResultSet 到 Java 对象的直接映射。']
+  },
+  patching: {
+    name: '对象补丁',
+    description: [
+      '将 ',
+      { text: 'JSON Patch (RFC 6902)', href: 'https://www.rfc-editor.org/info/rfc6902' },
+      '、',
+      { text: 'JSON Merge Patch (RFC 7386)', href: 'https://www.rfc-editor.org/info/rfc7386' },
+      ' 和 Indexed Merge Patch 直接应用于 Java 对象。'
+    ]
+  },
+  modeling: {
+    name: '对象模型',
+    description: ['按照统一的 JSON 语义访问、遍历和比较 Java 对象。']
+  }
+}
+
 const activeId = ref(capabilities[0].id)
 const container = ref<HTMLElement | null>(null)
 const activeCapability = computed(() => capabilities.find((item) => item.id === activeId.value) ?? capabilities[0])
+const displayDescription = computed(() => zh.value ? zhCapabilities[activeCapability.value.id].description : activeCapability.value.description)
+const displayName = computed(() => zh.value ? zhCapabilities[activeCapability.value.id].name : activeCapability.value.name)
 
 function syncFromHash() {
   const id = window.location.hash.slice(1)
@@ -261,7 +317,7 @@ onUnmounted(() => {
 
 <template>
   <div ref="container" class="home-capabilities">
-    <div class="feature-tabs" role="tablist" aria-label="SJF4J capabilities">
+    <div class="feature-tabs" role="tablist" :aria-label="zh ? 'SJF4J 功能' : 'SJF4J capabilities'">
       <button
         v-for="(item, index) in capabilities"
         :id="`home-feature-tab-${item.id}`"
@@ -274,7 +330,7 @@ onUnmounted(() => {
         @click="selectTab(item.id)"
         @keydown="onTabKeydown($event, index)"
       >
-        {{ item.name }}
+        {{ zh ? zhCapabilities[item.id].name : item.name }}
       </button>
     </div>
 
@@ -286,9 +342,9 @@ onUnmounted(() => {
       tabindex="0"
     >
       <div class="capability-heading">
-        <h3 :id="activeCapability.id">{{ activeCapability.name }}</h3>
+        <h3 :id="activeCapability.id">{{ displayName }}</h3>
         <p>
-          <template v-for="(part, index) in activeCapability.description" :key="index">
+          <template v-for="(part, index) in displayDescription" :key="index">
             <template v-if="typeof part === 'string'">{{ part }}</template>
             <a v-else :href="part.href" target="_blank" rel="noopener noreferrer">{{ part.text }}</a>
           </template>
@@ -299,46 +355,57 @@ onUnmounted(() => {
         <CodePanel
           v-if="activeCapability.runtime"
           :key="`${activeCapability.id}-runtime`"
-          title="Runtime API"
+          :title="zh ? '运行时 API' : 'Runtime API'"
           :code="activeCapability.runtime"
         />
         <CodePanel
           v-if="activeCapability.compiled"
           :key="`${activeCapability.id}-compiled`"
-          title="Compiled API"
+          :title="zh ? '编译式 API' : 'Compiled API'"
           :code="activeCapability.compiled"
         />
-        <aside v-if="activeCapability.id === 'modeling'" class="modeling-info" aria-label="OBNT model overview">
+        <aside v-if="activeCapability.id === 'modeling'" class="modeling-info" :aria-label="zh ? 'OBNT 对象模型' : 'OBNT model overview'">
           <p>
-            <strong>OBNT (Object-Based Node Tree)</strong> is the unified structural model behind SJF4J's APIs.
-            It defines three kinds of nodes:
+            <template v-if="zh"><strong>OBNT (Object-Based Node Tree)</strong> 是 SJF4J 的统一结构模型，包含三种节点：</template>
+            <template v-else><strong>OBNT (Object-Based Node Tree)</strong> is the unified structural model behind SJF4J's APIs.
+            It defines three kinds of nodes:</template>
           </p>
           <table class="modeling-node-table">
             <thead>
-              <tr><th>Node kind</th><th>Java representations</th></tr>
+              <tr><th>{{ zh ? '节点类型' : 'Node kind' }}</th><th>{{ zh ? 'Java 表示形式' : 'Java representations' }}</th></tr>
             </thead>
             <tbody>
-              <tr><td>Object Node</td><td><code>Map</code>, POJOs, <code>JsonObject</code>, JOJOs</td></tr>
-              <tr><td>Array Node</td><td><code>List</code>, Java arrays, <code>JsonArray</code>, JAJOs</td></tr>
-              <tr><td>Value Node</td><td>Strings, numbers, booleans, custom value types</td></tr>
+              <tr><td>{{ zh ? '对象节点' : 'Object Node' }}</td><td><code>Map</code>, POJOs, <code>JsonObject</code>, JOJOs</td></tr>
+              <tr><td>{{ zh ? '数组节点' : 'Array Node' }}</td><td><code>List</code>, Java arrays, <code>JsonArray</code>, JAJOs</td></tr>
+              <tr><td>{{ zh ? '值节点' : 'Value Node' }}</td><td>{{ zh ? '字符串、数字、布尔值和自定义值类型' : 'Strings, numbers, booleans, custom value types' }}</td></tr>
             </tbody>
           </table>
-          <p>OBNT also supports extensible object models:</p>
+          <p>{{ zh ? 'OBNT 同时支持可扩展的对象模型：' : 'OBNT also supports extensible object models:' }}</p>
           <ul>
-            <li><strong>JOJO</strong> extends <code>JsonObject</code> with typed properties and dynamic members.</li>
-            <li><strong>JAJO</strong> extends <code>JsonArray</code> for typed, extensible arrays.</li>
-            <li><code>@NodeValue</code> defines logical value nodes.</li>
-            <li><code>@OneOf</code> models polymorphic node types.</li>
-            <li><code>ExternalNode</code> integrates custom structural types.</li>
+            <li v-if="zh"><strong>JOJO</strong> 继承 <code>JsonObject</code>，同时支持类型化属性和动态成员。</li>
+            <li v-else><strong>JOJO</strong> extends <code>JsonObject</code> with typed properties and dynamic members.</li>
+            <li v-if="zh"><strong>JAJO</strong> 继承 <code>JsonArray</code>，提供类型化、可扩展的数组。</li>
+            <li v-else><strong>JAJO</strong> extends <code>JsonArray</code> for typed, extensible arrays.</li>
+            <li><code>@NodeValue</code> {{ zh ? '定义逻辑值节点。' : 'defines logical value nodes.' }}</li>
+            <li><code>@OneOf</code> {{ zh ? '定义多态节点类型。' : 'models polymorphic node types.' }}</li>
+            <li><code>ExternalNode</code> {{ zh ? '集成自定义结构类型。' : 'integrates custom structural types.' }}</li>
           </ul>
         </aside>
       </div>
 
-      <p v-if="activeCapability.id === 'binding'" class="capability-detail">
+      <p v-if="activeCapability.id === 'binding' && zh" class="capability-detail">
+        SJF4J 通过开放的流式架构支持自定义格式和后端，同时提供 <code>@OneOf</code> 多态绑定、
+        <code>ValueCodec</code> 自定义值转换和 <code>ExternalNode</code> 集成。
+      </p>
+      <p v-else-if="activeCapability.id === 'binding'" class="capability-detail">
         SJF4J's open streaming architecture supports custom data formats and backends.
         Its rich binding capabilities include <code>@OneOf</code> polymorphism,
         multi-format <code>ValueCodec</code> support, and fully managed
         <code>ExternalNode</code> integration.
+      </p>
+      <p v-else-if="activeCapability.id === 'object-mapping' && zh" class="capability-detail">
+        运行时 API <code>Sjf4j.convert()</code> 支持直接对象转换。<br/>
+        <code>@CompiledMapper</code> 支持属性重命名、嵌套映射、表达式和对象创建等自定义规则。
       </p>
       <p v-else-if="activeCapability.id === 'object-mapping'" class="capability-detail">
         The Runtime API, <code>Sjf4j.convert()</code>, performs direct object conversion.<br/>
@@ -346,15 +413,15 @@ onUnmounted(() => {
         nested mappings, expressions, and object creation.
       </p>
       <p v-else-if="activeCapability.id === 'patching'" class="capability-detail">
-        Patching is available through the Runtime API only; there is no Compiled API.
+        {{ zh ? '对象补丁目前仅支持运行时 API，尚无编译式 API。' : 'Patching is available through the Runtime API only; there is no Compiled API.' }}
       </p>
 
       <a
         class="home-learn-more capability-learn-more"
         :href="activeCapability.path"
-        :aria-label="`Learn more about ${activeCapability.name}`"
+        :aria-label="zh ? `了解${displayName}详情` : `Learn more about ${activeCapability.name}`"
       >
-        Learn more about {{ activeCapability.name }}
+        {{ zh ? `了解更多：${displayName}` : `Learn more about ${activeCapability.name}` }}
       </a>
     </section>
   </div>
