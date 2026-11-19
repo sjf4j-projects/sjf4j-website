@@ -18,8 +18,8 @@ const { lang } = useData()
         <span class="accent tagline-end">{{ t.home.hero.taglineAccent }}</span>
       </p>
       <div class="actions">
-        <a class="primary" :href="localizedLink(/docs/getting-started', lang)">{{ t.home.hero.getStarted }}</a>
-        <a class="secondary" :href="localizedLink(/docs/benchmarks', lang)"><span aria-hidden="true">⚡️</span> {{ t.home.hero.benchmarks }}</a>
+        <a class="primary" :href="localizedLink('/docs/getting-started', lang)">{{ t.home.hero.getStarted }}</a>
+        <a class="secondary" :href="localizedLink('/docs/benchmarks', lang)"><span aria-hidden="true">⚡️</span> {{ t.home.hero.benchmarks }}</a>
         <a
           class="secondary"
           href="https://github.com/sjf4j-projects/sjf4j"
