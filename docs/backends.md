@@ -129,7 +129,7 @@ Its service file contains the provider's fully qualified class name:
 com.example.MyJsonProvider
 ```
 
-`ServiceLoader` discovers providers automatically. Higher priorities win; equal priorities for the same available format are rejected. Use `Format.JSON`, `Format.YAML`, or a custom identifier such as `Format.of("com.example:toml")`. Custom formats can be resolved through `BinderFactory`; the `Sjf4j` facade exposes built-in JSON, YAML, and Properties entry points.
+`priority()` matters only for automatic runtime provider selection through `BinderFactory`: higher priorities win, and ties for an available format are rejected. It is ignored when selecting a provider explicitly with `Sjf4j.builder().jsonProvider(...)` or using a compiled backend. Use `Format.JSON`, `Format.YAML`, or a custom identifier such as `Format.of("com.example:toml")`. Custom formats can be resolved through `BinderFactory`; the `Sjf4j` facade exposes built-in JSON, YAML, and Properties entry points.
 
 ### Compiled Backend Support
 
@@ -140,16 +140,5 @@ To contribute support for a new compiled backend, start with [`Backend`](https:/
 **Contributions are welcome.** Open a [GitHub issue](https://github.com/sjf4j-projects/sjf4j/issues) to discuss an integration or submit a pull request.
 
 For working directly with a library's *existing in-memory node tree*, use [External Nodes](/docs/external-nodes) instead. For a complete reference implementation, see [GsonBinder](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-backend-gson/src/main/java/org/sjf4j/backend/gson/binding/GsonBinder.java) and [GsonParser](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-backend-gson/src/main/java/org/sjf4j/backend/gson/binding/GsonParser.java).
-
-## Extension Guide
-
-Use the following pages as the primary references for each extension mechanism:
-
-| Extension | Detailed guide |
-| --- | --- |
-| Streaming parsers, generators, binders, and formats | **This page:** [Adding a Backend](#adding-a-backend) |
-| POJO/JOJO/JAJO representation and model semantics | [Modeling (OBNT)](/docs/modeling#customizing-the-model) |
-| Custom values, `ValueCodec`, and binding formats | [Binding: Value Codecs](/docs/binding#value-codecs) |
-| Existing third-party in-memory JSON trees | [External Nodes: Adding a Custom ExternalNode](/docs/external-nodes#adding-a-custom-externalnode) |
 
 **API Reference (latest release):** [BinderFactory](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/binding/BinderFactory.html) · [BinderProvider](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/binding/BinderProvider.html) · [StreamingParser](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/binding/StreamingParser.html) · [StreamingGenerator](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/binding/StreamingGenerator.html)
