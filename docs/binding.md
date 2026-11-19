@@ -217,18 +217,37 @@ flowchart TD
 
 Supported backends include **Jackson 2/3, Gson, Fastjson2, JSON-P, SnakeYAML**, and the built-in **Simple JSON** implementation. Java Properties uses a separate runtime binder.
 
-Runtime binding discovers available backend providers automatically, or you can choose one explicitly:
-
-```java
-Sjf4j sjf4j = Sjf4j.builder()
-    .jsonProvider(new Jackson2BinderProvider())
-    .includeNulls(false)
-    .build();
-```
+Runtime binding discovers available backend providers automatically. You can also select and configure one explicitly, as shown below.
 
 Custom providers can integrate additional streaming parsers and generators. `ExternalNode` adapters also make supported third-party native object models available to SJF4J's structural APIs without eagerly converting them to Maps or Lists.
 
 For backend dependencies and selection rules, see [Installation](/docs/installation#backends).
+
+## Configuration
+
+Use `Sjf4j.builder()` to configure an instance and inject a native backend. For example, enable comments in Jackson 2's streaming parser:
+
+```java
+JsonFactory factory = new JsonFactory()
+    .enable(JsonParser.Feature.ALLOW_COMMENTS);
+
+Sjf4j sjf4j = Sjf4j.builder()
+    .jsonProvider(Jackson2BinderProvider.of(factory))
+    .includeNulls(false)
+    .valueFormat(Instant.class, "epochMillis")
+    .build();
+```
+
+`JsonFactory` controls Jackson's streaming parser and generator settings; SJF4J handles Java object binding. Jackson `ObjectMapper` modules, serializers, and property naming settings are **not** applied to SJF4J. The supplied factory is reused and adjusted in place by the binder (including charset detection and auto-close settings), so configure it before building the `Sjf4j` instance. This configuration does not change `Sjf4j.global()`.
+
+For **Compiled Binding**, explicitly pass the configured backend binder when creating an implementation whose `@CompiledBinder` backend is `Backend.JACKSON2`:
+
+```java
+UserBinder binder = CompiledInstances.create(
+    UserBinder.class, sjf4j.jsonBinder());
+```
+
+The generated binder's backend must match the supplied binder; creating it with `CompiledInstances.create(UserBinder.class)` does not inherit the `Sjf4j` instance's configuration.
 
 ## Performance
 
