@@ -299,13 +299,13 @@ onUnmounted(() => {
         <CodePanel
           v-if="activeCapability.runtime"
           :key="`${activeCapability.id}-runtime`"
-          title="Runtime"
+          title="Runtime API"
           :code="activeCapability.runtime"
         />
         <CodePanel
           v-if="activeCapability.compiled"
           :key="`${activeCapability.id}-compiled`"
-          title="Compiled"
+          title="Compiled API"
           :code="activeCapability.compiled"
         />
         <aside v-if="activeCapability.id === 'modeling'" class="modeling-info" aria-label="OBNT model overview">
