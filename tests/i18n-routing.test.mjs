@@ -384,3 +384,30 @@ test('Object Mapping translation preserves code and page routing', () => {
       `Missing stable Object Mapping anchor: ${anchor}`)
   }
 })
+
+test('JDBC Result Mapping translation preserves code and prepared mapper semantics', () => {
+  const english = '/docs/jdbc-mapping'
+  const chinese = '/zh/docs/jdbc-mapping'
+  assert.equal(localizedLink(english, 'zh-CN'), chinese)
+  assert.equal(switchLanguage(english + '#prepared-row-mapping', 'zh-CN'),
+    chinese + '#prepared-row-mapping')
+  assert.equal(switchLanguage(chinese + '#framework-integration', 'en-US'),
+    english + '#framework-integration')
+  assert.deepEqual(alternatePages(chinese), {
+    'en-US': english,
+    'zh-CN': chinese,
+  })
+
+  const source = readFileSync('docs/jdbc-mapping.md', 'utf8')
+  const translation = readFileSync('zh/docs/jdbc-mapping.md', 'utf8')
+  const blocks = value => [...value.matchAll(/```[^\n]*\n[\s\S]*?\n```/g)]
+    .map(match => match[0])
+  assert.deepEqual(blocks(translation), blocks(source))
+  for (const anchor of ['getting-started', 'prepared-row-mapping',
+    'column-mapping', 'framework-integration', 'performance']) {
+    assert.ok(translation.includes(`{#${anchor}}`),
+      `Missing stable JDBC Mapping anchor: ${anchor}`)
+  }
+  assert.ok(translation.includes('map(rs)'))
+  assert.ok(translation.includes('不持有 ResultSet'))
+})
