@@ -1,7 +1,6 @@
 import { createSidebar } from './navigation'
 import { localizedLink } from '../i18n/routes'
 
-// Until Chinese docs exist, navigation links intentionally target English pages.
 export const zhLocale = {
   label: '简体中文',
   lang: 'zh-CN',
