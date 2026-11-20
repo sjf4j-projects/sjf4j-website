@@ -1,6 +1,7 @@
 ---
 title: "快速开始"
 description: "了解 SJF4J 的核心能力，并通过示例快速上手。"
+translationSourceSha: "0b26a8b6d7b3c05dc11e6c17fd44296046342470"
 ---
 
 # 快速开始 {#getting-started}
