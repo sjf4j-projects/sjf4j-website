@@ -1,6 +1,6 @@
 ---
 title: "Value Codecs"
-description: "为业务 Java 类型定义、注册和发现 SJF4J ValueCodec，支持命名格式和Compiled Binding。"
+description: "为业务 Java 类型定义、注册和发现 SJF4J ValueCodec，支持命名格式和 Compiled Binding。"
 translationSourceSha: "7a3673b2d0ce981553f538745900d59bfc40b586"
 ---
 
