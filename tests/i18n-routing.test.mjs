@@ -93,9 +93,9 @@ test('localized Markdown links fall back to English or map to published translat
   assert.equal(localizedMarkdownLink('/#explore-features', from, 'zh-CN'),
     '/zh/#explore-features')
   assert.equal(localizedMarkdownLink('/docs/installation', from, 'zh-CN'),
-    '/docs/installation')
+    '/zh/docs/installation')
   assert.equal(localizedMarkdownLink('./installation.md#gradle', from, 'zh-CN'),
-    '/docs/installation.md#gradle')
+    '/zh/docs/installation#gradle')
   assert.equal(localizedMarkdownLink('../generator', from, 'zh-CN'), '/generator')
   assert.equal(localizedMarkdownLink('../../', from, 'zh-CN'), '/zh/')
   assert.equal(localizedMarkdownLink('#usage', from, 'zh-CN'), '#usage')
@@ -195,4 +195,37 @@ test('Getting Started translation routes, anchors, SEO, and code samples stay al
     'benchmarks', 'contributing']) {
     assert.ok(translatedAnchors.includes(anchor), `Missing stable anchor: ${anchor}`)
   }
+})
+
+test('Installation translation supports navigation, deep links, and freshness tracking', () => {
+  const english = '/docs/installation'
+  const chinese = '/zh/docs/installation'
+  assert.equal(localizedLink(english, 'zh-CN'), chinese)
+  assert.equal(localizedLink(english + '#compiled-apis', 'zh-CN'),
+    chinese + '#compiled-apis')
+  assert.equal(switchLanguage(english + '#spring-integration', 'zh-CN'),
+    chinese + '#spring-integration')
+  assert.equal(switchLanguage(chinese + '#spring-boot', 'en-US'),
+    english + '#spring-boot')
+  assert.equal(localizedMarkdownLink(english + '#modules',
+    'zh/docs/getting-started.md', 'zh-CN'), chinese + '#modules')
+  assert.deepEqual(alternatePages(chinese), {
+    'en-US': english,
+    'zh-CN': chinese,
+  })
+
+  const page = readFileSync('zh/docs/installation.md', 'utf8')
+  const source = readFileSync('docs/installation.md', 'utf8')
+  assert.match(page, /^translationSourceSha:\s*["']?[a-f0-9]{40}["']?$/m)
+  assert.match(page, /:::\s*code-group/)
+  assert.match(page, /sjf4j-spring-boot-starter/)
+  assert.match(page, /annotationProcessor/)
+
+  const headings = [...page.matchAll(/^#{1,3} .+?\{#([^}]+)\}$/gm)]
+    .map(match => match[1])
+  assert.deepEqual(headings, [
+    'installation', 'quick-setup', 'modules', 'backends', 'compiled-apis',
+    'spring-integration', 'spring-framework', 'spring-boot'
+  ])
+  assert.match(source, /^# Installation$/m)
 })
