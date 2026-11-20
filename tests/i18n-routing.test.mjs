@@ -310,3 +310,30 @@ test('Binding translation preserves code, compatible semantics and page routing'
       `Missing stable Binding anchor: ${fragment}`)
   }
 })
+
+test('Navigating translation keeps code examples, stable anchors and published routes', () => {
+  const sourcePath = '/docs/navigating'
+  const translatedPath = '/zh/docs/navigating'
+  assert.equal(localizedLink(sourcePath, 'zh-CN'), translatedPath)
+  assert.equal(switchLanguage(sourcePath + '#filter-expressions', 'zh-CN'),
+    translatedPath + '#filter-expressions')
+  assert.equal(switchLanguage(translatedPath + '#compiled-navigation', 'en-US'),
+    sourcePath + '#compiled-navigation')
+  assert.deepEqual(alternatePages(translatedPath),
+    { 'en-US': sourcePath, 'zh-CN': translatedPath })
+
+  const source = readFileSync('docs/navigating.md', 'utf8')
+  const translation = readFileSync('zh/docs/navigating.md', 'utf8')
+  const codeBlocks = page => [...page.matchAll(/```[^\n]*\n[\s\S]*?\n```/g)]
+    .map(match => match[0])
+  assert.deepEqual(codeBlocks(translation), codeBlocks(source))
+  for (const section of ['runtime-navigation', 'querying', 'get-find-and-eval',
+    'mutating', 'syntax', 'jsonpath', 'path-selectors', 'filter-expressions',
+    'standard-functions-rfc-9535', 'sjf4j-extensions', 'json-pointer',
+    'pointer-tokens-and-escaping', 'jsonpath-and-pointer-interoperability',
+    'nodestream', 'compiled-navigation', 'supported-operations',
+    'compilation-and-fallback', 'performance']) {
+    assert.ok(translation.includes(`{#${section}}`),
+      `Missing stable Navigating anchor: ${section}`)
+  }
+})
