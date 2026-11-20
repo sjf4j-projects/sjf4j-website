@@ -8,7 +8,8 @@ messages from `theme/i18n/`. Do not duplicate Vue components or Java examples.
 
 | Concern | Location |
 | --- | --- |
-| VitePress menu, sidebar, footer | `locales/en.ts`, `locales/zh.ts` |
+| VitePress nav labels and footer | `locales/en.ts`, `locales/zh.ts` |
+| Shared documentation sidebar inventory | `locales/navigation.ts` |
 | Shared UI translations | `theme/i18n/{types,en,zh,index}.ts` |
 | Shared code examples / benchmarks | `theme/data/` |
 | Shared homepage | `theme/components/HomePage.vue` |
@@ -19,7 +20,8 @@ messages from `theme/i18n/`. Do not duplicate Vue components or Java examples.
 
 ## Add a new English documentation page
 
-1. Create `docs/<slug>.md` and add it to the English sidebar in `locales/en.ts`.
+1. Create `docs/<slug>.md` and add its English URL and both navigation labels
+   to the shared tree in `locales/navigation.ts`.
 2. Follow the usual documentation conventions. Keep the English URL unchanged.
 3. The Chinese site continues to link to English for pages without translations.
 4. Run `npm run docs:build` and the existing tests; submit a PR.
@@ -32,9 +34,8 @@ No other internationalization change is required for an English-only page.
    and examples consistent with the English original.
 2. Add the **English URL** (`/docs/<slug>`) to `translatedPages['zh-CN']`
    in `i18n/routes.ts`.
-3. Add the page to the Chinese sidebar in `locales/zh.ts` when appropriate.
-   Reuse `localizedLink('/docs/<slug>', 'zh-CN')` so un-translated targets
-   continue to point to English.
+3. The Chinese sidebar automatically links to the newly translated page
+   using `localizedLink()`; no duplicate sidebar configuration is needed.
 4. In Chinese Markdown, use normal internal links such as
    `[Installation](/docs/installation)` or `[Installation](./installation.md)`.
    The Markdown renderer resolves these to the Chinese counterpart **if it
