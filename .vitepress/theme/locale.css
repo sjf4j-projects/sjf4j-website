@@ -1,0 +1,8 @@
+/* VitePress 1.6.4 only offers boolean i18nRouting. Replace its locale
+   controls with the page-aware switcher mounted through supported theme slots.
+   Keep the default navigation, appearance control and social menu untouched. */
+.VPNavBar .VPNavBarTranslations,
+.VPNavBarExtra .group.translations,
+.VPNavScreenTranslations {
+  display: none !important;
+}
