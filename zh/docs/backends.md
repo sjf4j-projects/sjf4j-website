@@ -1,7 +1,7 @@
 ---
 title: "后端与数据格式"
 description: "将 SJF4J 接入 JSON 和 YAML 库，选择后端，并扩展流式处理 API。"
-translationSourceSha: "ed88920755b485248110a60971151d2988eb63a1"
+translationSourceSha: "444bb94add84f2bac8c323d83e66191df0e4fddc"
 ---
 
 # 后端与数据格式 {#backends-formats}
@@ -57,7 +57,7 @@ SJF4J 将**结构化数据绑定**与底层解析器、写入器分离。后端�
 
 ```mermaid
 flowchart TD
-    A["JSON / YAML"] --> B["Streaming backends"]
+    A["JSON / YAML / ..."] --> B["Streaming backends"]
     B --> C["Runtime Binding"]
     B --> D["Compiled Binding"]
     C --> E["Java object models"]

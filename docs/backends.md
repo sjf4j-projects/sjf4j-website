@@ -56,7 +56,7 @@ SJF4J separates **structural binding** from the underlying parser and writer. A 
 
 ```mermaid
 flowchart TD
-    A["JSON / YAML"] --> B["Streaming backends"]
+    A["JSON / YAML / ..."] --> B["Streaming backends"]
     B --> C["Runtime Binding"]
     B --> D["Compiled Binding"]
     C --> E["Java object models"]
