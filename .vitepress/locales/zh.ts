@@ -16,7 +16,7 @@ export const zhLocale = {
     nav: [
       { text: '首页', link: '/zh/' },
       { text: '文档', link: localizedLink('/docs/getting-started', 'zh-CN') },
-      { text: '性能测试', link: localizedLink('/docs/benchmarks', 'zh-CN') },
+      { text: '性能基准', link: localizedLink('/docs/benchmarks', 'zh-CN') },
       { text: '代码生成器', link: localizedLink('/generator', 'zh-CN') },
     ],
     sidebar: { '/zh/docs/': createSidebar('zh-CN') },
