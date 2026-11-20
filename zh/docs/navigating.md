@@ -1,6 +1,6 @@
 ---
 title: "对象导航"
-description: "使用 JSONPath、JSON Pointer、NodeStream 和Compiled Navigation查询、修改 Java 对象。"
+description: "使用 JSONPath、JSON Pointer、NodeStream 和 Compiled Navigation 查询、修改 Java 对象。"
 translationSourceSha: "48669d7fde4b349b349b533cc4ad2221a381324c"
 ---
 
@@ -375,7 +375,7 @@ Compiled Navigation**不会将整条路径委托给运行时求值器**。支持
 
 ## 性能 {#performance}
 
-SJF4J 同时提供 Runtime JSONPath 导航与编译式实现。性能取决于路径、对象表示和负载；对于静态类型的 POJO 访问，Compiled Navigation可以显著降低开销。
+SJF4J 同时提供 Runtime JSONPath 导航与编译式实现。性能取决于路径、对象表示和负载；对于静态类型的 POJO 访问，Compiled Navigation 可以显著降低开销。
 
 与 Jayway JsonPath 的测试对比和方法参阅 [Benchmarks](/docs/benchmarks)。
 
