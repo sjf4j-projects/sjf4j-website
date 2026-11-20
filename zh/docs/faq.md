@@ -23,7 +23,7 @@ SJF4J 支持 **Java 8+**，各模块按用途拆分：
 - `sjf4j-core`：核心结构化 API 和运行时操作。
 - `sjf4j-backend-*`：所选数据后端的可选适配器。
 - `sjf4j-schema`：JSON Schema 校验。
-- `sjf4j-processor`：为Compiled API 提供注解处理器。
+- `sjf4j-processor`：为 Compiled API 提供注解处理器。
 
 所选后端需要其底层解析器库。Processor 用于**编译期**，不是通用的运行时依赖。
 
@@ -71,7 +71,7 @@ SJF4J 可以直接操作这些结构，**不需要**先把每个 POJO 或 Map �
 
 ### 未知字段、多态类型和自定义值如何处理？ {#how-are-unknown-fields-polymorphic-types-and-custom-values-handled}
 
-动态Object Node可以保留任意成员；**JOJO** 将这种能力与声明的 Java 属性结合起来。多态绑定可通过 `@OneOf` 按判别信息选择子类型。自定义标量可以通过 `@NodeValue` 和 `ValueCodec` 建模。
+动态 Object Node 可以保留任意成员；**JOJO** 将这种能力与声明的 Java 属性结合起来。多态绑定可通过 `@OneOf` 按判别信息选择子类型。自定义标量可以通过 `@NodeValue` 和 `ValueCodec` 建模。
 
 SJF4J 还提供 `ExternalNode`，用于集成受支持的第三方节点模型；也允许通过流式扩展点支持自定义数据格式。
 
