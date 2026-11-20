@@ -1,36 +1,84 @@
-# Website internationalization
+# Internationalization
 
-English is the default at `/`. Simplified Chinese is at `/zh/`.
-The site uses VitePress native locales; no runtime machine translation.
+English is the primary language at `/`; Simplified Chinese is under `/zh/`.
+VitePress handles locale content/configuration; shared Vue components read typed
+messages from `theme/i18n/`. Do not duplicate Vue components or Java examples.
 
 ## Sources of truth
 
-- `locales/en.ts`, `locales/zh.ts`: VitePress navigation, footer and UI labels.
-- `theme/i18n/en.ts`, `theme/i18n/zh.ts`: translatable strings for shared components.
-- `theme/i18n/types.ts`: typed message contract; provide all fields in each locale.
-- `theme/data/`: language-independent Java examples and benchmark values.
-- `theme/components/`: shared presentation and interactions, with no per-language branches.
-- `i18n/routes.ts`: published localized page paths and fallback to English.
-- `index.md`, `zh/index.md`: only SEO/frontmatter; both render the same HomePage component.
+| Concern | Location |
+| --- | --- |
+| VitePress nav labels and footer | `locales/en.ts`, `locales/zh.ts` |
+| Shared documentation sidebar inventory | `locales/navigation.ts` |
+| Shared UI translations | `theme/i18n/{types,en,zh,index}.ts` |
+| Shared code examples / benchmarks | `theme/data/` |
+| Shared homepage | `theme/components/HomePage.vue` |
+| Published translation paths | `i18n/routes.ts` |
+| Language switcher | `theme/components/LocaleSwitcher.vue` |
+| Localized Markdown links | `i18n/markdown.ts` |
+| Per-page SEO / locale metadata | `config.mts` |
 
-## Translate the next documentation page
+## Add a new English documentation page
 
-1. Add `zh/docs/<slug>.md` with translated prose, preserving API names and code.
-2. Register the **English** route (for example, `/docs/binding`) in `i18n/routes.ts` for `zh-CN`. This activates Chinese navigation only once the page exists.
-3. Use `localizedLink(path, lang)` for internal links inside shared Vue components. Untranslated pages continue to lead to English.
-4. Add localized nav/sidebar entries to `locales/zh.ts` when needed. Keep canonical English URLs untouched.
-5. Run `npm run test:i18n`, `npm run test:generator`, `npm run docs:build`.
+1. Create `docs/<slug>.md` and add its English URL and both navigation labels
+   to the shared tree in `locales/navigation.ts`.
+2. Follow the usual documentation conventions. Keep the English URL unchanged.
+3. The Chinese site continues to link to English for pages without translations.
+4. Run `npm run docs:build` and the existing tests; submit a PR.
 
-Do not add inline `lang === 'zh-CN'` ternaries or duplicate shared Vue components.
-Translation files may contain different prose but must match the typed message structure.
+No other internationalization change is required for an English-only page.
 
-Language switching currently uses `i18nRouting: false`, intentionally returning to locale homepages until page coverage makes per-page switching safe. Revisit this only when adding translated documentation routes.
+## Translate an existing page
+
+1. Create `zh/docs/<slug>.md` with translated prose, keeping technical names
+   and examples consistent with the English original.
+2. Add the **English URL** (`/docs/<slug>`) to `translatedPages['zh-CN']`
+   in `i18n/routes.ts`.
+3. The Chinese sidebar automatically links to the newly translated page
+   using `localizedLink()`; no duplicate sidebar configuration is needed.
+4. In Chinese Markdown, use normal internal links such as
+   `[Installation](/docs/installation)` or `[Installation](./installation.md)`.
+   The Markdown renderer resolves these to the Chinese counterpart **if it
+   exists in the registry**, otherwise to English. Raw HTML links and custom
+   Vue components must call `localizedLink()` explicitly.
+5. Run `npm run test:i18n`, `npm run test:generator`, and `npm run docs:build`.
+
+CI requires the registry and translated Markdown paths to match **in both
+directions**, and checks that the corresponding English file exists. An
+unregistered translation or a registered-but-missing page fails the build.
+
+Language switching preserves the corresponding page and URL fragment when a
+translation exists. When missing, it navigates to the **target language's
+homepage**; ordinary content links instead fall back to the English page.
+
+SEO `canonical`, `hreflang` and `x-default` links are generated from the
+same registry. Do not add per-page SEO links manually.
+
+### Translation synchronization
+
+When changing an English page that already has a Chinese counterpart, review
+whether its translation needs updating. Ideally update both in the same PR;
+otherwise explicitly note the deferred translation in the PR. Do not silently
+leave outdated translated API documentation.
+
+## Shared components
+
+Put locale text in `theme/i18n/en.ts` and `theme/i18n/zh.ts`, satisfying the
+`SiteMessages` type. Store data, Java samples and benchmark metrics in
+`theme/data/`. Avoid per-language `v-if` and ternaries in shared components.
+
+VitePress 1.6.4 only supports boolean `i18nRouting`. The theme therefore uses
+a small page-aware switcher via supported layout slots. Its native translation
+controls are hidden; do not enable default per-page routing alongside it.
 
 ## Add another language
 
-1. Create the locale site entry (`locales/<locale>.ts`) and register it in `config.mts`.
-2. Add a message dictionary satisfying `SiteMessages` in `theme/i18n/` and register its `lang` in `theme/i18n/index.ts`.
-3. Create the localized homepage Markdown entry and register its published routes/prefix in `i18n/routes.ts`.
-4. Confirm language switching, metadata, sidebar, and links with build/tests before publishing.
+1. Add the locale entry in `locales/<locale>.ts` and register it in
+   `config.mts`.
+2. Add the typed message dictionary in `theme/i18n/` and register it in the
+   locale resolver.
+3. Add the language prefix, published paths, and Markdown handling in
+   `i18n/routes.ts` and `i18n/markdown.ts`, then add the matching pages.
+4. Extend routing, locale coverage and SEO tests before publishing.
 
-Prefer a new translated Markdown page over embedding language branches in a shared documentation page.
+All changes to `main` must be merged through a PR.

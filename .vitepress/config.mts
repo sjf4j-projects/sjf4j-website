@@ -2,6 +2,8 @@ import { defineConfig } from 'vitepress'
 import { withMermaid } from 'vitepress-plugin-mermaid'
 import { enLocale } from './locales/en'
 import { zhLocale, zhSearchTranslations } from './locales/zh'
+import { alternatePages } from './i18n/routes'
+import { installLocalizedMarkdownLinks } from './i18n/markdown'
 
 const repo = 'https://github.com/sjf4j-projects/sjf4j'
 const SITE_URL = 'https://sjf4j.org'
@@ -43,11 +45,15 @@ export default withMermaid(defineConfig({
     const summary = description || DEFAULT_DESCRIPTION
     const isHomepage = path === '/' || path === '/zh/'
     const language = path.startsWith('/zh/') ? 'zh-CN' : 'en-US'
-    const alternateLinks: Array<['link', Record<string, string>]> = isHomepage ? [
-      ['link', { rel: 'alternate', hreflang: 'en', href: SITE_URL + '/' }],
-      ['link', { rel: 'alternate', hreflang: 'zh-CN', href: SITE_URL + '/zh/' }],
-      ['link', { rel: 'alternate', hreflang: 'x-default', href: SITE_URL + '/' }],
-    ] : []
+    const counterparts = alternatePages(path)
+    const alternateLinks: Array<['link', Record<string, string>]> =
+      Object.keys(counterparts).length > 1 ? [
+        ...Object.entries(counterparts).map(([locale, pathname]): ['link', Record<string, string>] => [
+          'link',
+          { rel: 'alternate', hreflang: locale === 'en-US' ? 'en' : locale, href: new URL(pathname, SITE_URL).toString() },
+        ]),
+        ['link', { rel: 'alternate', hreflang: 'x-default', href: new URL(counterparts['en-US'], SITE_URL).toString() }],
+      ] : []
     const schema = isHomepage
       ? {
           '@context': 'https://schema.org',
@@ -98,11 +104,12 @@ export default withMermaid(defineConfig({
       light: 'github-light-high-contrast',
       dark: 'github-dark-high-contrast',
     },
+    config: installLocalizedMarkdownLinks,
   },
 
   themeConfig: {
-    // Only /zh/ exists so far. Switch to the available locale homepage,
-    // rather than navigating to untranslated /zh/docs/... URLs.
+    // VitePress 1.x has only boolean i18nRouting. The shared navigation
+    // component selects the corresponding page or target locale homepage.
     i18nRouting: false,
     siteTitle: 'S<span class="logo-java-j">J</span>F4J',
     socialLinks: [{ icon: 'github', link: repo }],
