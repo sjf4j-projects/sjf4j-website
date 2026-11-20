@@ -45,7 +45,7 @@ OBNT 将支持的 Java 值按 JSON 逻辑结构分为三类：
 | **Array Node** | 有序的元素序列 | `List`、Java 数组、`JsonArray`、JAJO；`Set` 也支持，但有顺序限制 |
 | **Value Node** | 标量、`null` 或自定义逻辑值 | `String`、数字、布尔值、枚举、`null`、`@NodeValue` 类型 |
 
-关键在于：**Java 类不必继承 SJF4J 的基类**。普通 POJO 可以是Object Node，`List` 可以是Array Node，业务标识符也可以作为单一Value Node。
+关键在于：**Java 类不必继承 SJF4J 的基类**。普通 POJO 可以是 Object Node，`List` 可以是 Array Node，业务标识符也可以作为单一 Value Node。
 
 通过 [`ExternalNode` 适配器](/docs/external-nodes)，第三方 Java 类型也可表示**Object Node、Array Node 或 Value Node**（包括 JSON null）。同一个适配器能够支持多种形态，例如 Gson 的 `JsonElement` 类型体系。
 
@@ -119,7 +119,7 @@ System.out.println(Nodes.inspect(user));
 
 ### Array Node {#array-nodes}
 
-Array Node也有多种表示：
+Array Node 也有多种表示：
 
 | 表示 | 适用场景 |
 | --- | --- |
@@ -151,7 +151,7 @@ String last = labels.getString(-1); // "json"
 
 普通字符串、数字、布尔值及 null 都是 OBNT 的叶子节点。枚举及受支持的业务标量类型也可以作为值。
 
-当 Java 类型应当被视为**一个逻辑值**，而不是可遍历的属性对象时，可以使用 `@NodeValue`。例如，`UserId` 可表示为单个 JSON 字符串。ValueCodec也可能用 Map/List 作为原始编码，但这种编码**不会让逻辑值变成可遍历的 OBNT 对象或数组**。
+当 Java 类型应当被视为**一个逻辑值**，而不是可遍历的属性对象时，可以使用 `@NodeValue`。例如，`UserId` 可表示为单个 JSON 字符串。ValueCodec 也可能用 Map/List 作为原始编码，但这种编码**不会让逻辑值变成可遍历的 OBNT 对象或数组**。
 
 自定义值的转换契约参阅[自定义值类型](#custom-value-types)。
 
@@ -184,7 +184,7 @@ Nodes.addInArray(roles, "reader");
 Object first = Nodes.getInArray(roles, 0);
 ```
 
-同样的对象操作可以应用于受支持的 POJO 等Object Node。修改是否成功仍取决于底层 Java 表示是否允许；只读或固定大小的结构不会因为 OBNT 而变成可修改。
+同样的对象操作可以应用于受支持的 POJO 等 Object Node。修改是否成功仍取决于底层 Java 表示是否允许；只读或固定大小的结构不会因为 OBNT 而变成可修改。
 
 ### 便捷的实例方法 {#convenient-instance-apis}
 
@@ -238,7 +238,7 @@ JsonObject deep = user.deepCopy(); // Recursively copies supported nodes
 
 `Nodes.equals(...)` 按 JSON 结构和值比较，不要求 Java 容器类型相同；数字按数值比较。`Nodes.hash(...)` 遵循相同的结构化语义。
 
-`Nodes.copy(...)` 和容器的 `copy()` 方法是**浅复制**：只复制最外层结构，嵌套引用仍被共享。深复制是另一种操作，可以通过 `JsonObject` / `JsonArray` 的方法及 SJF4J 的深度节点转换能力完成。ExternalNode的实际行为取决于适配器。
+`Nodes.copy(...)` 和容器的 `copy()` 方法是**浅复制**：只复制最外层结构，嵌套引用仍被共享。深复制是另一种操作，可以通过 `JsonObject` / `JsonArray` 的方法及 SJF4J 的深度节点转换能力完成。ExternalNode 的实际行为取决于适配器。
 
 高级操作可参考：[`NodeWalker`](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-core/src/main/java/org/sjf4j/node/NodeWalker.java)（结构访问与递归遍历）、[`NodeMapper`](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-core/src/main/java/org/sjf4j/node/NodeMapper.java)（Java 节点表示之间的运行时转换），以及 [`NodeStream`](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-core/src/main/java/org/sjf4j/node/NodeStream.java)（结合 JSONPath 的流式处理）。
 
@@ -290,7 +290,7 @@ class Zoo {
 }
 ```
 
-对于包含 `"kind": "dog"` 的 `pet` 对象，绑定可以选择 `Dog`。SJF4J 还支持按不同 JSON 原始类型选择，以及部分父级 discriminator 模式。这些方式有使用限制，尤其在Compiled Binding中；详见 [Binding](/docs/binding)。
+对于包含 `"kind": "dog"` 的 `pet` 对象，绑定可以选择 `Dog`。SJF4J 还支持按不同 JSON 原始类型选择，以及部分父级 discriminator 模式。这些方式有使用限制，尤其在 Compiled Binding 中；详见 [Binding](/docs/binding)。
 
 ### 自定义值类型 {#custom-value-types}
 
@@ -317,13 +317,13 @@ public final class UserId {
 }
 ```
 
-这样 `UserId` 就成为Value Node，序列化为 JSON 字符串，而不是带 `value` 属性的对象。
+这样 `UserId` 就成为 Value Node，序列化为 JSON 字符串，而不是带 `value` 属性的对象。
 
 对于可复用或跨格式的转换，SJF4J 也支持注册 `ValueCodec`。编解码器返回的 Map/List 只是**编码表示**，不会改变逻辑节点类别。注册方式、命名格式和扩展示例详见 [Value Codecs](/docs/value-codecs)。
 
-#### ExternalNode 集成 {#external-node-integration}
+### ExternalNode 集成 {#external-node-integration}
 
-`ExternalNode<N>` 将后端原生 JSON 树和其他结构化表示接入 OBNT。同一个适配器可以将不同实例暴露为Object Node、Array Node 或 Value Node。
+`ExternalNode<N>` 将后端原生 JSON 树和其他结构化表示接入 OBNT。同一个适配器可以将不同实例暴露为 Object Node、Array Node 或 Value Node。
 
 适配器声明支持的节点类型与 JSON 形态，并实现相应的访问、迭代、修改、转换和复制操作。这样无需强制提前将原生树转换成 Map/List。**并非所有操作都会自动获得支持**；未实现的适配器操作可能明确失败。
 
