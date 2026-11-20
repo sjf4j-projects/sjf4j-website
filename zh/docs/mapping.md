@@ -69,7 +69,7 @@ UserDto dto = mapper.toView(user);
 
 通过 `@Mapping` 可以重命名、忽略属性或计算字段。生成代码直接使用普通 Java 属性和构造器访问，不经过 JSON 转换。
 
-在 Spring Framework 和 Spring Boot 中，可以直接注入Compiled Mapper，也可以让它实现 Spring 的 `Converter<S, T>` 接口。参阅 [Spring Integration](/docs/spring-integration#spring-converter)。
+在 Spring Framework 和 Spring Boot 中，可以直接注入 Compiled Mapper，也可以让它实现 Spring 的 `Converter<S, T>` 接口。参阅 [Spring Integration](/docs/spring-integration#spring-converter)。
 
 ## 结构化映射 {#structural-mapping}
 
