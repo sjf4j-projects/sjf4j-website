@@ -1,6 +1,6 @@
 ---
 title: "数据绑定"
-description: "通过运行时或Compiled API 读写 JSON、YAML 和 Java Properties，使用多种后端并扩展 Java 对象绑定能力。"
+description: "通过运行时或 Compiled API 读写 JSON、YAML 和 Java Properties，使用多种后端并扩展 Java 对象绑定能力。"
 translationSourceSha: "d1912cc1799435b00078b5ea64c3d486ac114021"
 ---
 
@@ -81,7 +81,7 @@ byte[] output = binder.writeBytes(user);
 
 生成类名为 `UserBinder_Impl`。读取方法也支持 `Reader` 和 `InputStream`；写入方法可将内容输出到 `Writer` 或 `OutputStream`。
 
-每个Compiled Binder 接口的格式和后端是固定的：
+每个 Compiled Binder 接口的格式和后端是固定的：
 
 - `@CompiledBinder(backend = Backend.JACKSON2)` 明确使用 Jackson 2 处理 JSON。
 - `@CompiledBinder(format = Format.YAML, backend = Backend.SNAKE)` 使用 SnakeYAML 处理 YAML。
