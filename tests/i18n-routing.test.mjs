@@ -180,11 +180,11 @@ test('Getting Started translation routes, anchors, SEO, and code samples stay al
 
   const english = readFileSync('docs/getting-started.md', 'utf8')
   const chinese = readFileSync('zh/docs/getting-started.md', 'utf8')
-  const samples = page => [...page.matchAll(/```[^\\n]*\\n[\\s\\S]*?\\n```/g)].map(match => match[0])
+  const samples = page => [...page.matchAll(/\x60{3}[^\n]*\n[\s\S]*?\n\x60{3}/g)].map(match => match[0])
   assert.deepEqual(samples(chinese), samples(english),
     'Chinese translation must not diverge from the English executable examples')
 
-  const anchors = page => [...page.matchAll(/^#{1,3} .+?\\{#([^}]+)\\}$/gm)]
+  const anchors = page => [...page.matchAll(/^#{1,3} .+?\{#([^}]+)\}$/gm)]
     .map(match => match[1])
   const translatedAnchors = anchors(chinese)
   assert.equal(new Set(translatedAnchors).size, translatedAnchors.length)
