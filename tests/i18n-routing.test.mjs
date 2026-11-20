@@ -507,3 +507,27 @@ test('External Nodes translation preserves adapter examples and deep links', () 
       'Missing stable External Nodes anchor: ' + anchor)
   }
 })
+
+test('Spring Integration translation preserves examples and shared framework links', () => {
+  const english = '/docs/spring-integration'
+  const chinese = '/zh/docs/spring-integration'
+  assert.equal(localizedLink(english, 'zh-CN'), chinese)
+  assert.equal(switchLanguage(english + '#spring-jdbc', 'zh-CN'),
+    chinese + '#spring-jdbc')
+  assert.equal(switchLanguage(chinese + '#spring-converter', 'en-US'),
+    english + '#spring-converter')
+  assert.deepEqual(alternatePages(chinese),
+    { 'en-US': english, 'zh-CN': chinese })
+
+  const source = readFileSync('docs/spring-integration.md', 'utf8')
+  const translation = readFileSync('zh/docs/spring-integration.md', 'utf8')
+  const blocks = value => [...value.matchAll(/\x60{3}[^\n]*\n[\s\S]*?\n\x60{3}/g)]
+    .map(match => match[0])
+  assert.deepEqual(blocks(translation), blocks(source))
+  for (const anchor of ['installation', 'spring-framework-without-boot',
+    'spring-boot', 'automatic-bean-registration', 'spring-converter',
+    'spring-jdbc', 'http-json-and-yaml-spring-mvc', 'configuration-limitations']) {
+    assert.ok(translation.includes('{#' + anchor + '}'),
+      'Missing stable Spring Integration anchor: ' + anchor)
+  }
+})
