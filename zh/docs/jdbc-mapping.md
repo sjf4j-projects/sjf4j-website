@@ -68,7 +68,7 @@ while (rs.next()) {
 
 `prepare()` 只解析一次列布局。返回的 `JdbcRowMapper<User>` 保存列下标与标签，但**不持有 ResultSet**。
 
-`map(rs)` 只映射当前行，**不会推进或关闭游标**。Prepared Row Mapper无状态，可在列布局相同的结果集之间复用。
+`map(rs)` 只映射当前行，**不会推进或关闭游标**。Prepared Row Mapper 无状态，可在列布局相同的结果集之间复用。
 
 ## 列映射 {#column-mapping}
 
