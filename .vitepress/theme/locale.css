@@ -16,3 +16,13 @@
     order: 1;
   }
 }
+
+/* VitePress adds a divider before Appearance based on DOM siblings. The
+   page-aware locale switcher is visually immediately to its left, so only
+   the separator before Language should remain. */
+@media (min-width: 768px) {
+  .VPNavBar .content-body > .appearance::before {
+    display: none !important;
+    content: none !important;
+  }
+}
