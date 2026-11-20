@@ -36,7 +36,7 @@ function closeMenu() {
     <summary :aria-label="theme.langMenuLabel || 'Change language'">
       <span aria-hidden="true" class="vpi-languages lang-icon"></span>
       <span class="lang-label">{{ current?.label }}</span>
-      <span aria-hidden="true" class="chevron">⌄</span>
+      <span aria-hidden="true" class="vpi-chevron-down chevron"></span>
     </summary>
     <div class="locale-options">
       <template v-for="option in options" :key="option.key">
@@ -94,7 +94,7 @@ function closeMenu() {
   .lang-label { display: none; }
 }
 .lang-label { font-weight: 500; }
-.chevron { color: var(--vp-c-text-3); font-size: 18px; }
+.chevron { width: 14px; height: 14px; flex: 0 0 14px; color: var(--vp-c-text-3); }
 
 .locale-options {
   position: absolute;
