@@ -337,3 +337,26 @@ test('Navigating translation keeps code examples, stable anchors and published r
       `Missing stable Navigating anchor: ${section}`)
   }
 })
+
+test('Validating translation preserves JSON Schema examples and deep links', () => {
+  const english = '/docs/validating'
+  const chinese = '/zh/docs/validating'
+  assert.equal(localizedLink(english, 'zh-CN'), chinese)
+  assert.equal(switchLanguage(english + '#schema-references', 'zh-CN'),
+    chinese + '#schema-references')
+  assert.equal(switchLanguage(chinese + '#compilation-and-fallback', 'en-US'),
+    english + '#compilation-and-fallback')
+  assert.deepEqual(alternatePages(chinese), { 'en-US': english, 'zh-CN': chinese })
+
+  const source = readFileSync('docs/validating.md', 'utf8')
+  const translated = readFileSync('zh/docs/validating.md', 'utf8')
+  const codeBlocks = page => [...page.matchAll(/```[^\n]*\n[\s\S]*?\n```/g)]
+    .map(match => match[0])
+  assert.deepEqual(codeBlocks(translated), codeBlocks(source))
+  for (const anchor of ['getting-started', 'runtime-validation',
+    'errors-and-annotations', 'compiled-validation', 'compilation-and-fallback',
+    'schema-references', 'annotation-based-validation', 'compliance-and-performance']) {
+    assert.ok(translated.includes(`{#${anchor}}`),
+      `Missing stable Validating anchor: ${anchor}`)
+  }
+})
