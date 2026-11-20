@@ -29,7 +29,7 @@ String city = navigator.getCity(user);
 
 整个过程可以概括为：**声明接口 → 编译生成的 Java 代码 → 调用实现**。不需要额外的字节码解释器，也不需要中间 JSON 树。
 
-## 可用的Compiled API {#available-compiled-apis}
+## 可用的 Compiled APIs {#available-compiled-apis}
 
 统一的编译时模型覆盖五类能力：
 
@@ -92,7 +92,7 @@ String city = UserNavigator.INSTANCE.getCity(user);
 | 配置要求 | 无须注解处理器 | 构建时启用注解处理 |
 | 适用场景 | 动态、临时性操作 | 稳定、高频的操作 |
 
-两者都操作 SJF4J 的 [OBNT (Object-Based Node Tree)](/docs/modeling)，因此使用Compiled API 并不需要更换 Java 对象模型。
+两者都操作 SJF4J 的 [OBNT (Object-Based Node Tree)](/docs/modeling)，因此使用 Compiled API 并不需要更换 Java 对象模型。
 
 ### 编译限制与回退 {#compilation-limits-and-fallback}
 
