@@ -5,14 +5,14 @@ export const zh: SiteMessages = {
     sections: {
       exploreTitle: '探索功能',
       leadBefore: '通过灵活的 ',
-      runtimeLabel: '运行时 API',
+      runtimeLabel: 'Runtime API',
       leadBetween: ' 和高性能的 ',
-      compiledLabel: '编译式 API',
+      compiledLabel: 'Compiled API',
       leadAfter: '，直接操作 Java 对象。',
       performanceTitle: '性能一览',
-      benchmarkLink: '查看性能测试',
+      benchmarkLink: '查看性能基准',
       springTitle: '在 Spring 中使用 SJF4J',
-      springDescription: '将编译式 SJF4J API 直接注入 Spring Bean，无需手动创建实例或添加组件注解。'
+      springDescription: '将 SJF4J Compiled API 直接注入 Spring Bean，无需手动创建实例或添加组件注解。'
     },
     hero: {
       openSource: '开源',
@@ -57,9 +57,9 @@ export const zh: SiteMessages = {
         },
         {
           id: 'compiled',
-          title: '运行时灵活，编译式高效',
+          title: 'Runtime Flexibility, Compiled Speed',
           description: [
-            '兼具灵活的运行时 API 与高度优化的编译期代码生成。了解',
+            '兼具灵活的 Runtime API 与高性能的 Compiled API。了解',
             { text: '功能', href: '/#explore-features' },
             '和',
             { text: '性能', href: '/#performance-at-a-glance' },
@@ -70,8 +70,8 @@ export const zh: SiteMessages = {
     },
     capabilities: {
       tabsLabel: 'SJF4J 功能',
-      runtime: '运行时 API',
-      compiled: '编译式 API',
+      runtime: 'Runtime API',
+      compiled: 'Compiled API',
       learnMore: name => `了解更多：${name}`,
       learnMoreLabel: name => `了解${name}详情`,
       items: {
@@ -105,7 +105,7 @@ export const zh: SiteMessages = {
           name: '对象映射',
           description: ['在 Map、POJO、普通值及嵌套 Java 对象之间进行转换。'],
           detail: [
-            '运行时 API ', { code: 'Sjf4j.convert()' }, ' 支持直接对象转换。',
+            'Runtime API ', { code: 'Sjf4j.convert()' }, ' 支持直接对象转换。',
             { break: true }, { code: '@CompiledMapper' }, ' 支持属性重命名、嵌套映射、表达式和对象创建等自定义规则。'
           ]
         },
@@ -122,7 +122,7 @@ export const zh: SiteMessages = {
             { text: 'JSON Merge Patch (RFC 7386)', href: 'https://www.rfc-editor.org/info/rfc7386' },
             ' 和 Indexed Merge Patch 直接应用于 Java 对象。'
           ],
-          detail: ['对象补丁目前仅支持运行时 API，尚无编译式 API。']
+          detail: ['对象补丁目前仅支持 Runtime API，尚无 Compiled API。']
         },
         modeling: {
           name: '对象模型',
@@ -134,14 +134,14 @@ export const zh: SiteMessages = {
         introduction: '是 SJF4J 的统一结构模型，包含三种节点：',
         nodeType: '节点类型',
         javaRepresentation: 'Java 表示形式',
-        objectNode: '对象节点',
-        arrayNode: '数组节点',
-        valueNode: '值节点',
+        objectNode: 'Object Node',
+        arrayNode: 'Array Node',
+        valueNode: 'Value Node',
         valueTypes: '字符串、数字、布尔值和自定义值类型',
         extensions: 'OBNT 同时支持可扩展的对象模型：',
         jojo: '继承 JsonObject，同时支持类型化属性和动态成员。',
         jajo: '继承 JsonArray，提供类型化、可扩展的数组。',
-        nodeValue: '定义逻辑值节点。',
+        nodeValue: '将自定义类型定义为 Value Node。',
         oneOf: '定义多态节点类型。',
         externalNode: '集成自定义结构类型。'
       }
@@ -149,7 +149,7 @@ export const zh: SiteMessages = {
     benchmarks: {
       items: {
         binding: { label: '数据绑定', comparison: '对比直接使用 Jackson 2 · 100KB Users POJO 读取' },
-        native: { label: 'GraalVM 原生镜像', comparison: '对比直接使用 Jackson 2 · 100KB Users POJO 读取' },
+        native: { label: 'GraalVM Native Image', comparison: '对比直接使用 Jackson 2 · 100KB Users POJO 读取' },
         navigation: { label: 'JSONPath 导航', comparison: '对比 SJF4J Runtime · 100KB POJO 直接查询' },
         validation: { label: 'JSON Schema 校验', comparison: '对比 SJF4J Runtime · Creek POJO 校验' },
         mapping: { label: '对象映射', comparison: '对比 MapStruct · 100KB 扩展 Order' },
