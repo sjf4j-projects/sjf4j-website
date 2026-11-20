@@ -435,3 +435,27 @@ test('Patching translation keeps page switching, anchors, and all source example
       'Missing stable Patching anchor: ' + anchor)
   }
 })
+
+test('Backends translation retains runtime-vs-compiled rules, examples and routing', () => {
+  const english = '/docs/backends'
+  const chinese = '/zh/docs/backends'
+  assert.equal(localizedLink(english, 'zh-CN'), chinese)
+  assert.equal(switchLanguage(english + '#backend-selection', 'zh-CN'),
+    chinese + '#backend-selection')
+  assert.equal(switchLanguage(chinese + '#adding-a-backend', 'en-US'),
+    english + '#adding-a-backend')
+  assert.deepEqual(alternatePages(chinese),
+    { 'en-US': english, 'zh-CN': chinese })
+
+  const source = readFileSync('docs/backends.md', 'utf8')
+  const translation = readFileSync('zh/docs/backends.md', 'utf8')
+  const blocks = page => [...page.matchAll(/\x60{3}[^\n]*\n[\s\S]*?\n\x60{3}/g)]
+    .map(match => match[0])
+  assert.deepEqual(blocks(translation), blocks(source))
+  for (const anchor of ['supported-backends', 'backend-selection',
+    'custom-formats-and-streaming', 'example-gson', 'adding-a-backend',
+    'compiled-backend-support']) {
+    assert.ok(translation.includes('{#' + anchor + '}'),
+      'Missing stable Backends anchor: ' + anchor)
+  }
+})
