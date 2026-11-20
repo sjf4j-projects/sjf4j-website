@@ -45,9 +45,9 @@ JSON 支持 **Jackson 2.x、Jackson 3.x、Gson、Fastjson2、JSON-P** 以及内�
 
 | 节点类型 | 典型表示 |
 | --- | --- |
-| 对象 | `Map`、POJO、`JsonObject`、JOJO |
-| 数组 | `List`、Java 数组、`JsonArray`、JAJO |
-| 值 | 字符串、数字、布尔值及受支持的自定义值 |
+| Object Node | `Map`、POJO、`JsonObject`、JOJO |
+| Array Node | `List`、Java 数组、`JsonArray`、JAJO |
+| Value Node | 字符串、数字、布尔值及受支持的自定义值 |
 
 SJF4J 可以直接操作这些结构，**不需要**先把每个 POJO 或 Map 转换为某个库专用的 JSON AST。
 
@@ -77,7 +77,7 @@ SJF4J 还提供 `ExternalNode`，用于集成受支持的第三方节点模型�
 
 参阅 [Modeling (OBNT)](/docs/modeling) 和 [Binding](/docs/binding)。
 
-## Runtime 与 Compiled API {#runtime-and-compiled-apis}
+## Runtime API 与 Compiled API {#runtime-and-compiled-apis}
 
 ### 什么时候使用 Runtime API，什么时候使用 Compiled API？ {#when-should-i-use-runtime-apis-versus-compiled-apis}
 
