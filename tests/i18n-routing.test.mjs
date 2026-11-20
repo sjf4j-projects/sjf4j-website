@@ -21,7 +21,7 @@ test('locale links only switch for published translations', () => {
   assert.equal(localizedLink('/', 'zh-CN'), '/zh/')
   assert.equal(localizedLink('/#explore-features', 'zh-CN'), '/zh/#explore-features')
   assert.equal(localizedLink('/?source=readme', 'zh-CN'), '/zh/?source=readme')
-  assert.equal(localizedLink('/docs/binding', 'zh-CN'), '/docs/binding')
+  assert.equal(localizedLink('/docs/binding', 'zh-CN'), '/zh/docs/binding')
   assert.equal(localizedLink('/docs/benchmarks', 'zh-CN'), '/docs/benchmarks')
   assert.equal(localizedLink('/generator', 'zh-CN'), '/generator')
   assert.equal(localizedLink('/', 'en-US'), '/')
@@ -73,7 +73,8 @@ test('page-aware language switching preserves matching paths and falls back safe
   assert.equal(switchLanguage('/zh/', 'en-US'), '/')
   assert.equal(switchLanguage('/zh/#explore-features', 'en-US'), '/#explore-features')
   assert.equal(switchLanguage('/#explore-features', 'zh-CN'), '/zh/#explore-features')
-  assert.equal(switchLanguage('/docs/binding#runtime-binding', 'zh-CN'), '/zh/')
+  assert.equal(switchLanguage('/docs/binding#runtime-binding', 'zh-CN'),
+    '/zh/docs/binding#runtime-binding')
   assert.equal(switchLanguage('/docs/binding', 'en-US'), '/docs/binding')
   assert.equal(switchLanguage('/zh/docs/binding?source=nav#example', 'en-US'),
     '/docs/binding?source=nav#example')
@@ -84,8 +85,10 @@ test('page-aware language switching preserves matching paths and falls back safe
 test('alternate metadata includes only published translation pairs', () => {
   assert.deepEqual(alternatePages('/'), { 'en-US': '/', 'zh-CN': '/zh/' })
   assert.deepEqual(alternatePages('/zh/'), { 'en-US': '/', 'zh-CN': '/zh/' })
-  assert.deepEqual(alternatePages('/docs/binding'), { 'en-US': '/docs/binding' })
-  assert.deepEqual(alternatePages('/zh/docs/binding'), { 'en-US': '/docs/binding' })
+  assert.deepEqual(alternatePages('/docs/binding'),
+    { 'en-US': '/docs/binding', 'zh-CN': '/zh/docs/binding' })
+  assert.deepEqual(alternatePages('/zh/docs/binding'),
+    { 'en-US': '/docs/binding', 'zh-CN': '/zh/docs/binding' })
 })
 
 test('localized Markdown links fall back to English or map to published translations', () => {
@@ -278,5 +281,32 @@ test('Compiled APIs translation includes the shared component and stable anchors
     'create-and-reuse-instances', 'inspect-generated-source',
     'runtime-vs-compiled', 'compilation-limits-and-fallback']) {
     assert.ok(page.includes(`{#${fragment}}`), `Missing compiled anchor ${fragment}`)
+  }
+})
+
+test('Binding translation preserves code, compatible semantics and page routing', () => {
+  const english = '/docs/binding'
+  const chinese = '/zh/docs/binding'
+  assert.equal(localizedLink(english, 'zh-CN'), chinese)
+  assert.equal(switchLanguage(english + '#binding-compatibility', 'zh-CN'),
+    chinese + '#binding-compatibility')
+  assert.equal(switchLanguage(chinese + '#polymorphic-binding', 'en-US'),
+    english + '#polymorphic-binding')
+  assert.deepEqual(alternatePages(chinese), {
+    'en-US': english,
+    'zh-CN': chinese,
+  })
+
+  const source = readFileSync('docs/binding.md', 'utf8')
+  const localized = readFileSync('zh/docs/binding.md', 'utf8')
+  const blocks = page => [...page.matchAll(/```[^\n]*\n[\s\S]*?\n```/g)]
+    .map(match => match[0])
+  assert.deepEqual(blocks(localized), blocks(source))
+  for (const fragment of ['runtime-binding', 'compiled-binding', 'object-binding',
+    'polymorphic-binding', 'discriminator-key', 'discriminator-path',
+    'json-type', 'value-codecs', 'backends-and-streaming', 'configuration',
+    'binding-compatibility']) {
+    assert.ok(localized.includes(`{#${fragment}}`),
+      `Missing stable Binding anchor: ${fragment}`)
   }
 })
