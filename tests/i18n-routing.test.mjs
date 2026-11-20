@@ -483,3 +483,27 @@ test('Value Codecs translation preserves examples and registry semantics', () =>
       'Missing stable Value Codecs anchor: ' + anchor)
   }
 })
+
+test('External Nodes translation preserves adapter examples and deep links', () => {
+  const english = '/docs/external-nodes'
+  const chinese = '/zh/docs/external-nodes'
+  assert.equal(localizedLink(english, 'zh-CN'), chinese)
+  assert.equal(switchLanguage(english + '#adding-a-custom-externalnode', 'zh-CN'),
+    chinese + '#adding-a-custom-externalnode')
+  assert.equal(switchLanguage(chinese + '#3-registration-via-spi', 'en-US'),
+    english + '#3-registration-via-spi')
+  assert.deepEqual(alternatePages(chinese),
+    { 'en-US': english, 'zh-CN': chinese })
+
+  const source = readFileSync('docs/external-nodes.md', 'utf8')
+  const translation = readFileSync('zh/docs/external-nodes.md', 'utf8')
+  const blocks = page => [...page.matchAll(/\x60{3}[^\n]*\n[\s\S]*?\n\x60{3}/g)]
+    .map(match => match[0])
+  assert.deepEqual(blocks(translation), blocks(source))
+  for (const anchor of ['supported-native-models', 'example-gson',
+    'adding-a-custom-externalnode', '1-implement-externalnode',
+    '2-provide-the-adapter', '3-registration-via-spi', '4-use-it']) {
+    assert.ok(translation.includes('{#' + anchor + '}'),
+      'Missing stable External Nodes anchor: ' + anchor)
+  }
+})
