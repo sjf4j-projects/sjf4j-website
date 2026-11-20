@@ -1,6 +1,6 @@
 ---
 title: "安装指南"
-description: "使用 Gradle 或 Maven 安装 SJF4J，选择所需模块和后端，并启用编译式 API。"
+description: "使用 Gradle 或 Maven 安装 SJF4J，选择所需模块和后端，并启用 Compiled API。"
 translationSourceSha: "52754f09b594d169550911fd62f0d59a64dbdb50"
 ---
 
@@ -59,7 +59,7 @@ dependencies {
 
 :::
 
-`sjf4j-core` 内置 Simple JSON 和 Java Properties 支持，使用这些格式时不需要外部后端。Maven 项目如需使用编译式 API，还需单独配置[注解处理器](#compiled-apis)。
+`sjf4j-core` 内置 Simple JSON 和 Java Properties 支持，使用这些格式时不需要外部后端。Maven 项目如需使用 Compiled API，还需单独配置[注解处理器](#compiled-apis)。
 
 ## 模块 {#modules}
 
@@ -71,7 +71,7 @@ dependencies {
 | `sjf4j-schema` | JSON Schema 校验 | Core |
 | `sjf4j-processor` | 编译时代码生成 | Core、Schema |
 | `sjf4j-spring` | 将编译式接口注册为 Spring Bean（Java 17+） | Core、Spring Framework |
-| `sjf4j-spring-boot-starter` | 编译式 API 的 Spring Boot 自动配置（Java 17+） | Spring、Spring Boot |
+| `sjf4j-spring-boot-starter` | Compiled API 的 Spring Boot 自动配置（Java 17+） | Spring、Spring Boot |
 | `sjf4j-backend-*` | JSON/YAML 后端适配器 | Core |
 | `sjf4j` | 聚合模块：Core、Schema 和六种适配器 | 上述模块（不含 Processor） |
 
@@ -120,7 +120,7 @@ SJF4J 按此顺序选择第一个可用后端。Runtime Binding 通过 `ServiceL
 
 YAML 在 SnakeYAML 可用时使用它；Java Properties 无需额外依赖。选择规则及显式指定方法参阅 [Backends & Formats](/docs/backends#backend-selection)。
 
-## 编译式 API {#compiled-apis}
+## Compiled APIs {#compiled-apis}
 
 将 `sjf4j-processor` 添加到**注解处理器路径**，而不是作为普通运行时依赖。
 
@@ -149,7 +149,7 @@ YAML 在 SnakeYAML 可用时使用它；Java Properties 无需额外依赖。选
 </build>
 ```
 
-`@CompiledValidator` 在运行时还需要 `sjf4j-schema`。其他编译式 API 不使用 JSON Schema 功能时，无须引入该模块。
+`@CompiledValidator` 在运行时还需要 `sjf4j-schema`。其他 Compiled API 不使用 JSON Schema 功能时，无须引入该模块。
 
 延伸阅读：[Compiled APIs](/docs/compiled) · [Binding](/docs/binding) · [Validating](/docs/validating)
 

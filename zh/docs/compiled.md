@@ -1,14 +1,14 @@
 ---
-title: "编译式 API"
+title: "Compiled APIs"
 description: "在编译期为数据绑定、对象导航、JSON Schema 校验、对象映射及 JDBC 结果映射生成专用 Java 实现。"
 translationSourceSha: "c84b33bc292cd616373211a2f1dda88a54e31c0b"
 ---
 
-# 编译式 API {#compiled-apis}
+# Compiled APIs {#compiled-apis}
 
 **运行时灵活，编译期高效。** SJF4J 可在编译期间将带注解的 Java 接口转换为专用实现。生成的是**普通、可读的 Java 源码**，可以查看、调试，也能由 JVM 优化。
 
-编译式 API 是灵活的 Runtime API 的补充，适合类型信息和表达式在执行之前已确定、操作逻辑相对稳定的场景。
+Compiled API 是灵活的 Runtime API 的补充，适合类型信息和表达式在执行之前已确定、操作逻辑相对稳定的场景。
 
 ## 工作原理 {#how-it-works}
 
@@ -29,7 +29,7 @@ String city = navigator.getCity(user);
 
 整个过程可以概括为：**声明接口 → 编译生成的 Java 代码 → 调用实现**。不需要额外的字节码解释器，也不需要中间 JSON 树。
 
-## 可用的编译式 API {#available-compiled-apis}
+## 可用的 Compiled APIs {#available-compiled-apis}
 
 统一的编译时模型覆盖五类能力：
 
@@ -65,7 +65,7 @@ interface UserNavigator {
 String city = UserNavigator.INSTANCE.getCity(user);
 ```
 
-工厂方法还支持传入 `NodeConfig`；编译式 Binder 可以接收预先配置且与所选后端匹配的 Binder。具体配置方式参阅各功能文档。
+工厂方法还支持传入 `NodeConfig`；Compiled Binder 可以接收预先配置且与所选后端匹配的 Binder。具体配置方式参阅各功能文档。
 
 在 **Spring Framework 6.2+** 中，`sjf4j-spring` 可通过 `@EnableSjf4j` 注册生成接口。**Spring Boot 3.x** 则可以直接使用 Starter，无须额外配置。两者都支持 `@Autowired`，不必手动调用 `CompiledInstances.create()`。参阅 [Spring Integration](/docs/spring-integration)。
 
@@ -80,7 +80,7 @@ String city = UserNavigator.INSTANCE.getCity(user);
 
 打开 `UserNavigator_Impl.java` 即可检查实际生成代码。它是普通 Java 源码，可以直接用 IDE 调试。
 
-## Runtime 与 Compiled 的区别 {#runtime-vs-compiled}
+## Runtime API 与 Compiled API {#runtime-vs-compiled}
 
 根据操作在执行前能够确定多少信息来选择 API：
 
@@ -92,7 +92,7 @@ String city = UserNavigator.INSTANCE.getCity(user);
 | 配置要求 | 无须注解处理器 | 构建时启用注解处理 |
 | 适用场景 | 动态、临时性操作 | 稳定、高频的操作 |
 
-两者都操作 SJF4J 的 [OBNT (Object-Based Node Tree)](/docs/modeling)，因此使用编译式 API 并不需要更换 Java 对象模型。
+两者都操作 SJF4J 的 [OBNT (Object-Based Node Tree)](/docs/modeling)，因此使用 Compiled API 并不需要更换 Java 对象模型。
 
 ### 编译限制与回退 {#compilation-limits-and-fallback}
 
@@ -107,6 +107,6 @@ Fallback 是**针对具体能力的选项**，不是全局开关。例如：
 
 ## 性能 {#performance}
 
-编译式 API 为受支持的操作生成专用 Java 代码，以降低运行时开销。收益随工作负载变化；性能数据与测试方法参阅 [Benchmarks](/docs/benchmarks)。
+Compiled API 为受支持的操作生成专用 Java 代码，以降低运行时开销。收益随工作负载变化；性能数据与测试方法参阅 [Benchmarks](/docs/benchmarks)。
 
 **API 参考（最新发布版本）：** [CompiledInstances](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/CompiledInstances.html) · [@CompiledNavigator](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/annotation/path/CompiledNavigator.html) · [@CompiledMapper](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/annotation/mapping/CompiledMapper.html) · [@CompiledValidator](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/org/sjf4j/annotation/schema/CompiledValidator.html)

@@ -2,7 +2,7 @@
  * List only pages with a published translation, using their English URLs.
  * English is the canonical source of page identifiers and is not prefixed.
  *
- * Adding zh/docs/binding.md requires adding '/docs/binding' below. CI checks
+ * Register each published translation by its English URL. CI checks
  * the registry against the filesystem in both directions.
  */
 export const translatedPages: Readonly<Record<string, readonly string[]>> = {

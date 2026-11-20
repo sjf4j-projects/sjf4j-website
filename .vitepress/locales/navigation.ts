@@ -11,8 +11,8 @@ export const docsNavigation = [
       { title: { en: 'Getting Started', zh: '快速开始' }, link: '/docs/getting-started' },
       { title: { en: 'Installation', zh: '安装' }, link: '/docs/installation' },
       { title: { en: 'Modeling (OBNT)', zh: '对象模型 (OBNT)' }, link: '/docs/modeling' },
-      { title: { en: 'Compiled APIs', zh: '编译式 API' }, link: '/docs/compiled' },
-      { title: { en: 'Benchmarks', zh: '性能测试' }, link: '/docs/benchmarks' },
+      { title: { en: 'Compiled APIs', zh: 'Compiled APIs' }, link: '/docs/compiled' },
+      { title: { en: 'Benchmarks', zh: '性能基准' }, link: '/docs/benchmarks' },
     ],
   },
   {
@@ -30,8 +30,8 @@ export const docsNavigation = [
     title: { en: 'Integrations', zh: '集成与扩展' },
     pages: [
       { title: { en: 'Backends & Formats', zh: '后端与格式' }, link: '/docs/backends' },
-      { title: { en: 'Value Codecs', zh: '值转换器' }, link: '/docs/value-codecs' },
-      { title: { en: 'External Nodes', zh: '外部节点' }, link: '/docs/external-nodes' },
+      { title: { en: 'Value Codecs', zh: 'Value Codecs' }, link: '/docs/value-codecs' },
+      { title: { en: 'External Nodes', zh: 'External Nodes' }, link: '/docs/external-nodes' },
       { title: { en: 'Spring Integration', zh: 'Spring 集成' }, link: '/docs/spring-integration' },
     ],
   },

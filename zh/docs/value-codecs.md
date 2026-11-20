@@ -1,14 +1,14 @@
 ---
-title: "值编解码器"
-description: "为业务 Java 类型定义、注册和发现 SJF4J ValueCodec，支持命名格式和编译式绑定。"
+title: "Value Codecs"
+description: "为业务 Java 类型定义、注册和发现 SJF4J ValueCodec，支持命名格式和 Compiled Binding。"
 translationSourceSha: "7a3673b2d0ce981553f538745900d59bfc40b586"
 ---
 
-# 值编解码器 {#value-codecs}
+# Value Codecs {#value-codecs}
 
 **对于你能修改的类型，优先使用 `@NodeValue`**，配合 `@ValueToRaw` 和 `@RawToValue` 方法。对于第三方库的类型，或者不希望修改类型定义的场景，可以使用 `ValueCodec<V, R>`。基于注解的方式见 [Modeling (OBNT)](/docs/modeling#custom-value-types)。
 
-Codec 负责在 Java 值 `V` 与兼容 JSON 的原始值 `R` 之间转换。在 OBNT 中，即使原始表示是 Map 或 List，业务类型仍属于**逻辑值节点**。SJF4J 内置 `UUID`、`URI`、`Instant`、`LocalDate` 等常见类型的 Codec。
+Codec 负责在 Java 值 `V` 与兼容 JSON 的原始值 `R` 之间转换。在 OBNT 中，即使原始表示是 Map 或 List，业务类型仍属于**Value Node**。SJF4J 内置 `UUID`、`URI`、`Instant`、`LocalDate` 等常见类型的 Codec。
 
 ## ValueCodec 接口 {#valuecodec-interface}
 
@@ -133,7 +133,7 @@ SJF4J 通过 Java `ServiceLoader` 发现 Provider 类，并使用与 `ValueRegis
 
 手动注册和自动发现共用一个全局 Registry。通过 SPI 发现的 holder 仍可以显式注册而不会重复；但不同 holder 声明冲突的格式仍会失败。
 
-## 编译式绑定 {#compiled-binding}
+## Compiled Binding {#compiled-binding}
 
 注解处理器会自动发现**当前编译过程**中的 `@ValueCodecRegistry`，包括没有注解的 static 工厂方法。对于已经编译成依赖库的 Registry，需要显式声明：
 

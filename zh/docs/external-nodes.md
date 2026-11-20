@@ -1,10 +1,10 @@
 ---
-title: "外部节点"
+title: "External Nodes"
 description: "直接使用第三方库的原生 JSON 树，并通过 ExternalNode 适配器扩展 SJF4J 的 OBNT 模型。"
 translationSourceSha: "771c104b81d1c82a3d0c33a24f6c4060ca568b75"
 ---
 
-# 外部节点 {#external-nodes}
+# External Nodes {#external-nodes}
 
 `ExternalNode` 适配器可以将第三方 JSON 树接入 SJF4J 的 **OBNT (Object-Based Node Tree)** 模型。结构化 API 直接操作原生对象，无需转换成 Map、List 或 POJO。
 

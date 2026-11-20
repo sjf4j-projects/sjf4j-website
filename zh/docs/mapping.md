@@ -8,7 +8,7 @@ translationSourceSha: "7640903eb551155be748772b25015ee091465913"
 
 SJF4J 支持在 POJO、record、Map、集合以及 JSON 风格节点之间进行映射。对于灵活的转换，使用 **Runtime API**；对于类型已知的映射，使用 **Compiled Mapper** 生成专用 Java 代码。
 
-## 运行时映射 {#runtime-mapping}
+## Runtime Mapping {#runtime-mapping}
 
 `Sjf4j.convert()` 无需序列化即可转换受支持的 Java 结构：
 
@@ -22,7 +22,7 @@ UserDto dto = new Sjf4j().convert(data, UserDto.class);
 
 Runtime 转换也支持嵌套模型，以及通过 `TypeReference<T>` 表示的泛型集合。兼容的值可能会直接复用引用；如需对受支持的结构进行递归复制，请使用 `deepConvert()`。
 
-## 编译式映射 {#compiled-mapping}
+## Compiled Mapping {#compiled-mapping}
 
 `@CompiledMapper` 在注解处理阶段生成实现。同名属性会自动映射。
 
@@ -69,11 +69,11 @@ UserDto dto = mapper.toView(user);
 
 通过 `@Mapping` 可以重命名、忽略属性或计算字段。生成代码直接使用普通 Java 属性和构造器访问，不经过 JSON 转换。
 
-在 Spring Framework 和 Spring Boot 中，可以直接注入编译式 Mapper，也可以让它实现 Spring 的 `Converter<S, T>` 接口。参阅 [Spring Integration](/docs/spring-integration#spring-converter)。
+在 Spring Framework 和 Spring Boot 中，可以直接注入 Compiled Mapper，也可以让它实现 Spring 的 `Converter<S, T>` 接口。参阅 [Spring Integration](/docs/spring-integration#spring-converter)。
 
 ## 结构化映射 {#structural-mapping}
 
-编译式 Mapper 可以在 Java 和 JSON 风格的数据表示之间转换：
+Compiled Mapper 可以在 Java 和 JSON 风格的数据表示之间转换：
 
 ```java
 @CompiledMapper

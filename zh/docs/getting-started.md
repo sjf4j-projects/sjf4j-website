@@ -251,9 +251,9 @@ OBNT 定义了三种节点：
 
 | 节点类型 | Java 表示 |
 | --- | --- |
-| **对象节点** | `Map`、POJO、`JsonObject`、JOJO |
-| **数组节点** | `List`、Java 数组、`JsonArray`、JAJO |
-| **值节点** | 字符串、数字、布尔值及自定义值类型 |
+| **Object Node** | `Map`、POJO、`JsonObject`、JOJO |
+| **Array Node** | `List`、Java 数组、`JsonArray`、JAJO |
+| **Value Node** | 字符串、数字、布尔值及自定义值类型 |
 
 通过 `Nodes` API 可以统一操作这些结构。
 
@@ -276,14 +276,14 @@ if (!Nodes.equals(user, userMap)) {
 OBNT 支持可扩展的对象模型：
 
 - 继承 `JsonObject` 创建 **JOJO (JSON Object Java Object)**，同时支持强类型属性和动态成员。
-- 继承 `JsonArray` 创建 **JAJO (JSON Array Java Object)**，构建可扩展的类型化数组节点。
-- 使用 `@NodeValue` 将 Java 类型建模为逻辑值节点。
+- 继承 `JsonArray` 创建 **JAJO (JSON Array Java Object)**，构建可扩展的类型化 Array Node。
+- 使用 `@NodeValue` 将 Java 类型建模为 Value Node。
 - 使用 `@OneOf` 定义多态节点类型。
 - 注册 `ExternalNode`，将自定义结构类型接入 OBNT。
 
 了解更多 → [Modeling (OBNT)](/docs/modeling)
 
-## 编译式 API {#enjoy-compiled-apis}
+## Compiled APIs {#enjoy-compiled-apis}
 
 SJF4J 通过注解接口，在编译期生成优化后的 Java 实现：
 
