@@ -411,3 +411,27 @@ test('JDBC Result Mapping translation preserves code and prepared mapper semanti
   assert.ok(translation.includes('map(rs)'))
   assert.ok(translation.includes('不持有 ResultSet'))
 })
+
+test('Patching translation keeps page switching, anchors, and all source examples', () => {
+  const english = '/docs/patching'
+  const chinese = '/zh/docs/patching'
+  assert.equal(localizedLink(english, 'zh-CN'), chinese)
+  assert.equal(switchLanguage(english + '#indexed-merge', 'zh-CN'),
+    chinese + '#indexed-merge')
+  assert.equal(switchLanguage(chinese + '#json-patch-rfc-6902', 'en-US'),
+    english + '#json-patch-rfc-6902')
+  assert.deepEqual(alternatePages(chinese),
+    { 'en-US': english, 'zh-CN': chinese })
+
+  const source = readFileSync('docs/patching.md', 'utf8')
+  const translation = readFileSync('zh/docs/patching.md', 'utf8')
+  const blocks = page => [...page.matchAll(/\x60{3}[^\n]*\n[\s\S]*?\n\x60{3}/g)]
+    .map(match => match[0])
+  assert.deepEqual(blocks(translation), blocks(source))
+  for (const anchor of ['json-patch-rfc-6902', 'applying-a-patch',
+    'generating-a-patch', 'operations', 'json-merge-patch-rfc-7386',
+    'indexed-merge', 'advanced-usage']) {
+    assert.ok(translation.includes('{#' + anchor + '}'),
+      'Missing stable Patching anchor: ' + anchor)
+  }
+})
