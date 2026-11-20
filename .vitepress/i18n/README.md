@@ -56,10 +56,29 @@ same registry. Do not add per-page SEO links manually.
 
 ### Translation synchronization
 
-When changing an English page that already has a Chinese counterpart, review
-whether its translation needs updating. Ideally update both in the same PR;
-otherwise explicitly note the deferred translation in the PR. Do not silently
-leave outdated translated API documentation.
+`docs/getting-started.md` is **generated from sjf4j/README.md** by
+`.github/workflows/sync-readme.yml`. Its automated PR changes **English only**.
+Never generate Chinese from the upstream README or overwrite the manual
+`zh/docs/getting-started.md` translation.
+
+For the Chinese guide, `translationSourceSha` in its frontmatter records the
+Git blob SHA of the English Markdown used for the last reviewed translation.
+After reviewing any English changes and updating the Chinese text, refresh it:
+
+```sh
+git hash-object docs/getting-started.md
+```
+
+Use that SHA as the new `translationSourceSha`. The CI command
+`npm run i18n:status` emits a **non-blocking GitHub warning** if a translated
+document has no source revision or the English source has changed. This does
+not prevent README sync PRs from merging; it prompts a separate Chinese update
+PR when needed. Do **not** automatically change the hash without reviewing the
+Chinese translation.
+
+The same metadata convention can be used for future translated docs. When an
+English page already has a Chinese counterpart, preferably update both in one
+PR, or explicitly note the deferred translation in the PR.
 
 ## Shared components
 

@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { existsSync, readdirSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { join, relative, resolve } from 'node:path'
 import {
   alternatePages,
@@ -163,5 +163,36 @@ test('English and Chinese sidebar entries share the same page inventory', () => 
       assert.equal(chinese[index].items[pageIndex].link, localizedLink(link, 'zh-CN'))
       assert.ok(item.title.en.length > 0 && item.title.zh.length > 0)
     })
+  }
+})
+
+test('Getting Started translation routes, anchors, SEO, and code samples stay aligned', () => {
+  const englishPath = '/docs/getting-started'
+  const chinesePath = '/zh/docs/getting-started'
+  assert.equal(localizedLink(englishPath, 'zh-CN'), chinesePath)
+  assert.equal(localizedLink(englishPath + '#quickstart', 'zh-CN'), chinesePath + '#quickstart')
+  assert.equal(switchLanguage(englishPath + '#binding', 'zh-CN'), chinesePath + '#binding')
+  assert.equal(switchLanguage(chinesePath + '#binding', 'en-US'), englishPath + '#binding')
+  assert.equal(localizedMarkdownLink(englishPath, 'zh/docs/getting-started.md', 'zh-CN'),
+    chinesePath)
+  assert.deepEqual(alternatePages(chinesePath),
+    { 'en-US': englishPath, 'zh-CN': chinesePath })
+
+  const english = readFileSync('docs/getting-started.md', 'utf8')
+  const chinese = readFileSync('zh/docs/getting-started.md', 'utf8')
+  const samples = page => [...page.matchAll(/\x60{3}[^\n]*\n[\s\S]*?\n\x60{3}/g)].map(match => match[0])
+  assert.ok(samples(english).length > 0)
+  assert.ok(samples(chinese).length > 0)
+  // The README sync updates English independently; freshness is checked via
+  // translationSourceSha and must not block an upstream README update.
+
+  const anchors = page => [...page.matchAll(/^#{1,3} .+?\{#([^}]+)\}$/gm)]
+    .map(match => match[1])
+  const translatedAnchors = anchors(chinese)
+  assert.equal(new Set(translatedAnchors).size, translatedAnchors.length)
+  for (const anchor of ['quickstart', 'explore-features', 'binding', 'navigating',
+    'validating', 'mapping', 'patching', 'modeling', 'enjoy-compiled-apis',
+    'benchmarks', 'contributing']) {
+    assert.ok(translatedAnchors.includes(anchor), `Missing stable anchor: ${anchor}`)
   }
 })

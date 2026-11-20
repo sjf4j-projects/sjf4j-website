@@ -24,5 +24,7 @@ jobs:
         run: npm run test:generator
       - name: Test internationalization routing
         run: npm run test:i18n
+      - name: Check translation freshness (warnings only)
+        run: npm run i18n:status
       - name: Build website and check internal links
         run: npm run docs:build

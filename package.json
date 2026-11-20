@@ -8,7 +8,8 @@
     "docs:build": "vitepress build",
     "docs:preview": "vitepress preview",
     "test:generator": "node --experimental-strip-types --test tests/generator/*.test.mjs",
-    "test:i18n": "node --experimental-strip-types --test tests/i18n-routing.test.mjs"
+    "test:i18n": "node --experimental-strip-types --test tests/i18n-routing.test.mjs tests/translation-freshness.test.mjs",
+    "i18n:status": "node scripts/check-translations.mjs"
   },
   "devDependencies": {
     "prismjs": "1.30.0",

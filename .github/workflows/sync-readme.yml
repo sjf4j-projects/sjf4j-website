@@ -54,6 +54,10 @@ jobs:
         if: steps.changes.outputs.changed == 'true'
         run: npm ci --no-audit --no-fund
 
+      - name: Report Chinese translation freshness (non-blocking)
+        if: steps.changes.outputs.changed == 'true'
+        run: npm run i18n:status
+
       - name: Build website and check links
         if: steps.changes.outputs.changed == 'true'
         run: npm run docs:build
@@ -75,3 +79,9 @@ jobs:
 
             The synchronization workflow builds the website and validates links
             before creating or updating this PR. Review before merging.
+
+            **Translation follow-up:** This PR updates the English page only.
+            Check whether `zh/docs/getting-started.md` needs translation updates
+            (see the non-blocking translation freshness warning). Submit the
+            Chinese translation separately via PR; do not auto-translate or
+            overwrite it.
