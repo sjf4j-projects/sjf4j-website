@@ -1,6 +1,6 @@
 ---
 title: "安装指南"
-description: "使用 Gradle 或 Maven 安装 SJF4J，选择所需模块和后端，并启用Compiled API。"
+description: "使用 Gradle 或 Maven 安装 SJF4J，选择所需模块和后端，并启用 Compiled API。"
 translationSourceSha: "52754f09b594d169550911fd62f0d59a64dbdb50"
 ---
 
@@ -59,7 +59,7 @@ dependencies {
 
 :::
 
-`sjf4j-core` 内置 Simple JSON 和 Java Properties 支持，使用这些格式时不需要外部后端。Maven 项目如需使用Compiled API，还需单独配置[注解处理器](#compiled-apis)。
+`sjf4j-core` 内置 Simple JSON 和 Java Properties 支持，使用这些格式时不需要外部后端。Maven 项目如需使用 Compiled API，还需单独配置[注解处理器](#compiled-apis)。
 
 ## 模块 {#modules}
 
@@ -149,7 +149,7 @@ YAML 在 SnakeYAML 可用时使用它；Java Properties 无需额外依赖。选
 </build>
 ```
 
-`@CompiledValidator` 在运行时还需要 `sjf4j-schema`。其他Compiled API 不使用 JSON Schema 功能时，无须引入该模块。
+`@CompiledValidator` 在运行时还需要 `sjf4j-schema`。其他 Compiled API 不使用 JSON Schema 功能时，无须引入该模块。
 
 延伸阅读：[Compiled APIs](/docs/compiled) · [Binding](/docs/binding) · [Validating](/docs/validating)
 
