@@ -23,7 +23,7 @@ class User {
 }
 ```
 
-声明单行、多行或预编译行映射方法：
+声明单行、多行或Prepared Row Mapping方法：
 
 ```java
 @CompiledJdbcMapper
@@ -53,7 +53,7 @@ try (Statement statement = connection.createStatement();
 
 SJF4J **不会关闭**传入的 ResultSet，其生命周期仍由 JDBC 调用方负责。
 
-## 预编译行映射 {#prepared-row-mapping}
+## Prepared Row Mapping {#prepared-row-mapping}
 
 如果已经有游标遍历循环，可以根据结果集元数据准备可复用的行映射器：
 
@@ -68,7 +68,7 @@ while (rs.next()) {
 
 `prepare()` 只解析一次列布局。返回的 `JdbcRowMapper<User>` 保存列下标与标签，但**不持有 ResultSet**。
 
-`map(rs)` 只映射当前行，**不会推进或关闭游标**。预编译行映射器无状态，可在列布局相同的结果集之间复用。
+`map(rs)` 只映射当前行，**不会推进或关闭游标**。Prepared Row Mapping器无状态，可在列布局相同的结果集之间复用。
 
 ## 列映射 {#column-mapping}
 
@@ -100,7 +100,7 @@ interface LegacyUserMapper {
 
 ## 框架集成 {#framework-integration}
 
-预编译 Mapper 可以与现有 JDBC 框架配合。例如使用 Spring `JdbcTemplate`：
+Prepared Row Mapper 可以与现有 JDBC 框架配合。例如使用 Spring `JdbcTemplate`：
 
 ```java
 UserJdbcMapper mapper = CompiledInstances.create(UserJdbcMapper.class);
