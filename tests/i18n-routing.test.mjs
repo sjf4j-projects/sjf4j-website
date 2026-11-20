@@ -459,3 +459,27 @@ test('Backends translation retains runtime-vs-compiled rules, examples and routi
       'Missing stable Backends anchor: ' + anchor)
   }
 })
+
+test('Value Codecs translation preserves examples and registry semantics', () => {
+  const english = '/docs/value-codecs'
+  const chinese = '/zh/docs/value-codecs'
+  assert.equal(localizedLink(english, 'zh-CN'), chinese)
+  assert.equal(switchLanguage(english + '#registration-via-spi', 'zh-CN'),
+    chinese + '#registration-via-spi')
+  assert.equal(switchLanguage(chinese + '#compiled-binding', 'en-US'),
+    english + '#compiled-binding')
+  assert.deepEqual(alternatePages(chinese),
+    { 'en-US': english, 'zh-CN': chinese })
+
+  const source = readFileSync('docs/value-codecs.md', 'utf8')
+  const translation = readFileSync('zh/docs/value-codecs.md', 'utf8')
+  const blocks = page => [...page.matchAll(/\x60{3}[^\n]*\n[\s\S]*?\n\x60{3}/g)]
+    .map(match => match[0])
+  assert.deepEqual(blocks(translation), blocks(source))
+  for (const anchor of ['valuecodec-interface', 'declare-a-codec-registry',
+    'named-formats', 'registration-via-spi', 'compiled-binding',
+    'raw-values-and-streaming']) {
+    assert.ok(translation.includes('{#' + anchor + '}'),
+      'Missing stable Value Codecs anchor: ' + anchor)
+  }
+})
