@@ -6,7 +6,7 @@
  * the registry against the filesystem in both directions.
  */
 export const translatedPages: Readonly<Record<string, readonly string[]>> = {
-  'zh-CN': ['/', '/docs/getting-started']
+  'zh-CN': ['/', '/docs/getting-started', '/docs/installation']
 }
 
 export const localePrefixes: Readonly<Record<string, string>> = {
