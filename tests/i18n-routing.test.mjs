@@ -257,3 +257,26 @@ test('Modeling translation is registered with stable sections and unchanged exam
     assert.ok(anchors.includes(anchor), `Missing stable Modeling anchor: ${anchor}`)
   }
 })
+
+test('Compiled APIs translation includes the shared component and stable anchors', () => {
+  const english = '/docs/compiled'
+  const chinese = '/zh/docs/compiled'
+  assert.equal(localizedLink(english, 'zh-CN'), chinese)
+  assert.equal(switchLanguage(english + '#runtime-vs-compiled', 'zh-CN'),
+    chinese + '#runtime-vs-compiled')
+  assert.equal(switchLanguage(chinese + '#compilation-limits-and-fallback', 'en-US'),
+    english + '#compilation-limits-and-fallback')
+  assert.deepEqual(alternatePages(chinese), { 'en-US': english, 'zh-CN': chinese })
+
+  const page = readFileSync('zh/docs/compiled.md', 'utf8')
+  const source = readFileSync('docs/compiled.md', 'utf8')
+  assert.ok(page.includes('<CompiledCodeComparison />'))
+  const blocks = value => [...value.matchAll(/```[^\n]*\n[\s\S]*?\n```/g)]
+    .map(match => match[0])
+  assert.deepEqual(blocks(page), blocks(source))
+  for (const fragment of ['how-it-works', 'available-compiled-apis',
+    'create-and-reuse-instances', 'inspect-generated-source',
+    'runtime-vs-compiled', 'compilation-limits-and-fallback']) {
+    assert.ok(page.includes(`{#${fragment}}`), `Missing compiled anchor ${fragment}`)
+  }
+})
