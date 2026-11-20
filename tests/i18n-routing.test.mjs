@@ -15,6 +15,7 @@ import { en } from '../.vitepress/theme/i18n/en.ts'
 import { zh } from '../.vitepress/theme/i18n/zh.ts'
 import { capabilities } from '../.vitepress/theme/data/capabilities.ts'
 import { highlights } from '../.vitepress/theme/data/benchmarks.ts'
+import { createSidebar, docsNavigation } from '../.vitepress/locales/navigation.ts'
 
 test('locale links only switch for published translations', () => {
   assert.equal(localizedLink('/', 'zh-CN'), '/zh/')
@@ -135,5 +136,32 @@ test('translated route registry matches existing Markdown in both directions', (
       assert.ok(existsSync(join(root, englishFile)),
         `Missing English source page: ${englishFile}`)
     }
+  }
+})
+
+
+test('English and Chinese sidebar entries share the same page inventory', () => {
+  const english = createSidebar('en-US')
+  const chinese = createSidebar('zh-CN')
+  assert.equal(english.length, chinese.length)
+
+  const documentedPaths = new Set()
+  for (let index = 0; index < docsNavigation.length; index++) {
+    const items = docsNavigation[index].pages
+    assert.equal(english[index].items.length, items.length)
+    assert.equal(chinese[index].items.length, items.length)
+
+    items.forEach((item, pageIndex) => {
+      const { link } = item
+      if (link.startsWith('/')) {
+        assert.ok(!documentedPaths.has(link), `Duplicate documentation navigation URL: ${link}`)
+        documentedPaths.add(link)
+        assert.ok(existsSync(resolve('.', link.slice(1) + '.md')),
+          `Missing documentation page: ${link}`)
+      }
+      assert.equal(english[index].items[pageIndex].link, link)
+      assert.equal(chinese[index].items[pageIndex].link, localizedLink(link, 'zh-CN'))
+      assert.ok(item.title.en.length > 0 && item.title.zh.length > 0)
+    })
   }
 })
