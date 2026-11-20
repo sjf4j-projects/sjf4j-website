@@ -276,8 +276,8 @@ if (!Nodes.equals(user, userMap)) {
 OBNT 支持可扩展的对象模型：
 
 - 继承 `JsonObject` 创建 **JOJO (JSON Object Java Object)**，同时支持强类型属性和动态成员。
-- 继承 `JsonArray` 创建 **JAJO (JSON Array Java Object)**，构建可扩展的类型化Array Node。
-- 使用 `@NodeValue` 将 Java 类型建模为Value Node。
+- 继承 `JsonArray` 创建 **JAJO (JSON Array Java Object)**，构建可扩展的类型化 Array Node。
+- 使用 `@NodeValue` 将 Java 类型建模为 Value Node。
 - 使用 `@OneOf` 定义多态节点类型。
 - 注册 `ExternalNode`，将自定义结构类型接入 OBNT。
 
