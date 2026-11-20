@@ -6,3 +6,13 @@
 .VPNavScreenTranslations {
   display: none !important;
 }
+
+/* The custom language selector is injected through nav-bar-content-after.
+   Keep Search and Docs in place, then show Language before Appearance. */
+@media (min-width: 768px) {
+  .VPNavBar .content-body > .appearance,
+  .VPNavBar .content-body > .social-links,
+  .VPNavBar .content-body > .extra {
+    order: 1;
+  }
+}
