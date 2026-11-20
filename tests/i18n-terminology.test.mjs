@@ -4,6 +4,9 @@ import { readFileSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 
 const read = path => readFileSync(path, 'utf8')
+// Strip fenced examples before checking human-authored terminology.
+const stripFencedCode = markdown => markdown.replace(/```[\s\S]*?```/g, '')
+
 
 test('Chinese documentation keeps canonical API family and node names', () => {
   const forbidden = [
@@ -17,7 +20,7 @@ test('Chinese documentation keeps canonical API family and node names', () => {
 
   for (const file of readdirSync('zh/docs').filter(name => name.endsWith('.md'))) {
     // Check prose only. Examples are shared with English and must stay verbatim.
-    const prose = read(join('zh/docs', file)).replace(/```[\s\S]*?```/g, '')
+    const prose = stripFencedCode(read(join('zh/docs', file)))
     for (const term of forbidden) {
       assert.ok(!prose.includes(term), `${file} should use the English technical name instead of ${term}`)
     }
@@ -42,4 +45,21 @@ test('Chinese homepage and sidebar use the same terminology', () => {
   ]) {
     assert.ok(navigation.includes(`en: '${en}', zh: '${zh}'`))
   }
+})
+
+test('terminology checks ignore code fences but retain prose', () => {
+  const markdown = [
+    '文档正文不含已弃用术语。',
+    '```java',
+    'String type = "对象节点"; // 数组节点' ,
+    '```',
+    '代码块之后继续说明。',
+  ].join('\n')
+
+  const prose = stripFencedCode(markdown)
+  assert.ok(!prose.includes('对象节点'))
+  assert.ok(!prose.includes('数组节点'))
+  assert.ok(prose.includes('文档正文不含已弃用术语。'))
+  assert.ok(prose.includes('代码块之后继续说明。'))
+  assert.ok(stripFencedCode('这里描述对象节点。').includes('对象节点'))
 })
