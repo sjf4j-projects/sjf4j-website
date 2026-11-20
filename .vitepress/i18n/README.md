@@ -54,6 +54,26 @@ homepage**; ordinary content links instead fall back to the English page.
 SEO `canonical`, `hreflang` and `x-default` links are generated from the
 same registry. Do not add per-page SEO links manually.
 
+### Chinese technical terminology
+
+Keep defined SJF4J concepts and API family names in English throughout Chinese
+pages, navigation labels and homepage feature panels. Translate explanations
+and ordinary verbs, not the underlying technical identifiers.
+
+| Concept | Use in Chinese docs | Avoid |
+| --- | --- | --- |
+| OBNT categories | **Object Node**, **Array Node**, **Value Node** | 对象节点、数组节点、值节点 |
+| API families | **Runtime API**, **Compiled API**; page title **Compiled APIs** | 运行时 API、编译式 API |
+| Capability-specific names | **Runtime Binding**, **Compiled Binding**, **Runtime Navigation**, **Compiled Navigation**, **Runtime Validation**, **Compiled Validation**, **Runtime Mapping**, **Compiled Mapping** | Mixed labels such as 编译式导航 or 编译式校验 |
+| Domain-specific extensions | **ValueCodec**, **Value Codecs**, **ExternalNode**, **External Nodes** | 值编解码器、外部节点 when naming the API |
+| Standards and model types | **JSONPath**, **JSON Pointer**, **JSON Patch**, **JSON Schema**, **OBNT**, **POJO**, **JOJO**, **JAJO** | Translated or renamed standard identifiers |
+
+Generic Chinese words like “节点”, “后端”, “校验”, “映射”, and
+“编译期生成” are still appropriate in explanatory prose. Keep API names,
+annotations, code samples, data values, Markdown paths, and English fragment
+IDs unchanged. Only update `translationSourceSha` after reviewing a change
+to the **English source**, not for Chinese-only wording edits.
+
 ### Translation synchronization
 
 `docs/getting-started.md` is **generated from sjf4j/README.md** by
