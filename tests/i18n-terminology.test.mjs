@@ -51,7 +51,7 @@ test('terminology checks ignore code fences but retain prose', () => {
   const markdown = [
     '文档正文不含已弃用术语。',
     '```java',
-    'String type = "对象节点"; // 数组节点' ,
+    'String type = "对象节点"; // 数组节点',
     '```',
     '代码块之后继续说明。',
   ].join('\n')
