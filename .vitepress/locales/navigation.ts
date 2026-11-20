@@ -1,4 +1,4 @@
-import { localizedLink } from '../i18n/routes'
+import { localizedLink } from '../i18n/routes.ts'
 
 /**
  * One documentation navigation tree for every language.
