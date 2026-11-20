@@ -93,7 +93,7 @@ public class UserService {
 }
 ```
 
-所有五类Compiled API 都支持这种方式：
+所有五类 Compiled API 都支持这种方式：
 
 | 注解 | Spring 管理的功能 |
 | --- | --- |
@@ -132,7 +132,7 @@ private ConversionService conversionService;
 CarDto dto = conversionService.convert(car, CarDto.class);
 ```
 
-自定义的 `ConversionService` 不保证自动包含这些 Converter。目前 SJF4J 不会将嵌套的Compiled Mapping委托给 Spring `ConversionService`。
+自定义的 `ConversionService` 不保证自动包含这些 Converter。目前 SJF4J 不会将嵌套的 Compiled Mapping 委托给 Spring `ConversionService`。
 
 不依赖框架的映射 API 参阅 [Object Mapping](/docs/mapping)。
 
