@@ -8,7 +8,7 @@ translationSourceSha: "8c217730b400669a0e2ed5043159a1470403fe4b"
 
 SJF4J 可以直接通过 **JSON Schema** 校验 Java 对象，无需先序列化或构建中间 JSON 树。支持 **Draft 2020-12、2019-09 和 7**，同时提供灵活的 Runtime 校验和编译期生成的校验器。
 
-适用于 POJO、Map、List、SJF4J 节点及受支持的[ExternalNode模型](/docs/external-nodes)。
+适用于 POJO、Map、List、SJF4J 节点及受支持的[External Nodes](/docs/external-nodes)。
 
 ## 快速开始 {#getting-started}
 
