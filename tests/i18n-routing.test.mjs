@@ -22,7 +22,7 @@ test('locale links only switch for published translations', () => {
   assert.equal(localizedLink('/#explore-features', 'zh-CN'), '/zh/#explore-features')
   assert.equal(localizedLink('/?source=readme', 'zh-CN'), '/zh/?source=readme')
   assert.equal(localizedLink('/docs/binding', 'zh-CN'), '/zh/docs/binding')
-  assert.equal(localizedLink('/docs/benchmarks', 'zh-CN'), '/docs/benchmarks')
+  assert.equal(localizedLink('/docs/benchmarks', 'zh-CN'), '/zh/docs/benchmarks')
   assert.equal(localizedLink('/generator', 'zh-CN'), '/generator')
   assert.equal(localizedLink('/', 'en-US'), '/')
   assert.equal(localizedLink('/', 'fr-FR'), '/')
@@ -529,5 +529,33 @@ test('Spring Integration translation preserves examples and shared framework lin
     'spring-jdbc', 'http-json-and-yaml-spring-mvc', 'configuration-limitations']) {
     assert.ok(translation.includes('{#' + anchor + '}'),
       'Missing stable Spring Integration anchor: ' + anchor)
+  }
+})
+
+test('Benchmarks translation preserves all plotted numbers and display components', () => {
+  const english = '/docs/benchmarks'
+  const chinese = '/zh/docs/benchmarks'
+  assert.equal(localizedLink(english, 'zh-CN'), chinese)
+  assert.equal(switchLanguage(english + '#object-mapping', 'zh-CN'),
+    chinese + '#object-mapping')
+  assert.equal(switchLanguage(chinese + '#binding-on-graalvm-native-image', 'en-US'),
+    english + '#binding-on-graalvm-native-image')
+  assert.deepEqual(alternatePages(chinese),
+    { 'en-US': english, 'zh-CN': chinese })
+
+  const source = readFileSync('docs/benchmarks.md', 'utf8')
+  const translated = readFileSync('zh/docs/benchmarks.md', 'utf8')
+  const chartValues = page => [...page.matchAll(/speedup:\s*([\d.]+)/g)]
+    .map(match => Number(match[1]))
+  assert.deepEqual(chartValues(translated), chartValues(source))
+  assert.equal((translated.match(/<BenchmarkBars\b/g) || []).length, 8)
+  assert.ok(translated.includes('<BenchmarkHighlights />'))
+  assert.equal((translated.match(/<div class="benchmark-bars-pair">/g) || []).length, 2)
+  for (const anchor of ['performance-at-a-glance', 'data-binding-on-the-jvm',
+    'binding-on-graalvm-native-image', 'jsonpath-navigation',
+    'json-schema-validation', 'object-mapping', 'jdbc-result-mapping',
+    'independent-benchmarks']) {
+    assert.ok(translated.includes('{#' + anchor + '}'),
+      'Missing stable benchmark anchor: ' + anchor)
   }
 })
