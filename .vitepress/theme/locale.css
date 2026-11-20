@@ -6,3 +6,13 @@
 .VPNavScreenTranslations {
   display: none !important;
 }
+
+/* The language switcher uses nav-bar-content-after. Reorder the controls
+   so it appears immediately before Appearance, not after social links. */
+@media (min-width: 768px) {
+  .VPNavBar .content-body > .appearance,
+  .VPNavBar .content-body > .social-links,
+  .VPNavBar .content-body > .extra {
+    order: 1;
+  }
+}
