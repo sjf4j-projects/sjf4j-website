@@ -6,7 +6,7 @@ description: "Introduction to SJF4J and its capabilities."
 # Getting Started
 
 ![License](https://img.shields.io/github/license/sjf4j-projects/sjf4j)
-[![Maven Central](https://img.shields.io/maven-central/v/org.sjf4j/sjf4j)](https://central.sonatype.com/search?q=sjf4j)
+[![Maven Central](https://img.shields.io/maven-central/v/org.sjf4j/sjf4j-core)](https://central.sonatype.com/search?q=sjf4j)
 [![javadoc](https://javadoc.io/badge2/org.sjf4j/sjf4j-core/javadoc.svg)](https://javadoc.io/doc/org.sjf4j/sjf4j-core)
 ![Supported Dialects](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fjava-org.sjf4j-sjf4j%2Fsupported_versions.json)  
 ![Draft 2020-12](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fjava-org.sjf4j-sjf4j%2Fcompliance%2Fdraft2020-12.json)
@@ -54,7 +54,7 @@ dependencies {
 }
 ```
 
-Replace `{version}` with the latest [Maven Central release](https://central.sonatype.com/artifact/org.sjf4j/sjf4j).
+Replace `{version}` with the latest [![Maven Central](https://img.shields.io/maven-central/v/org.sjf4j/sjf4j)](https://central.sonatype.com/search?q=sjf4j).
 For Maven and other modules, see the [Installation](/docs/installation).
 
 **Start with an ordinary Java class:**
