@@ -22,7 +22,7 @@ test('locale links only switch for published translations', () => {
   assert.equal(localizedLink('/#explore-features', 'zh-CN'), '/zh/#explore-features')
   assert.equal(localizedLink('/?source=readme', 'zh-CN'), '/zh/?source=readme')
   assert.equal(localizedLink('/docs/binding', 'zh-CN'), '/zh/docs/binding')
-  assert.equal(localizedLink('/docs/benchmarks', 'zh-CN'), '/docs/benchmarks')
+  assert.equal(localizedLink('/docs/benchmarks', 'zh-CN'), '/zh/docs/benchmarks')
   assert.equal(localizedLink('/generator', 'zh-CN'), '/generator')
   assert.equal(localizedLink('/', 'en-US'), '/')
   assert.equal(localizedLink('/', 'fr-FR'), '/')
@@ -335,5 +335,256 @@ test('Navigating translation keeps code examples, stable anchors and published r
     'compilation-and-fallback', 'performance']) {
     assert.ok(translation.includes(`{#${section}}`),
       `Missing stable Navigating anchor: ${section}`)
+  }
+})
+
+test('Validating translation preserves JSON Schema examples and deep links', () => {
+  const english = '/docs/validating'
+  const chinese = '/zh/docs/validating'
+  assert.equal(localizedLink(english, 'zh-CN'), chinese)
+  assert.equal(switchLanguage(english + '#schema-references', 'zh-CN'),
+    chinese + '#schema-references')
+  assert.equal(switchLanguage(chinese + '#compilation-and-fallback', 'en-US'),
+    english + '#compilation-and-fallback')
+  assert.deepEqual(alternatePages(chinese), { 'en-US': english, 'zh-CN': chinese })
+
+  const source = readFileSync('docs/validating.md', 'utf8')
+  const translated = readFileSync('zh/docs/validating.md', 'utf8')
+  const codeBlocks = page => [...page.matchAll(/```[^\n]*\n[\s\S]*?\n```/g)]
+    .map(match => match[0])
+  assert.deepEqual(codeBlocks(translated), codeBlocks(source))
+  for (const anchor of ['getting-started', 'runtime-validation',
+    'errors-and-annotations', 'compiled-validation', 'compilation-and-fallback',
+    'schema-references', 'annotation-based-validation', 'compliance-and-performance']) {
+    assert.ok(translated.includes(`{#${anchor}}`),
+      `Missing stable Validating anchor: ${anchor}`)
+  }
+})
+
+test('Object Mapping translation preserves code and page routing', () => {
+  const original = '/docs/mapping'
+  const localized = '/zh/docs/mapping'
+  assert.equal(localizedLink(original, 'zh-CN'), localized)
+  assert.equal(switchLanguage(original + '#advanced-features', 'zh-CN'),
+    localized + '#advanced-features')
+  assert.equal(switchLanguage(localized + '#updating-objects', 'en-US'),
+    original + '#updating-objects')
+  assert.deepEqual(alternatePages(localized),
+    { 'en-US': original, 'zh-CN': localized })
+
+  const source = readFileSync('docs/mapping.md', 'utf8')
+  const translation = readFileSync('zh/docs/mapping.md', 'utf8')
+  const blocks = page => [...page.matchAll(/```[^\n]*\n[\s\S]*?\n```/g)]
+    .map(match => match[0])
+  assert.deepEqual(blocks(translation), blocks(source))
+  for (const anchor of ['runtime-mapping', 'compiled-mapping',
+    'automatic-and-explicit-mappings', 'structural-mapping',
+    'updating-objects', 'advanced-features', 'performance']) {
+    assert.ok(translation.includes(`{#${anchor}}`),
+      `Missing stable Object Mapping anchor: ${anchor}`)
+  }
+})
+
+test('JDBC Result Mapping translation preserves code and prepared mapper semantics', () => {
+  const english = '/docs/jdbc-mapping'
+  const chinese = '/zh/docs/jdbc-mapping'
+  assert.equal(localizedLink(english, 'zh-CN'), chinese)
+  assert.equal(switchLanguage(english + '#prepared-row-mapping', 'zh-CN'),
+    chinese + '#prepared-row-mapping')
+  assert.equal(switchLanguage(chinese + '#framework-integration', 'en-US'),
+    english + '#framework-integration')
+  assert.deepEqual(alternatePages(chinese), {
+    'en-US': english,
+    'zh-CN': chinese,
+  })
+
+  const source = readFileSync('docs/jdbc-mapping.md', 'utf8')
+  const translation = readFileSync('zh/docs/jdbc-mapping.md', 'utf8')
+  const blocks = value => [...value.matchAll(/```[^\n]*\n[\s\S]*?\n```/g)]
+    .map(match => match[0])
+  assert.deepEqual(blocks(translation), blocks(source))
+  for (const anchor of ['getting-started', 'prepared-row-mapping',
+    'column-mapping', 'framework-integration', 'performance']) {
+    assert.ok(translation.includes(`{#${anchor}}`),
+      `Missing stable JDBC Mapping anchor: ${anchor}`)
+  }
+  assert.ok(translation.includes('map(rs)'))
+  assert.ok(translation.includes('不持有 ResultSet'))
+})
+
+test('Patching translation keeps page switching, anchors, and all source examples', () => {
+  const english = '/docs/patching'
+  const chinese = '/zh/docs/patching'
+  assert.equal(localizedLink(english, 'zh-CN'), chinese)
+  assert.equal(switchLanguage(english + '#indexed-merge', 'zh-CN'),
+    chinese + '#indexed-merge')
+  assert.equal(switchLanguage(chinese + '#json-patch-rfc-6902', 'en-US'),
+    english + '#json-patch-rfc-6902')
+  assert.deepEqual(alternatePages(chinese),
+    { 'en-US': english, 'zh-CN': chinese })
+
+  const source = readFileSync('docs/patching.md', 'utf8')
+  const translation = readFileSync('zh/docs/patching.md', 'utf8')
+  const blocks = page => [...page.matchAll(/\x60{3}[^\n]*\n[\s\S]*?\n\x60{3}/g)]
+    .map(match => match[0])
+  assert.deepEqual(blocks(translation), blocks(source))
+  for (const anchor of ['json-patch-rfc-6902', 'applying-a-patch',
+    'generating-a-patch', 'operations', 'json-merge-patch-rfc-7386',
+    'indexed-merge', 'advanced-usage']) {
+    assert.ok(translation.includes('{#' + anchor + '}'),
+      'Missing stable Patching anchor: ' + anchor)
+  }
+})
+
+test('Backends translation retains runtime-vs-compiled rules, examples and routing', () => {
+  const english = '/docs/backends'
+  const chinese = '/zh/docs/backends'
+  assert.equal(localizedLink(english, 'zh-CN'), chinese)
+  assert.equal(switchLanguage(english + '#backend-selection', 'zh-CN'),
+    chinese + '#backend-selection')
+  assert.equal(switchLanguage(chinese + '#adding-a-backend', 'en-US'),
+    english + '#adding-a-backend')
+  assert.deepEqual(alternatePages(chinese),
+    { 'en-US': english, 'zh-CN': chinese })
+
+  const source = readFileSync('docs/backends.md', 'utf8')
+  const translation = readFileSync('zh/docs/backends.md', 'utf8')
+  const blocks = page => [...page.matchAll(/\x60{3}[^\n]*\n[\s\S]*?\n\x60{3}/g)]
+    .map(match => match[0])
+  assert.deepEqual(blocks(translation), blocks(source))
+  for (const anchor of ['supported-backends', 'backend-selection',
+    'custom-formats-and-streaming', 'example-gson', 'adding-a-backend',
+    'compiled-backend-support']) {
+    assert.ok(translation.includes('{#' + anchor + '}'),
+      'Missing stable Backends anchor: ' + anchor)
+  }
+})
+
+test('Value Codecs translation preserves examples and registry semantics', () => {
+  const english = '/docs/value-codecs'
+  const chinese = '/zh/docs/value-codecs'
+  assert.equal(localizedLink(english, 'zh-CN'), chinese)
+  assert.equal(switchLanguage(english + '#registration-via-spi', 'zh-CN'),
+    chinese + '#registration-via-spi')
+  assert.equal(switchLanguage(chinese + '#compiled-binding', 'en-US'),
+    english + '#compiled-binding')
+  assert.deepEqual(alternatePages(chinese),
+    { 'en-US': english, 'zh-CN': chinese })
+
+  const source = readFileSync('docs/value-codecs.md', 'utf8')
+  const translation = readFileSync('zh/docs/value-codecs.md', 'utf8')
+  const blocks = page => [...page.matchAll(/\x60{3}[^\n]*\n[\s\S]*?\n\x60{3}/g)]
+    .map(match => match[0])
+  assert.deepEqual(blocks(translation), blocks(source))
+  for (const anchor of ['valuecodec-interface', 'declare-a-codec-registry',
+    'named-formats', 'registration-via-spi', 'compiled-binding',
+    'raw-values-and-streaming']) {
+    assert.ok(translation.includes('{#' + anchor + '}'),
+      'Missing stable Value Codecs anchor: ' + anchor)
+  }
+})
+
+test('External Nodes translation preserves adapter examples and deep links', () => {
+  const english = '/docs/external-nodes'
+  const chinese = '/zh/docs/external-nodes'
+  assert.equal(localizedLink(english, 'zh-CN'), chinese)
+  assert.equal(switchLanguage(english + '#adding-a-custom-externalnode', 'zh-CN'),
+    chinese + '#adding-a-custom-externalnode')
+  assert.equal(switchLanguage(chinese + '#3-registration-via-spi', 'en-US'),
+    english + '#3-registration-via-spi')
+  assert.deepEqual(alternatePages(chinese),
+    { 'en-US': english, 'zh-CN': chinese })
+
+  const source = readFileSync('docs/external-nodes.md', 'utf8')
+  const translation = readFileSync('zh/docs/external-nodes.md', 'utf8')
+  const blocks = page => [...page.matchAll(/\x60{3}[^\n]*\n[\s\S]*?\n\x60{3}/g)]
+    .map(match => match[0])
+  assert.deepEqual(blocks(translation), blocks(source))
+  for (const anchor of ['supported-native-models', 'example-gson',
+    'adding-a-custom-externalnode', '1-implement-externalnode',
+    '2-provide-the-adapter', '3-registration-via-spi', '4-use-it']) {
+    assert.ok(translation.includes('{#' + anchor + '}'),
+      'Missing stable External Nodes anchor: ' + anchor)
+  }
+})
+
+test('Spring Integration translation preserves examples and shared framework links', () => {
+  const english = '/docs/spring-integration'
+  const chinese = '/zh/docs/spring-integration'
+  assert.equal(localizedLink(english, 'zh-CN'), chinese)
+  assert.equal(switchLanguage(english + '#spring-jdbc', 'zh-CN'),
+    chinese + '#spring-jdbc')
+  assert.equal(switchLanguage(chinese + '#spring-converter', 'en-US'),
+    english + '#spring-converter')
+  assert.deepEqual(alternatePages(chinese),
+    { 'en-US': english, 'zh-CN': chinese })
+
+  const source = readFileSync('docs/spring-integration.md', 'utf8')
+  const translation = readFileSync('zh/docs/spring-integration.md', 'utf8')
+  const blocks = value => [...value.matchAll(/\x60{3}[^\n]*\n[\s\S]*?\n\x60{3}/g)]
+    .map(match => match[0])
+  assert.deepEqual(blocks(translation), blocks(source))
+  for (const anchor of ['installation', 'spring-framework-without-boot',
+    'spring-boot', 'automatic-bean-registration', 'spring-converter',
+    'spring-jdbc', 'http-json-and-yaml-spring-mvc', 'configuration-limitations']) {
+    assert.ok(translation.includes('{#' + anchor + '}'),
+      'Missing stable Spring Integration anchor: ' + anchor)
+  }
+})
+
+test('Benchmarks translation preserves all plotted numbers and display components', () => {
+  const english = '/docs/benchmarks'
+  const chinese = '/zh/docs/benchmarks'
+  assert.equal(localizedLink(english, 'zh-CN'), chinese)
+  assert.equal(switchLanguage(english + '#object-mapping', 'zh-CN'),
+    chinese + '#object-mapping')
+  assert.equal(switchLanguage(chinese + '#binding-on-graalvm-native-image', 'en-US'),
+    english + '#binding-on-graalvm-native-image')
+  assert.deepEqual(alternatePages(chinese),
+    { 'en-US': english, 'zh-CN': chinese })
+
+  const source = readFileSync('docs/benchmarks.md', 'utf8')
+  const translated = readFileSync('zh/docs/benchmarks.md', 'utf8')
+  const chartValues = page => [...page.matchAll(/speedup:\s*([\d.]+)/g)]
+    .map(match => Number(match[1]))
+  assert.deepEqual(chartValues(translated), chartValues(source))
+  assert.equal((translated.match(/<BenchmarkBars\b/g) || []).length, 8)
+  assert.ok(translated.includes('<BenchmarkHighlights />'))
+  assert.equal((translated.match(/<div class="benchmark-bars-pair">/g) || []).length, 2)
+  for (const anchor of ['performance-at-a-glance', 'data-binding-on-the-jvm',
+    'binding-on-graalvm-native-image', 'jsonpath-navigation',
+    'json-schema-validation', 'object-mapping', 'jdbc-result-mapping',
+    'independent-benchmarks']) {
+    assert.ok(translated.includes('{#' + anchor + '}'),
+      'Missing stable benchmark anchor: ' + anchor)
+  }
+})
+
+test('FAQ translation preserves all questions, page switching, and stable question links', () => {
+  const english = '/docs/faq'
+  const chinese = '/zh/docs/faq'
+  assert.equal(localizedLink(english, 'zh-CN'), chinese)
+  assert.equal(switchLanguage(english + '#working-with-java-objects', 'zh-CN'),
+    chinese + '#working-with-java-objects')
+  assert.equal(switchLanguage(chinese + '#does-sjf4j-support-graalvm-native-image', 'en-US'),
+    english + '#does-sjf4j-support-graalvm-native-image')
+  assert.deepEqual(alternatePages(chinese),
+    { 'en-US': english, 'zh-CN': chinese })
+
+  const source = readFileSync('docs/faq.md', 'utf8')
+  const translated = readFileSync('zh/docs/faq.md', 'utf8')
+  const sourceQuestions = source.match(/^### /gm) || []
+  const translatedQuestions = translated.match(/^### /gm) || []
+  assert.equal(translatedQuestions.length, sourceQuestions.length)
+  assert.equal((translated.match(/^## /gm) || []).length,
+    (source.match(/^## /gm) || []).length)
+  assert.equal((translated.match(/^### .+?\{#[^}]+\}$/gm) || []).length,
+    sourceQuestions.length)
+  for (const anchor of ['getting-started', 'working-with-java-objects',
+    'runtime-and-compiled-apis', 'standards-performance-and-compatibility',
+    'can-sjf4j-map-jdbc-results-without-an-orm',
+    'does-sjf4j-support-graalvm-native-image']) {
+    assert.ok(translated.includes('{#' + anchor + '}'),
+      'Missing stable FAQ anchor: ' + anchor)
   }
 })
