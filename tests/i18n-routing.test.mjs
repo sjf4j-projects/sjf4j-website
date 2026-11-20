@@ -229,3 +229,31 @@ test('Installation translation supports navigation, deep links, and freshness tr
   ])
   assert.match(source, /^# Installation$/m)
 })
+
+test('Modeling translation is registered with stable sections and unchanged examples', () => {
+  const original = '/docs/modeling'
+  const localized = '/zh/docs/modeling'
+  assert.equal(localizedLink(original, 'zh-CN'), localized)
+  assert.equal(switchLanguage(original + '#three-kinds-of-nodes', 'zh-CN'),
+    localized + '#three-kinds-of-nodes')
+  assert.equal(switchLanguage(localized + '#custom-value-types', 'en-US'),
+    original + '#custom-value-types')
+  assert.deepEqual(alternatePages(localized), {
+    'en-US': original,
+    'zh-CN': localized,
+  })
+
+  const english = readFileSync('docs/modeling.md', 'utf8')
+  const chinese = readFileSync('zh/docs/modeling.md', 'utf8')
+  const codeBlocks = page => [...page.matchAll(/```[^\n]*\n[\s\S]*?\n```/g)]
+    .map(match => match[0])
+  assert.deepEqual(codeBlocks(chinese), codeBlocks(english))
+
+  const anchors = [...chinese.matchAll(/^#{1,3} .+?\{#([^}]+)\}$/gm)]
+    .map(match => match[1])
+  for (const anchor of ['understanding-obnt', 'three-kinds-of-nodes',
+    'json-semantics-vs-java-representations', 'object-nodes', 'array-nodes',
+    'value-nodes', 'working-with-nodes', 'custom-value-types', 'beyond-modeling']) {
+    assert.ok(anchors.includes(anchor), `Missing stable Modeling anchor: ${anchor}`)
+  }
+})
