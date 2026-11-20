@@ -71,6 +71,19 @@ function closeMenu() {
   cursor: pointer;
 }
 
+/* The divider belongs to the switcher itself, not a fragile navbar sibling selector. */
+@media (min-width: 768px) {
+  .locale-switcher summary::before {
+    content: '';
+    display: block;
+    flex: 0 0 1px;
+    height: 24px;
+    margin-left: -8px;
+    margin-right: 8px;
+    background: var(--vp-c-divider);
+  }
+}
+
 .locale-switcher summary::-webkit-details-marker { display: none; }
 .locale-switcher summary:hover { color: var(--vp-c-brand-1); }
 .locale-switcher summary:focus-visible,
