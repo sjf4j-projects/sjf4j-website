@@ -360,3 +360,27 @@ test('Validating translation preserves JSON Schema examples and deep links', () 
       `Missing stable Validating anchor: ${anchor}`)
   }
 })
+
+test('Object Mapping translation preserves code and page routing', () => {
+  const original = '/docs/mapping'
+  const localized = '/zh/docs/mapping'
+  assert.equal(localizedLink(original, 'zh-CN'), localized)
+  assert.equal(switchLanguage(original + '#advanced-features', 'zh-CN'),
+    localized + '#advanced-features')
+  assert.equal(switchLanguage(localized + '#updating-objects', 'en-US'),
+    original + '#updating-objects')
+  assert.deepEqual(alternatePages(localized),
+    { 'en-US': original, 'zh-CN': localized })
+
+  const source = readFileSync('docs/mapping.md', 'utf8')
+  const translation = readFileSync('zh/docs/mapping.md', 'utf8')
+  const blocks = page => [...page.matchAll(/```[^\n]*\n[\s\S]*?\n```/g)]
+    .map(match => match[0])
+  assert.deepEqual(blocks(translation), blocks(source))
+  for (const anchor of ['runtime-mapping', 'compiled-mapping',
+    'automatic-and-explicit-mappings', 'structural-mapping',
+    'updating-objects', 'advanced-features', 'performance']) {
+    assert.ok(translation.includes(`{#${anchor}}`),
+      `Missing stable Object Mapping anchor: ${anchor}`)
+  }
+})
