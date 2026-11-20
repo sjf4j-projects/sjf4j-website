@@ -1,3 +1,4 @@
+import { createSidebar } from './navigation'
 import { localizedLink } from '../i18n/routes'
 
 // Until Chinese docs exist, navigation links intentionally target English pages.
@@ -18,6 +19,7 @@ export const zhLocale = {
       { text: '性能测试', link: localizedLink('/docs/benchmarks', 'zh-CN') },
       { text: '代码生成器', link: localizedLink('/generator', 'zh-CN') },
     ],
+    sidebar: { '/zh/docs/': createSidebar('zh-CN') },
     langMenuLabel: '选择语言',
     darkModeSwitchLabel: '外观',
     lightModeSwitchTitle: '切换到浅色模式',
