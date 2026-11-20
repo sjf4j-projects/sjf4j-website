@@ -9,7 +9,7 @@ export const translatedPages: Readonly<Record<string, readonly string[]>> = {
   'zh-CN': ['/']
 }
 
-const localePrefixes: Readonly<Record<string, string>> = {
+export const localePrefixes: Readonly<Record<string, string>> = {
   'en-US': '',
   'zh-CN': '/zh'
 }
