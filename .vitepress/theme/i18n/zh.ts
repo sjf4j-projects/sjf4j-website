@@ -19,7 +19,7 @@ export const zh: SiteMessages = {
       tagline: '统一的结构化数据处理层',
       taglineAccent: '基于 JSON 语义构建。',
       getStarted: '快速开始',
-      benchmarks: '性能测试',
+      benchmarks: '性能基准',
       badgeLabel: '项目状态与规范符合性徽章',
       featuresLabel: '核心优势',
       panels: [
@@ -57,7 +57,7 @@ export const zh: SiteMessages = {
         },
         {
           id: 'compiled',
-          title: 'Runtime Flexibility, Compiled Speed',
+          title: '运行时灵活，编译式高效',
           description: [
             '兼具灵活的 Runtime API 与高性能的 Compiled API。了解',
             { text: '功能', href: '/#explore-features' },
@@ -98,7 +98,7 @@ export const zh: SiteMessages = {
           name: '数据校验',
           description: [
             '使用 ', { text: 'JSON Schema', href: 'https://json-schema.org/' },
-            ' 直接校验 Java 对象，支持 2020-12、2019-09 和 draft-07。'
+            ' 直接校验 Java 对象，支持 Draft 2020-12、2019-09 和 7。'
           ]
         },
         'object-mapping': {
