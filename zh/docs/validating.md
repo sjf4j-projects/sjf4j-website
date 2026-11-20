@@ -8,7 +8,7 @@ translationSourceSha: "8c217730b400669a0e2ed5043159a1470403fe4b"
 
 SJF4J 可以直接通过 **JSON Schema** 校验 Java 对象，无需先序列化或构建中间 JSON 树。支持 **Draft 2020-12、2019-09 和 7**，同时提供灵活的 Runtime 校验和编译期生成的校验器。
 
-适用于 POJO、Map、List、SJF4J 节点及受支持的[外部节点模型](/docs/external-nodes)。
+适用于 POJO、Map、List、SJF4J 节点及受支持的[ExternalNode模型](/docs/external-nodes)。
 
 ## 快速开始 {#getting-started}
 
@@ -39,7 +39,7 @@ class User {
 
 Runtime 校验需要 `sjf4j-schema`；Compiled 校验还需要将 `sjf4j-processor` 加入注解处理器路径。Gradle 和 Maven 配置参阅[安装指南](/docs/installation)。
 
-## 运行时校验 {#runtime-validation}
+## Runtime Validation {#runtime-validation}
 
 解析一次 JSON Schema，创建可复用的 `SchemaPlan`，直接校验 Java 对象。这里的 `schemaJson` 包含上面的 JSON Schema：
 
@@ -93,7 +93,7 @@ annotated.getAnnotations(); // title, description, default, examples, etc.
 
 注解收集是可选的。默认情况下，`SchemaPlan` 将 `format` 视为注解而非断言；启用 `strictFormat` 后会校验受支持的格式。
 
-## 编译式校验 {#compiled-validation}
+## Compiled Validation {#compiled-validation}
 
 `@CompiledValidator` 在注解处理阶段生成 Java 校验代码。它使用与 Runtime 校验相同的 Schema 和 Java 模型：
 
