@@ -34,7 +34,7 @@ function closeMenu() {
 
   <details v-else ref="details" class="locale-switcher" @keydown.esc="closeMenu">
     <summary :aria-label="theme.langMenuLabel || 'Change language'">
-      <span aria-hidden="true" class="lang-icon">文</span>
+      <span aria-hidden="true" class="vpi-languages lang-icon"></span>
       <span class="lang-label">{{ current?.label }}</span>
       <span aria-hidden="true" class="chevron">⌄</span>
     </summary>
@@ -76,7 +76,10 @@ function closeMenu() {
 .locale-switcher summary:focus-visible,
 .locale-options a:focus-visible { outline: 2px solid var(--vp-c-brand-1); outline-offset: 2px; }
 
-.lang-icon { font-size: 15px; font-weight: 600; }
+.lang-icon { font-size: 16px; }
+@media (min-width: 768px) and (max-width: 1279px) {
+  .lang-label { display: none; }
+}
 .lang-label { font-weight: 500; }
 .chevron { color: var(--vp-c-text-3); font-size: 18px; }
 
