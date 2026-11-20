@@ -559,3 +559,32 @@ test('Benchmarks translation preserves all plotted numbers and display component
       'Missing stable benchmark anchor: ' + anchor)
   }
 })
+
+test('FAQ translation preserves all questions, page switching, and stable question links', () => {
+  const english = '/docs/faq'
+  const chinese = '/zh/docs/faq'
+  assert.equal(localizedLink(english, 'zh-CN'), chinese)
+  assert.equal(switchLanguage(english + '#working-with-java-objects', 'zh-CN'),
+    chinese + '#working-with-java-objects')
+  assert.equal(switchLanguage(chinese + '#does-sjf4j-support-graalvm-native-image', 'en-US'),
+    english + '#does-sjf4j-support-graalvm-native-image')
+  assert.deepEqual(alternatePages(chinese),
+    { 'en-US': english, 'zh-CN': chinese })
+
+  const source = readFileSync('docs/faq.md', 'utf8')
+  const translated = readFileSync('zh/docs/faq.md', 'utf8')
+  const sourceQuestions = source.match(/^### /gm) || []
+  const translatedQuestions = translated.match(/^### /gm) || []
+  assert.equal(translatedQuestions.length, sourceQuestions.length)
+  assert.equal((translated.match(/^## /gm) || []).length,
+    (source.match(/^## /gm) || []).length)
+  assert.equal((translated.match(/^### .+?\{#[^}]+\}$/gm) || []).length,
+    sourceQuestions.length)
+  for (const anchor of ['getting-started', 'working-with-java-objects',
+    'runtime-and-compiled-apis', 'standards-performance-and-compatibility',
+    'can-sjf4j-map-jdbc-results-without-an-orm',
+    'does-sjf4j-support-graalvm-native-image']) {
+    assert.ok(translated.includes('{#' + anchor + '}'),
+      'Missing stable FAQ anchor: ' + anchor)
+  }
+})
