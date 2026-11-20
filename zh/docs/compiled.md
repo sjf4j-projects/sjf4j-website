@@ -80,7 +80,7 @@ String city = UserNavigator.INSTANCE.getCity(user);
 
 打开 `UserNavigator_Impl.java` 即可检查实际生成代码。它是普通 Java 源码，可以直接用 IDE 调试。
 
-## Runtime 与 Compiled 的区别 {#runtime-vs-compiled}
+## Runtime API 与 Compiled API {#runtime-vs-compiled}
 
 根据操作在执行前能够确定多少信息来选择 API：
 
