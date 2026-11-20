@@ -1,6 +1,6 @@
 ---
 title: "Spring 集成"
-description: "通过自动 Bean 注册，在 Spring Framework 和 Spring Boot 中使用 SJF4J 编译式 API。"
+description: "通过自动 Bean 注册，在 Spring Framework 和 Spring Boot 中使用 SJF4J Compiled API。"
 translationSourceSha: "f774d79d1b11b10632e7a4ddd2ab5a06597c81ab"
 ---
 
@@ -93,7 +93,7 @@ public class UserService {
 }
 ```
 
-所有五类编译式 API 都支持这种方式：
+所有五类Compiled API 都支持这种方式：
 
 | 注解 | Spring 管理的功能 |
 | --- | --- |
@@ -109,7 +109,7 @@ public class UserService {
 
 ## Spring Converter {#spring-converter}
 
-编译式 Mapper 可以实现 Spring 标准的 `Converter<S, T>` 接口：
+Compiled Mapper 可以实现 Spring 标准的 `Converter<S, T>` 接口：
 
 ```java
 @CompiledMapper
@@ -132,7 +132,7 @@ private ConversionService conversionService;
 CarDto dto = conversionService.convert(car, CarDto.class);
 ```
 
-自定义的 `ConversionService` 不保证自动包含这些 Converter。目前 SJF4J 不会将嵌套的编译式映射委托给 Spring `ConversionService`。
+自定义的 `ConversionService` 不保证自动包含这些 Converter。目前 SJF4J 不会将嵌套的Compiled Mapping委托给 Spring `ConversionService`。
 
 不依赖框架的映射 API 参阅 [Object Mapping](/docs/mapping)。
 
