@@ -1,14 +1,14 @@
 ---
 title: "Spring 集成"
 description: "通过自动 Bean 注册，在 Spring Framework 和 Spring Boot 中使用 SJF4J Compiled API。"
-translationSourceSha: "f774d79d1b11b10632e7a4ddd2ab5a06597c81ab"
+translationSourceSha: "95ef47538c027c97fa3200d11b2847b331e6017f"
 ---
 
 # Spring 集成 {#spring-integration}
 
 SJF4J 可以将生成的接口注册为普通 Spring Bean。在 **Spring Framework** 中，通过 `@EnableSjf4j` 启用一次；在 **Spring Boot** 中，Starter 会自动启用相同的集成。不需要为生成类添加 Spring 注解，也不必手动调用 `CompiledInstances.create()`。
 
-要求 **Spring Framework 6.2+（Java 17+）** 或 **Spring Boot 3.x（Java 17+）**。不依赖 Spring 的 SJF4J Core 仍支持 Java 8+。
+自动集成要求 **Spring Framework 6.2+（Java 17+）** 或 **Spring Boot 3.x（Java 17+）**。不依赖 Spring 的 SJF4J Core 仍支持 Java 8+。
 
 ## 安装 {#installation}
 
@@ -106,6 +106,25 @@ public class UserService {
 注解处理器在编译期生成 `_Impl` 类以及 `META-INF/sjf4j/compiled.interfaces`。应用启动时，Spring 集成会读取类路径上的这些索引（包括依赖 JAR 中的索引），注册为**延迟初始化的单例 Bean**。如果显式定义了相同接口的 Bean，则显式定义优先，即使它是 prototype Bean。
 
 不需要扫描生成类所在的包，也不需要在生成类上添加 Spring 注解。
+
+## 自定义集成 {#custom-integration}
+
+如果使用不同版本的 Spring，或希望自行控制 Bean 注册，可以不依赖 `sjf4j-spring` 和 `sjf4j-spring-boot-starter`。使用应用自己的 Spring 依赖、`sjf4j-core`、注解处理器及所需的 SJF4J 模块即可。
+
+将 Compiled API 接口显式注册为 Spring Bean：
+
+```java
+@Configuration
+public class MySjf4jConfig {
+
+    @Bean
+    public UserMapper userMapper() {
+        return CompiledInstances.create(UserMapper.class);
+    }
+}
+```
+
+如果需要自定义自动注册机制，可以读取类路径上的 `META-INF/sjf4j/compiled.interfaces`，将索引中的接口注册为 Bean。参考 [CompiledBeanDefinitionRegistrar.java](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-spring/src/main/java/org/sjf4j/spring/CompiledBeanDefinitionRegistrar.java)，并根据自己的 Spring 版本进行适配。
 
 ## Spring Converter {#spring-converter}
 
