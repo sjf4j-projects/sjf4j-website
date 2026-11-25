@@ -1,7 +1,7 @@
 ---
 title: "Spring 集成"
 description: "通过自动 Bean 注册，在 Spring Framework 和 Spring Boot 中使用 SJF4J Compiled API。"
-translationSourceSha: "95ef47538c027c97fa3200d11b2847b331e6017f"
+translationSourceSha: "960403d0d468831c5a14ec31e9e3a7446a9b4c11"
 ---
 
 # Spring 集成 {#spring-integration}
@@ -193,7 +193,7 @@ public class UserRepository {
 
 在 Spring MVC 中，可以通过自定义 `HttpMessageConverter` 使用 SJF4J 处理 JSON/YAML 请求体和响应体。Spring Boot 可直接注册为 Bean；纯 Spring MVC 则通过 `WebMvcConfigurer.extendMessageConverters()` 添加。
 
-参阅可运行的 [MyHttpMessageConverter](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-spring/src/test/java/org/sjf4j/spring/example/MyHttpMessageConverter.java) 和对应[测试](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-spring/src/test/java/org/sjf4j/spring/example/MyHttpMessageConverterTest.java)。YAML 需要 [SnakeYAML 后端](/docs/installation#backends)。
+参阅可运行的 [Sjf4jHttpMessageConverter](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-spring/src/test/java/org/sjf4j/spring/example/Sjf4jHttpMessageConverter.java) 和对应[测试](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-spring/src/test/java/org/sjf4j/spring/example/Sjf4jHttpMessageConverterTest.java)。YAML 需要 [SnakeYAML 后端](/docs/installation#backends)。
 
 **注意：** SJF4J 有独立的数据绑定语义，未必与 Jackson 完全兼容。参阅 [Binding](/docs/binding)。
 
