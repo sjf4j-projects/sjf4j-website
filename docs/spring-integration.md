@@ -192,7 +192,7 @@ For prepared row mapping with reusable column indexes, see [JDBC Result Mapping]
 
 Use SJF4J for Spring MVC JSON/YAML request and response bodies with a custom `HttpMessageConverter`. Spring Boot registers it as a Bean; plain Spring MVC uses `WebMvcConfigurer.extendMessageConverters()`.
 
-See [MyHttpMessageConverter](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-spring/src/test/java/org/sjf4j/spring/example/MyHttpMessageConverter.java) and its [tests](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-spring/src/test/java/org/sjf4j/spring/example/MyHttpMessageConverterTest.java). YAML requires the [SnakeYAML backend](/docs/installation#backends).
+See [Sjf4jHttpMessageConverter](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-spring/src/test/java/org/sjf4j/spring/example/Sjf4jHttpMessageConverter.java) and its [tests](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-spring/src/test/java/org/sjf4j/spring/example/Sjf4jHttpMessageConverterTest.java). YAML requires the [SnakeYAML backend](/docs/installation#backends).
 
 **Note:** SJF4J has its own binding semantics and may not be fully compatible with Jackson. See [Binding](/docs/binding).
 
