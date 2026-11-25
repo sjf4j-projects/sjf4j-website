@@ -7,7 +7,7 @@ description: "Integrate compiled SJF4J APIs with Spring Framework or Spring Boot
 
 SJF4J registers its generated interfaces as ordinary Spring Beans. With **Spring Framework**, enable registration once using `@EnableSjf4j`. With **Spring Boot**, the starter enables the same integration automatically. No annotations on the generated implementations or manual `CompiledInstances.create()` calls are needed.
 
-Requires **Spring Framework 6.2+ (Java 17+)** or **Spring Boot 3.x (Java 17+)**. The framework-independent SJF4J core still supports Java 8+.
+The automatic integrations require **Spring Framework 6.2+ (Java 17+)** or **Spring Boot 3.x (Java 17+)**. The framework-independent SJF4J core still supports Java 8+.
 
 ## Installation
 
@@ -106,6 +106,24 @@ At compilation, the annotation processor generates `_Impl` classes and `META-INF
 
 No package scanning or Spring annotations on generated classes are required.
 
+## Custom Integration
+
+If you use a different Spring version or prefer full control over Bean registration, you can integrate SJF4J without `sjf4j-spring` or `sjf4j-spring-boot-starter`. Use your application's own Spring dependencies, `sjf4j-core`, the annotation processor, and any required SJF4J modules.
+
+Register compiled interfaces explicitly as Spring Beans:
+
+```java
+@Configuration
+public class MySjf4jConfig {
+
+    @Bean
+    public UserMapper userMapper() {
+        return CompiledInstances.create(UserMapper.class);
+    }
+}
+```
+
+For custom automatic registration, read `META-INF/sjf4j/compiled.interfaces` from the classpath and register the indexed interfaces as Beans. Use [CompiledBeanDefinitionRegistrar.java](https://github.com/sjf4j-projects/sjf4j/blob/main/sjf4j-spring/src/main/java/org/sjf4j/spring/CompiledBeanDefinitionRegistrar.java) as a reference and adapt it to your Spring version.
 
 ## Spring Converter
 
