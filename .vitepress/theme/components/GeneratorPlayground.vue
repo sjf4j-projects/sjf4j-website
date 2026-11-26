@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
+import '../generator.css'
 import Prism from 'prismjs'
 import 'prismjs/components/prism-clike'
 import 'prismjs/components/prism-java'
