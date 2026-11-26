@@ -10,4 +10,8 @@ outline: false
 pageClass: generator-page
 ---
 
+<script setup>
+import GeneratorPlayground from './.vitepress/theme/components/GeneratorPlayground.vue'
+</script>
+
 <GeneratorPlayground />

@@ -1,5 +1,6 @@
 import { defineConfig } from 'vitepress'
-import { withMermaid } from 'vitepress-plugin-mermaid'
+import { installMermaidFences } from './mermaid/markdown'
+import { checkHomepageChunks } from './performance/homepage-chunks'
 import { enLocale } from './locales/en'
 import { zhLocale, zhSearchTranslations } from './locales/zh'
 import { alternatePages } from './i18n/routes'
@@ -15,7 +16,7 @@ function pagePath(relativePath: string): string {
   return '/' + relativePath.replace(/\.md$/, '')
 }
 
-export default withMermaid(defineConfig({
+export default defineConfig({
   title: 'SJF4J',
   description: DEFAULT_DESCRIPTION,
   lang: 'en-US',
@@ -104,7 +105,27 @@ export default withMermaid(defineConfig({
       light: 'github-light-high-contrast',
       dark: 'github-dark-high-contrast',
     },
-    config: installLocalizedMarkdownLinks,
+    config(md) {
+      installLocalizedMarkdownLinks(md)
+      installMermaidFences(md)
+    },
+  },
+
+  vite: {
+    plugins: [checkHomepageChunks()],
+    // Keep Mermaid's existing Vite interop settings without the plugin's
+    // global component import. These dependencies are only used by diagrams.
+    optimizeDeps: {
+      include: ['@braintree/sanitize-url', 'dayjs', 'debug', 'cytoscape-cose-bilkent', 'cytoscape'],
+    },
+    resolve: {
+      alias: {
+        'dayjs/plugin/advancedFormat.js': 'dayjs/esm/plugin/advancedFormat',
+        'dayjs/plugin/customParseFormat.js': 'dayjs/esm/plugin/customParseFormat',
+        'dayjs/plugin/isoWeek.js': 'dayjs/esm/plugin/isoWeek',
+        'cytoscape/dist/cytoscape.umd.js': 'cytoscape/dist/cytoscape.esm.js',
+      },
+    },
   },
 
   themeConfig: {
@@ -119,4 +140,4 @@ export default withMermaid(defineConfig({
     },
     outline: { level: [2, 3] },
   },
-}))
+})
