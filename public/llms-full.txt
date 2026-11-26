@@ -21,23 +21,25 @@ Runtime APIs prioritize flexibility. Compile-time APIs generate specialized Java
 
 Use this summary to choose an SJF4J capability, then read the relevant guide for conceptual behavior and constraints. For exact methods, parameters, and return values, follow the guide's API Reference links to the matching Javadoc.
 
-- Core API Javadoc (latest published): https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/
-- JSON Schema Javadoc (latest published): https://javadoc.io/doc/org.sjf4j/sjf4j-schema/latest/
+- [Core API Javadoc (latest published)](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/)
+- [JSON Schema Javadoc (latest published)](https://javadoc.io/doc/org.sjf4j/sjf4j-schema/latest/)
 
 The guides may include changes ahead of the latest published release; match Javadoc to your dependency version. Guide snippets emphasize concepts and may omit imports or boilerplate.
 
 ## Official resources
 
-- Overview and installation: https://sjf4j.org/docs/getting-started
-- Modeling: https://sjf4j.org/docs/modeling
-- All compiled APIs: https://sjf4j.org/docs/compiled
-- Binding: https://sjf4j.org/docs/binding
-- Navigating: https://sjf4j.org/docs/navigating
-- Validating: https://sjf4j.org/docs/validating
-- Object mapping: https://sjf4j.org/docs/mapping
-- JDBC result mapping: https://sjf4j.org/docs/jdbc-mapping
-- Spring Integration: https://sjf4j.org/docs/spring-integration
-- Patching: https://sjf4j.org/docs/patching
-- Benchmarks and methodology: https://sjf4j.org/docs/benchmarks
-- Source code and release notes: https://github.com/sjf4j-projects/sjf4j
-
+- [Getting Started](https://sjf4j.org/docs/getting-started)
+- [Installation](https://sjf4j.org/docs/installation)
+- [Modeling](https://sjf4j.org/docs/modeling)
+- [All compiled APIs](https://sjf4j.org/docs/compiled)
+- [Binding](https://sjf4j.org/docs/binding)
+- [Navigating](https://sjf4j.org/docs/navigating)
+- [Validating](https://sjf4j.org/docs/validating)
+- [Object mapping](https://sjf4j.org/docs/mapping)
+- [JDBC result mapping](https://sjf4j.org/docs/jdbc-mapping)
+- [Spring Integration](https://sjf4j.org/docs/spring-integration)
+- [Patching](https://sjf4j.org/docs/patching)
+- [Benchmarks and methodology](https://sjf4j.org/docs/benchmarks)
+- [Source code and release notes](https://github.com/sjf4j-projects/sjf4j)
+- [Value codecs](https://sjf4j.org/docs/value-codecs)
+- [Documentation index](https://sjf4j.org/llms.txt)
