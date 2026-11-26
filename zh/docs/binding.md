@@ -1,7 +1,7 @@
 ---
 title: "数据绑定"
 description: "通过运行时或 Compiled API 读写 JSON、YAML 和 Java Properties，使用多种后端并扩展 Java 对象绑定能力。"
-translationSourceSha: "d1912cc1799435b00078b5ea64c3d486ac114021"
+translationSourceSha: "a2dc2d4eadfc604a2af52ba97fd59dbb0c5f2f80"
 ---
 
 # 数据绑定 {#binding}
@@ -87,6 +87,8 @@ byte[] output = binder.writeBytes(user);
 - `@CompiledBinder(format = Format.YAML, backend = Backend.SNAKE)` 使用 SnakeYAML 处理 YAML。
 
 默认的 `Backend.AUTO` 在**编译期**选择可用后端，可能与运行时提供者的选择不同。Compiled Binding 支持 **JSON 和 YAML**；Java Properties 仅支持 Runtime Binding。
+
+使用 `@CompiledBinder(includeNulls = false)` 设置默认忽略值为 null 的 Object 成员。单个方法可通过显式指定 `@Write(includeNulls = true)` 或 `@Write(includeNulls = false)` 覆盖这一策略。根节点的 null 值和 Array 中的 null 元素始终写出。
 
 注解处理器配置与生成源码位置参阅 [Installation](/docs/installation) 和 [Compiled APIs](/docs/compiled)。
 
@@ -240,14 +242,14 @@ SJF4J 只识别有限范围的第三方注解：
 
 其他注解（例如 `@JsonIgnore`、`@JsonInclude`、`@JsonTypeInfo`）、`ObjectMapper` 模块及自定义 Jackson 序列化器不会被应用。替换已有 Mapper 之前，需要检查属性命名、null 处理、多态、值格式以及序列化往返结果。
 
-对于后端指定为 `Backend.JACKSON2` 的 **Compiled Binding**，创建实现时需要显式传入已经配置的后端 Binder：
+要定制 **Compiled Binding** 的原生 Parser 和 Generator 配置，可在创建实现时传入与所选后端匹配的 Binder。例如，使用 `Backend.JACKSON2` 时：
 
 ```java
 UserBinder binder = CompiledInstances.create(
     UserBinder.class, sjf4j.jsonBinder());
 ```
 
-生成 Binder 的后端必须与传入的 Binder 匹配。只调用 `CompiledInstances.create(UserBinder.class)` 不会继承 `Sjf4j` 实例的配置。
+原生 Parser 和 Generator 的配置来自传入的后端。Compiled Binding 的绑定策略由注解在编译期确定。
 
 ## 性能 {#performance}
 

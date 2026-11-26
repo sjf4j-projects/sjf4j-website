@@ -1,7 +1,7 @@
 ---
 title: "Spring 集成"
 description: "通过自动 Bean 注册，在 Spring Framework 和 Spring Boot 中使用 SJF4J Compiled API。"
-translationSourceSha: "960403d0d468831c5a14ec31e9e3a7446a9b4c11"
+translationSourceSha: "0a755b6509bd174cacf860ba246100b58ca0c759"
 ---
 
 # Spring 集成 {#spring-integration}
@@ -198,19 +198,6 @@ public class UserRepository {
 **注意：** SJF4J 有独立的数据绑定语义，未必与 Jackson 完全兼容。参阅 [Binding](/docs/binding)。
 
 ## 配置与限制 {#configuration-limitations}
-
-存在 Spring 管理的 `NodeConfig` Bean 时，生成的实例会使用它；否则使用 `NodeConfig.DEFAULT`。
-
-```java
-@Configuration
-class Sjf4jConfig {
-
-    @Bean
-    NodeConfig nodeConfig() {
-        return new NodeConfig(false); // Exclude null-valued members
-    }
-}
-```
 
 两种集成都支持常规 Spring 注入、`ObjectProvider`、集合注入及 Bean 后置处理。
 

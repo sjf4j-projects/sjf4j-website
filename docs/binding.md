@@ -87,6 +87,8 @@ The format and backend are fixed for each compiled binder interface:
 
 The default `Backend.AUTO` resolves a usable backend at **compile time**, which can differ from runtime provider selection. Compiled Binding supports **JSON and YAML**; Java Properties binding is runtime-only.
 
+Use `@CompiledBinder(includeNulls = false)` to omit null-valued object members by default. An explicit `@Write(includeNulls = true)` or `@Write(includeNulls = false)` overrides this policy for an individual method. Root nulls and null array elements are always written.
+
 For annotation processor setup and generated source locations, see [Installation](/docs/installation) and [Compiled APIs](/docs/compiled).
 
 ## Object Binding
@@ -238,14 +240,14 @@ SJF4J recognizes a limited set of third-party annotations:
 
 Other annotations (such as `@JsonIgnore`, `@JsonInclude`, `@JsonTypeInfo`), `ObjectMapper` modules, and custom Jackson serializers are not applied. Before replacing an existing mapper, check property names, null handling, polymorphism, value formats, and round-trip results.
 
-For **Compiled Binding**, explicitly pass the configured backend binder when creating an implementation whose `@CompiledBinder` backend is `Backend.JACKSON2`:
+To customize native parser and generator settings in **Compiled Binding**, pass the matching backend binder when creating the implementation. For example, with `Backend.JACKSON2`:
 
 ```java
 UserBinder binder = CompiledInstances.create(
     UserBinder.class, sjf4j.jsonBinder());
 ```
 
-The generated binder's backend must match the supplied binder; creating it with `CompiledInstances.create(UserBinder.class)` does not inherit the `Sjf4j` instance's configuration.
+Native parser and generator settings come from the supplied backend. Compiled binding policies are defined by the binding annotations at compile time.
 
 ## Performance
 
