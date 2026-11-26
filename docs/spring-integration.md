@@ -198,19 +198,6 @@ See [Sjf4jHttpMessageConverter](https://github.com/sjf4j-projects/sjf4j/blob/mai
 
 ## Configuration & Limitations
 
-A Spring-managed `NodeConfig` Bean is used by generated instances when available; otherwise they use `NodeConfig.DEFAULT`.
-
-```java
-@Configuration
-class Sjf4jConfig {
-
-    @Bean
-    NodeConfig nodeConfig() {
-        return new NodeConfig(false); // Exclude null-valued members
-    }
-}
-```
-
 Both integrations support ordinary Spring injection, `ObjectProvider`, collections, and Bean post-processing.
 
 **Current limits:**

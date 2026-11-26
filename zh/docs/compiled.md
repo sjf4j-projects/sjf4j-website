@@ -1,7 +1,7 @@
 ---
 title: "Compiled APIs"
 description: "在编译期为数据绑定、对象导航、JSON Schema 校验、对象映射及 JDBC 结果映射生成专用 Java 实现。"
-translationSourceSha: "c84b33bc292cd616373211a2f1dda88a54e31c0b"
+translationSourceSha: "9b2d547205f4f60e3f45a62ac456168b26e09f63"
 ---
 
 # Compiled APIs {#compiled-apis}
@@ -65,7 +65,7 @@ interface UserNavigator {
 String city = UserNavigator.INSTANCE.getCity(user);
 ```
 
-工厂方法还支持传入 `NodeConfig`；Compiled Binder 可以接收预先配置且与所选后端匹配的 Binder。具体配置方式参阅各功能文档。
+Compiled Binder 也可以接收与所选后端匹配的 Binder，以定制原生 Parser 和 Generator 的配置。参阅 [Binding](/docs/binding#configuration)。
 
 在 **Spring Framework 6.2+** 中，`sjf4j-spring` 可通过 `@EnableSjf4j` 注册生成接口。**Spring Boot 3.x** 则可以直接使用 Starter，无须额外配置。两者都支持 `@Autowired`，不必手动调用 `CompiledInstances.create()`。参阅 [Spring Integration](/docs/spring-integration)。
 
