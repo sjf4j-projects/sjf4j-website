@@ -6,15 +6,11 @@
     --vp-sidebar-width: 230px;
   }
 
-  /* Reclaim sidebar padding and hide the scrollbar without disabling scrolling. */
+  /* Reserve the scrollbar gutter so menu width stays stable when it appears. */
   .Layout .VPSidebar {
     padding-right: 12px;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-
-  .Layout .VPSidebar::-webkit-scrollbar {
-    display: none;
+    scrollbar-width: thin;
+    scrollbar-gutter: stable;
   }
 
   .Layout .VPSidebar .nav {
