@@ -1,13 +1,13 @@
 ---
 title: "快速开始"
 description: "了解 SJF4J 的核心能力，并通过示例快速上手。"
-translationSourceSha: "0b26a8b6d7b3c05dc11e6c17fd44296046342470"
+translationSourceSha: "66609e4d4561a732f09519f745133b67e2edbb62"
 ---
 
 # 快速开始 {#getting-started}
 
 ![License](https://img.shields.io/github/license/sjf4j-projects/sjf4j)
-[![Maven Central](https://img.shields.io/maven-central/v/org.sjf4j/sjf4j)](https://central.sonatype.com/search?q=sjf4j)
+[![Maven Central](https://img.shields.io/maven-central/v/org.sjf4j/sjf4j-core)](https://central.sonatype.com/search?q=sjf4j)
 [![javadoc](https://javadoc.io/badge2/org.sjf4j/sjf4j-core/javadoc.svg)](https://javadoc.io/doc/org.sjf4j/sjf4j-core)
 ![Supported Dialects](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fjava-org.sjf4j-sjf4j%2Fsupported_versions.json)  
 ![Draft 2020-12](https://img.shields.io/endpoint?url=https%3A%2F%2Fbowtie.report%2Fbadges%2Fjava-org.sjf4j-sjf4j%2Fcompliance%2Fdraft2020-12.json)
@@ -47,7 +47,7 @@ dependencies {
 }
 ```
 
-将 `{version}` 替换为 [Maven Central](https://central.sonatype.com/artifact/org.sjf4j/sjf4j) 上的最新版本。Maven 配置及更多模块请参阅[安装指南](/docs/installation)。
+将 `{version}` 替换为 [Maven Central](https://central.sonatype.com/artifact/org.sjf4j/sjf4j-core) 上的最新版本。Maven 配置及更多模块请参阅[安装指南](/docs/installation)。
 
 **从普通 Java 类开始：**
 

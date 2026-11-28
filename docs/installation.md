@@ -21,7 +21,7 @@ Install `sjf4j-core` and add only the modules you need. These examples use **Jac
 dependencies {
     implementation("org.sjf4j:sjf4j-core:{version}")
 
-    // Optional: Jackson 2.x backend (includes its library)
+    // Optional: Jackson 2.x backend (includes Jackson dependencies)
     implementation("org.sjf4j:sjf4j-backend-jackson2:{version}")
 
     // Optional: JSON Schema validation
@@ -40,7 +40,7 @@ dependencies {
         <version>{version}</version>
     </dependency>
 
-    <!-- Optional: Jackson 2.x backend (includes its library) -->
+    <!-- Optional: Jackson 2.x backend (includes Jackson dependencies) -->
     <dependency>
         <groupId>org.sjf4j</groupId>
         <artifactId>sjf4j-backend-jackson2</artifactId>
@@ -71,28 +71,9 @@ dependencies {
 | `sjf4j-processor` | Compile-time code generation | Core, Schema |
 | `sjf4j-spring` | Register compiled interfaces as Spring Beans (Java 17+) | Core, Spring Framework |
 | `sjf4j-spring-boot-starter` | Spring Boot auto-configuration for compiled APIs (Java 17+) | Spring, Spring Boot |
-| `sjf4j-backend-*` | JSON/YAML backend adapters | Core |
-| `sjf4j` | All-in-one: Core, Schema and six adapters | All above except Processor |
+| `sjf4j-backend-*` | JSON/YAML backend adapters | Core, corresponding third-party library |
 
-**Prefer modular dependencies** to keep the classpath small. Alternatively, install the aggregate artifact:
-
-::: code-group
-
-```kotlin [Gradle (Kotlin DSL)]
-implementation("org.sjf4j:sjf4j:{version}")
-```
-
-```xml [Maven]
-<dependency>
-    <groupId>org.sjf4j</groupId>
-    <artifactId>sjf4j</artifactId>
-    <version>{version}</version>
-</dependency>
-```
-
-:::
-
-The aggregate includes all six **SJF4J adapters** and their native libraries transitively, but not the annotation processor.
+Add only the modules you need. Backend adapters and `sjf4j-schema` already bring in `sjf4j-core` transitively.
 
 ## Backends
 
@@ -100,16 +81,16 @@ The complete set of built-in and optional backends:
 
 | Format | Backend | SJF4J module | Included third-party library |
 | --- | --- | --- | --- |
-| JSON | Jackson 3.x | `sjf4j-backend-jackson3` | `tools.jackson.core:jackson-databind:3.2.3` |
+| JSON | Jackson 3.x | `sjf4j-backend-jackson3` | `tools.jackson.core:jackson-databind:3.1.8` |
 | JSON | Jackson 2.x | `sjf4j-backend-jackson2` | `com.fasterxml.jackson.core:jackson-databind:2.22.3` |
 | JSON | Gson | `sjf4j-backend-gson` | `com.google.code.gson:gson:2.13.1` |
 | JSON | Fastjson2 | `sjf4j-backend-fastjson2` | `com.alibaba.fastjson2:fastjson2:2.0.66` |
 | JSON | JSON-P | `sjf4j-backend-jsonp` | `jakarta.json:jakarta.json-api:2.1.3` and provider `org.eclipse.parsson:parsson:1.1.7` |
 | JSON | Simple | `sjf4j-core` | None |
-| YAML | SnakeYAML | `sjf4j-backend-snake` | `org.yaml:snakeyaml:2.5` |
+| YAML | SnakeYAML | `sjf4j-backend-snake` | `org.yaml:snakeyaml:2.7` |
 | Properties | Built-in | `sjf4j-core` | None |
 
-The versions shown are those used by the SJF4J project; compatible library versions may also work. Each backend module provides its third-party library transitively. The JSON-P module also includes Parsson as its default runtime provider.
+The versions shown are those used by the SJF4J project; compatible library versions may also work. Each backend module exposes its third-party library as an API dependency (Gradle `api`, Maven compile scope), so the library is available at both compile time and runtime. No separate Jackson, Gson, Fastjson2, JSON-P API or SnakeYAML dependency is needed. The JSON-P module also includes Parsson as its default runtime provider (`runtimeOnly`).
 
 **Automatic JSON selection (highest priority first):**
 
