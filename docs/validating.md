@@ -181,6 +181,51 @@ validator.requireValid(user);
 
 For Compiled validators, `@ValidJsonSchema` may instead appear on a method or parameter; method annotations take precedence over parameter and type annotations.
 
+## Security & Resource Limits {#security-resource-limits}
+
+When processing untrusted schemas or data, limit resource consumption during schema planning and Runtime validation. All limits default to `0` (disabled). The values below are examples.
+
+### Schema Planning Limits
+
+```java
+PlanningOptions planning = PlanningOptions.builder()
+        .maxSchemas(10_000)
+        .maxSchemaDepth(128)
+        .build();
+
+SchemaRegistry registry = new SchemaRegistry(planning);
+SchemaPlan plan = JsonSchema.fromJson(schemaJson).createPlan(registry);
+```
+
+| Option | Limits |
+| --- | --- |
+| `maxSchemas` | New schema plans per planning operation; cached plans are not counted again |
+| `maxSchemaDepth` | Active schema construction depth, including the root |
+
+Exceeding either limit throws `SchemaException`. These limits apply to planning, not JSON parsing.
+
+### Runtime Validation Limits
+
+```java
+ValidationOptions options = ValidationOptions.builder()
+        .maxEvaluations(100_000)
+        .maxEvaluationDepth(128)
+        .maxErrors(100)
+        .build();
+
+ValidationResult result = plan.validate(user, options);
+```
+
+| Option | Limits |
+| --- | --- |
+| `maxEvaluations` | Combined schema plan and keyword evaluator invocations per validation |
+| `maxEvaluationDepth` | Active schema evaluation depth, including the root |
+| `maxErrors` | Number of collected assertion errors before stopping; ignored in boolean-only mode |
+
+Exhausting an evaluation limit aborts validation: `validate()` returns a failed result, `isValid()` returns `false`, and `requireValid()` throws `ValidationException`.
+
+These options apply to the Runtime `SchemaPlan` API, not directly generated Compiled validation code.
+
 ## Compliance and Performance
 
 SJF4J supports the JSON Schema **Draft 2020-12, 2019-09, and 7** dialects. Compatibility is exercised against the [official JSON Schema Test Suite](https://github.com/json-schema-org/JSON-Schema-Test-Suite). Independent compliance and comparison resources include [Bowtie](https://bowtie.report/) and [Creek Service](https://www.creekservice.org/json-schema-validation-comparison/).
