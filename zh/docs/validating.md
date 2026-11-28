@@ -1,7 +1,7 @@
 ---
 title: "数据校验"
 description: "使用 Runtime 与 Compiled API，直接根据 JSON Schema 校验 Java 对象。"
-translationSourceSha: "8c217730b400669a0e2ed5043159a1470403fe4b"
+translationSourceSha: "5821131aa4edf5f311d3b719613d667a61167727"
 ---
 
 # 数据校验 {#validating}
@@ -181,6 +181,51 @@ validator.requireValid(user);
 `SchemaValidator` 会解析类型上的注解（包括带注解的父类）、缓存校验计划，并默认执行严格的 `format` 检查。它不同于需要显式提供 Schema 的 `SchemaPlan`。
 
 在 Compiled 校验器中，`@ValidJsonSchema` 也可以标在方法或参数上；方法注解优先于参数和类型注解。
+
+## 安全与资源限制 {#security-resource-limits}
+
+处理不可信的 Schema 或数据时，可以限制 Schema 规划和 Runtime 校验的资源消耗。所有限制默认为 `0`（不启用），以下数值仅供参考。
+
+### Schema 规划限制 {#schema-planning-limits}
+
+```java
+PlanningOptions planning = PlanningOptions.builder()
+        .maxSchemas(10_000)
+        .maxSchemaDepth(128)
+        .build();
+
+SchemaRegistry registry = new SchemaRegistry(planning);
+SchemaPlan plan = JsonSchema.fromJson(schemaJson).createPlan(registry);
+```
+
+| 配置项 | 限制 |
+| --- | --- |
+| `maxSchemas` | 单次规划新建的 SchemaPlan 数量，已缓存的 Plan 不重复计数 |
+| `maxSchemaDepth` | Schema 构建深度，包含根节点 |
+
+超出任一限制时抛出 `SchemaException`。这些限制适用于规划阶段，而非 JSON 解析阶段。
+
+### Runtime 校验限制 {#runtime-validation-limits}
+
+```java
+ValidationOptions options = ValidationOptions.builder()
+        .maxEvaluations(100_000)
+        .maxEvaluationDepth(128)
+        .maxErrors(100)
+        .build();
+
+ValidationResult result = plan.validate(user, options);
+```
+
+| 配置项 | 限制 |
+| --- | --- |
+| `maxEvaluations` | 单次校验中 SchemaPlan 与关键字求值器的调用总次数 |
+| `maxEvaluationDepth` | Schema 求值深度，包含根节点 |
+| `maxErrors` | 达到指定的断言错误收集数量后停止校验；仅返回布尔值时不生效 |
+
+求值预算耗尽时终止校验：`validate()` 返回失败结果，`isValid()` 返回 `false`，`requireValid()` 抛出 `ValidationException`。
+
+这些配置适用于 Runtime `SchemaPlan` API，不直接作用于 Compiled 生成的校验代码。
 
 ## 标准兼容性与性能 {#compliance-and-performance}
 
