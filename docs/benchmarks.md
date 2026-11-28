@@ -108,23 +108,22 @@ across these five query shapes, with the same pre-parsed input and reusable path
 <BenchmarkBars
   comparison="Jayway JsonPath / CompiledNavigator · 100KB Map/List"
   :items="[
-    { label: 'Direct lookup', speedup: 27.23 },
-    { label: 'Wildcard', speedup: 9.72 },
-    { label: 'Filter', speedup: 6.56 },
-    { label: 'Descendant', speedup: 4.59 },
-    { label: 'Slice', speedup: 11.90 }
+    { label: 'Direct lookup', speedup: 23.17 },
+    { label: 'Wildcard', speedup: 8.52 },
+    { label: 'Filter', speedup: 7.74 },
+    { label: 'Descendant', speedup: 6.01 },
+    { label: 'Slice', speedup: 10.13 }
   ]"
 />
 
-On ordinary POJOs, a direct compiled property lookup takes **2.75 ns/op**
-versus **151.83 ns/op** for SJF4J Runtime (**55.31×**). Complex filters
-have smaller gains. In the measured suite, Runtime beat Jayway in **30/30**
+On ordinary POJOs, a direct compiled property lookup takes **2.74 ns/op**
+versus **148.10 ns/op** for SJF4J Runtime (**54.11×**). For 100KB POJOs, the compiled filter is **7.17×** faster than Runtime. In the measured suite, Runtime beat Jayway in **30/30**
 comparable Map/JsonNode queries, and Compiled beat Runtime in **45/45**
 Map/JsonNode/POJO queries.
 
-<small>v1.5.0 · Temurin 25 · JMH · November 11, 2026. Query execution excludes path parsing; the Jayway comparison above is for Map/List inputs, not POJO inputs.</small>
+<small>v1.5.3-SNAPSHOT · Temurin 25.0.5.1 · JMH · November 28, 2026. Intel Xeon 6975P-C for Map/List and JsonNode; AMD EPYC 7763 for POJO. Best 2 Mean of 3 independent forks; exploratory hosted-runner results (PR #480, commit 857c5872). Query execution excludes path parsing.</small>
 
-[JSONPath Navigation Benchmarks](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/path.md)
+[Full benchmark run](https://github.com/sjf4j-projects/sjf4j/actions/runs/46130448820) · [Historical benchmarks and methodology](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/path.md)
 
 ## JSON Schema Validation
 
