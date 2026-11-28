@@ -12,7 +12,7 @@ const { lang } = useData()
     <div class="hero-intro">
       <p class="eyebrow">Java 8+ <span aria-hidden="true">·</span> {{ t.home.hero.openSource }}</p>
       <h1 id="home-headline">S<span class="logo-java-j">J</span>F4J</h1>
-      <p class="project-name">Simple JSON Facade for Java</p>
+      <p class="project-name">Treat Java Objects Like JSON</p>
       <p class="tagline">
         {{ t.home.hero.tagline }}
         <span class="accent tagline-end">{{ t.home.hero.taglineAccent }}</span>
