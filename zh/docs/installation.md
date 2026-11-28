@@ -8,7 +8,7 @@ translationSourceSha: "52754f09b594d169550911fd62f0d59a64dbdb50"
 
 SJF4J 支持 **Java 8+**。部分后端所依赖的第三方库可能要求更高的 Java 版本。
 
-将示例中的 `{version}` 替换为 [![Maven Central 最新版本](https://img.shields.io/maven-central/v/org.sjf4j/sjf4j)](https://central.sonatype.com/artifact/org.sjf4j/sjf4j)。
+将示例中的 `{version}` 替换为 [![Maven Central 最新版本](https://img.shields.io/maven-central/v/org.sjf4j/sjf4j-core)](https://central.sonatype.com/artifact/org.sjf4j/sjf4j-core)。
 
 文档可能包含尚未正式发布的功能。请以对应依赖版本的 Javadoc 为准；[最新 Javadoc](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/) 对应最新发布的 API。
 

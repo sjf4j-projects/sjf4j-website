@@ -7,7 +7,7 @@ description: "Install SJF4J with Gradle or Maven, choose modules and backends, a
 
 SJF4J supports **Java 8+**. Individual backend libraries may require a newer Java version.
 
-Replace every `{version}` with the current [![Maven Central version](https://img.shields.io/maven-central/v/org.sjf4j/sjf4j)](https://central.sonatype.com/artifact/org.sjf4j/sjf4j).
+Replace every `{version}` with the current [![Maven Central version](https://img.shields.io/maven-central/v/org.sjf4j/sjf4j-core)](https://central.sonatype.com/artifact/org.sjf4j/sjf4j-core).
 
 The guides may cover changes ahead of a published release. The [latest Javadoc](https://javadoc.io/doc/org.sjf4j/sjf4j-core/latest/) describes the latest published API; for exact signatures, consult the Javadoc matching your dependency version.
 
