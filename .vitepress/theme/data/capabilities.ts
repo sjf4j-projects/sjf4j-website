@@ -67,7 +67,7 @@ interface UserNavigator {
     path: '/docs/validating',
     runtime: `// schemaJson contains a JSON Schema document
 JsonSchema schema = JsonSchema.fromJson(schemaJson);
-SchemaPlan plan = schema.createPlan();
+SchemaPlan plan = schema.formulate();
 
 boolean valid = plan.isValid(user);`,
     compiled: `@CompiledValidator
