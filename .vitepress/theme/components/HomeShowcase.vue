@@ -38,7 +38,7 @@ const { lang } = useData()
             <img src="https://img.shields.io/github/license/sjf4j-projects/sjf4j" alt="License" loading="lazy" />
           </a>
           <a href="https://central.sonatype.com/search?q=sjf4j" target="_blank" rel="noopener noreferrer">
-            <img src="https://img.shields.io/maven-central/v/org.sjf4j/sjf4j" alt="Maven Central" loading="lazy" />
+            <img src="https://img.shields.io/maven-central/v/org.sjf4j/sjf4j-core" alt="Maven Central" loading="lazy" />
           </a>
           <a href="https://javadoc.io/doc/org.sjf4j/sjf4j-core" target="_blank" rel="noopener noreferrer">
             <img src="https://javadoc.io/badge2/org.sjf4j/sjf4j-core/javadoc.svg" alt="Javadoc" loading="lazy" />
