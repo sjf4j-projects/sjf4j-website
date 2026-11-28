@@ -1,7 +1,7 @@
 ---
 title: "数据校验"
 description: "使用 Runtime 与 Compiled API，直接根据 JSON Schema 校验 Java 对象。"
-translationSourceSha: "5821131aa4edf5f311d3b719613d667a61167727"
+translationSourceSha: "9b6d590d787461eb28d4efba9bcbb01cbd8cbe9a"
 ---
 
 # 数据校验 {#validating}
@@ -44,7 +44,7 @@ Runtime 校验需要 `sjf4j-schema`；Compiled 校验还需要将 `sjf4j-process
 解析一次 JSON Schema，创建可复用的 `SchemaPlan`，直接校验 Java 对象。这里的 `schemaJson` 包含上面的 JSON Schema：
 
 ```java
-SchemaPlan plan = JsonSchema.fromJson(schemaJson).createPlan();
+SchemaPlan plan = JsonSchema.fromJson(schemaJson).formulate();
 
 User user = new User();
 user.name = "Alice";
@@ -147,7 +147,7 @@ registry.index(
 
 SchemaPlan plan = JsonSchema.fromJson(
         "{\"$ref\":\"https://example.org/common\"}"
-).createPlan(registry);
+).formulate(registry);
 ```
 
 对于基于注解或 Compiled 的校验，`@ValidJsonSchema` 还支持 `externalSchemas`（内联映射）和 `externalSchemasRef`（JSON 映射文件）。例如在 `@CompiledValidator` 接口中：
@@ -195,7 +195,7 @@ PlanningOptions planning = PlanningOptions.builder()
         .build();
 
 SchemaRegistry registry = new SchemaRegistry(planning);
-SchemaPlan plan = JsonSchema.fromJson(schemaJson).createPlan(registry);
+SchemaPlan plan = JsonSchema.fromJson(schemaJson).formulate(registry);
 ```
 
 | 配置项 | 限制 |

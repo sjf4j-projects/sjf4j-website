@@ -1,7 +1,7 @@
 ---
 title: "快速开始"
 description: "了解 SJF4J 的核心能力，并通过示例快速上手。"
-translationSourceSha: "66609e4d4561a732f09519f745133b67e2edbb62"
+translationSourceSha: "d282f3bf60836732c097dbb0a7411e0fe22fc27a"
 ---
 
 # 快速开始 {#getting-started}
@@ -169,7 +169,7 @@ JsonSchema schema = JsonSchema.fromJson("""
 }
 """);
 
-SchemaPlan plan = schema.createPlan();
+SchemaPlan plan = schema.formulate();
 ValidationResult result = plan.validate(user);
 ```
 
