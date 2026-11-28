@@ -92,19 +92,19 @@ SJF4J 可直接在 Map、List、JsonNode 和 POJO 上执行 JSONPath。对于 **
 <BenchmarkBars
   comparison="Jayway JsonPath / CompiledNavigator · 100KB Map/List"
   :items="[
-    { label: '直接查找', speedup: 27.23 },
-    { label: '通配符', speedup: 9.72 },
-    { label: '过滤器', speedup: 6.56 },
-    { label: '后代选择', speedup: 4.59 },
-    { label: '切片', speedup: 11.90 }
+    { label: '直接查找', speedup: 23.17 },
+    { label: '通配符', speedup: 8.52 },
+    { label: '过滤器', speedup: 7.74 },
+    { label: '后代选择', speedup: 6.01 },
+    { label: '切片', speedup: 10.13 }
   ]"
 />
 
-对于普通 POJO，直接编译式属性访问耗时 **2.75 ns/op**，而 SJF4J Runtime 为 **151.83 ns/op**，比值 **55.31×**。复杂过滤器的收益较小。在测量的测试集中，对于可比较的 Map/JsonNode 查询，Runtime 在 **30/30** 个案例中快于 Jayway；对于 Map/JsonNode/POJO 查询，Compiled 在 **45/45** 个案例中快于 Runtime。
+对于普通 POJO，直接编译式属性访问耗时 **2.74 ns/op**，而 SJF4J Runtime 为 **148.10 ns/op**，比值 **54.11×**。100KB POJO 的编译式过滤器比 Runtime 快 **7.17×**。在测量的测试集中，对于可比较的 Map/JsonNode 查询，Runtime 在 **30/30** 个案例中快于 Jayway；对于 Map/JsonNode/POJO 查询，Compiled 在 **45/45** 个案例中快于 Runtime。
 
-<small>v1.5.0 · Temurin 25 · JMH · 2026 年 11 月 11 日。查询执行不包含路径解析；上面的 Jayway 对比针对 Map/List，而不是 POJO。</small>
+<small>v1.5.3-SNAPSHOT · Temurin 25.0.5.1 · JMH · 2026 年 11 月 28 日。Map/List 和 JsonNode 使用 Intel Xeon 6975P-C，POJO 使用 AMD EPYC 7763。3 个独立 fork，取最快两个的均值；托管 Runner 探索性结果（PR #480，提交 857c5872）。查询执行不包含路径解析。</small>
 
-[JSONPath 导航完整基准报告](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/path.md)
+[本次完整基准运行](https://github.com/sjf4j-projects/sjf4j/actions/runs/46130448820) · [历史基准与测试方法](https://github.com/sjf4j-projects/sjf4j/blob/main/docs/performance/path.md)
 
 ## JSON Schema 校验 {#json-schema-validation}
 
