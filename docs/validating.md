@@ -43,7 +43,7 @@ Add `sjf4j-schema` for Runtime validation and `sjf4j-processor` on the annotatio
 Parse a JSON Schema once, create a reusable `SchemaPlan`, and validate Java objects directly. Here, `schemaJson` contains the JSON above:
 
 ```java
-SchemaPlan plan = JsonSchema.fromJson(schemaJson).createPlan();
+SchemaPlan plan = JsonSchema.fromJson(schemaJson).formulate();
 
 User user = new User();
 user.name = "Alice";
@@ -146,7 +146,7 @@ registry.index(
 
 SchemaPlan plan = JsonSchema.fromJson(
         "{\"$ref\":\"https://example.org/common\"}"
-).createPlan(registry);
+).formulate(registry);
 ```
 
 For annotation-based or Compiled validation, `@ValidJsonSchema` also supports `externalSchemas` (inline mappings) and `externalSchemasRef` (a JSON mapping file). Within a `@CompiledValidator` interface, for example:
@@ -194,7 +194,7 @@ PlanningOptions planning = PlanningOptions.builder()
         .build();
 
 SchemaRegistry registry = new SchemaRegistry(planning);
-SchemaPlan plan = JsonSchema.fromJson(schemaJson).createPlan(registry);
+SchemaPlan plan = JsonSchema.fromJson(schemaJson).formulate(registry);
 ```
 
 | Option | Limits |
